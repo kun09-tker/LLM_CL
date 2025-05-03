@@ -65,11 +65,11 @@ class AscProcessor(DataProcessor):
                 label = "neutral"
 
             if label == "positive":
-                label = 0
-            elif label == "negative":
                 label = 1
+            elif label == "negative":
+                label = -1
             else:
-                label = 2
+                label = 0
 
             examples.append((f"{sentence}:{aspect}", label))
         return examples
