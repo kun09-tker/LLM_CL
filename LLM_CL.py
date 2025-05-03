@@ -5,7 +5,7 @@ import torch.nn.functional as F
 from tqdm import tqdm
 from torch.utils.data import DataLoader
 from DomainKnowledge.SelectKnowledge import DomainPositioning
-from DomainKnowledge import DomainKnowledgeDecoupler, DomainKnowledgeWarmup
+from DomainKnowledge.AcquiringKnowledge import DomainKnowledgeDecoupler, DomainKnowledgeWarmup
 
 
 class LLM_CL:
