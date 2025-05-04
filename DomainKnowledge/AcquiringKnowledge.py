@@ -67,7 +67,7 @@ class DomainKnowledgeDecoupler:
         loss_d = 0.0
         for x, y in domain_data:
             input_id = tokenizer(x, return_tensors="pt").to(model.device)
-            label = torch.tensor(y).reshape(1, 3).to(model.device)
+            label = y.to(model.device)
             output = self.get_hidden(model, input_id, adapter_d)
             loss_d += F.cross_entropy(output, label)
 
@@ -75,7 +75,7 @@ class DomainKnowledgeDecoupler:
         for samples in replay_data.values():
             for x, y in samples:
                 input_id = tokenizer(x, return_tensors="pt").to(model.device)
-                label = label = torch.tensor(y).reshape(1, 3).to(model.device)
+                label = y.to(model.device)
                 output = self.get_hidden(model, input_id, adapter_s)
                 loss_s += F.cross_entropy(output, label)
 
@@ -99,7 +99,7 @@ class DomainKnowledgeDecoupler:
         output = base_model(**input_id)
         hiden_states = output.hidden_states[-1] if output.hidden_states else output.logits
         lora_output = adapter(hiden_states)
-        return lora_output
+        return lora_output[:, -1, :]
 
 class DomainKnowledgeWarmup:
     def __init__(self, shared_adapter, domain_adapters):
@@ -137,7 +137,7 @@ class DomainKnowledgeWarmup:
                     self.shared_adapter.requires_grad_(True)
 
                     input_id = tokenizer(x, return_tensors="pt").to(model.device)
-                    label = label = torch.tensor(y).reshape(1, 3).to(model.device)
+                    label = y.to(model.device)
                     output = self.get_hidden(model, input_id, adapter_d, self.shared_adapter)
                     loss = F.cross_entropy(output, label)
 
@@ -161,4 +161,4 @@ class DomainKnowledgeWarmup:
         output = base_model(**input_id)
         hiden_states = output.hidden_states[-1] if output.hidden_states else output.logits
         lora_output = adapter_domain(hiden_states) + adapter_shared(hiden_states)
-        return lora_output
+        return lora_output[:, -1, :]
