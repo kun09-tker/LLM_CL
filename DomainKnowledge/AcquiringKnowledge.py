@@ -143,7 +143,7 @@ class DomainKnowledgeWarmup:
         log_file.flush()
         log_file.close()
 
-    def get_output(base_model, input_ids, adapter_domain, adapter_shared):
+    def get_output(self, base_model, input_ids, adapter_domain, adapter_shared):
         # Get the output of the model with the given adapter
         outputs = base_model(input_ids=input_ids)
         hiden_states = outputs.hidden_states[-1] if outputs.hidden_states else outputs.logits
