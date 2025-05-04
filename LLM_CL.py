@@ -55,8 +55,7 @@ class LLM_CL:
             print(f"Training on domain: {domain_name}, Epoch: {epoch + 1}/{self.decoupler_epochs}")
             train_on_domain_loss = 0.0
 
-            for batch in tqdm(train_loader):
-                x_batch, y_batch = zip(*batch)
+            for x_batch, y_batch in tqdm(train_loader):
                 batch_data = list(zip(x_batch, y_batch))
 
                 loss = self.decoupler.compute_loss(
@@ -78,9 +77,10 @@ class LLM_CL:
             val_on_domain_loss = 0.0
             with torch.no_grad():
                 for x_val, y_val in tqdm(val_loader):
-                    input_ids, labels = self.tokenizer(x_val, y_val)
+                    input_ids = self.tokenizer(x_val).to(self.model.device)
+                    labels = torch.tensor(y_val).to(self.model.device)
                     adapter_d = self.domain_adapters[domain_name]
-                    outputs = self.model(input_ids=input_ids, adapter=adapter_d)
+                    outputs = self.get_output(self.model, input_ids, adapter_d)
                     val_on_domain_loss += F.cross_entropy(outputs.logits, labels).item()
 
             avg_val_on_domain_loss = val_on_domain_loss / len(val_loader)
@@ -96,6 +96,14 @@ class LLM_CL:
 
         # Updating replay buffer (after training on the domain)
         self.replay_data[domain_name] = train_domain_data[:self.replay_size]
+
+    def get_output(base_model, input_ids, adapter):
+        # Get the output of the model with the given adapter
+        outputs = base_model(input_ids=input_ids)
+
+        hiden_states = outputs.hidden_states[-1] if outputs.hidden_states else outputs.logits
+        lora_output = adapter(hiden_states)
+        return lora_output
 
     def warmup_shared_adapter(self, optimizer):
         # ===> Warmup using all replay data to align invariant adapter
@@ -115,8 +123,8 @@ class LLM_CL:
     def predict(self, x):
         # ===> Inference with automatic domain adapter selection
         best_domain, best_adapter = self.positioner.find_best_domain(x, self.tokenizer)
-        input_ids, _ = self.tokenizer(x, None)
-        outputs = self.model(input_ids=input_ids, adapter=best_adapter)
+        input_ids, _ = self.tokenizer(x)
+        outputs = self.get_output(self.model, input_ids, best_adapter)
         return torch.argmax(outputs.logits, dim=-1)
 
     def evaluate(self, test_data):

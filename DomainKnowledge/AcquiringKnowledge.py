@@ -11,9 +11,9 @@
 #    |  |  \  A₁* /     \  Aₛ   /   |      |  \  Aₙ* /     \  Aₛ   /   |   |   \  A ~ N(μ, σ²) /
 #    |  |   +----+       +----+    |       |   +----+       +----+   |   |    +-------------+
 #    |  |     x      +      x      | ....  |     x      +     x      |   |          x
-#    |  |   +----+       +----+    |       |   +----+       +----+   |   |      +-------------+
-#    |  |  /  B₁* \     /  Bₛ   \   |      |  /  Bₙ* \     /  Bₛ   \   |   |     /   B = 0      \
-#    |  | +---+----+   +---+----+  |       | +----+---+   +----+---+ |   |     +--------------+
+#    |  |   +----+       +----+    |       |   +----+       +----+   |   |      +---------+
+#    |  |  /  B₁* \     /  Bₛ   \   |      |  /  Bₙ* \     /  Bₛ   \   |   |     /   B = 0  \
+#    |  | +---+----+   +---+----+  |       | +----+---+   +----+---+ |   |     +----------+
 #    |  +======|============|======+       +======|============|=====+   |      This is Adapter
 #    +---------|------------|---------------------|------------|---------+
 #              V            V                     V            V        ^        * Frozen
@@ -66,16 +66,17 @@ class DomainKnowledgeDecoupler:
 
         loss_d = 0.0
         for x, y in domain_data:
-            input_ids, labels = tokenizer(x, y)
+            input_ids = tokenizer(x).to(self.model.device)
+            labels = torch.tensor(y).to(self.model.device)
             outputs = self.get_output(model, input_ids, adapter_d)
             loss_d += F.cross_entropy(outputs.logits, labels)
 
         loss_s = 0.0
         for samples in replay_data.values():
             for x, y in samples:
-                input_ids, labels = tokenizer(x, y)
-                outputs = model(input_ids=input_ids)
-
+                input_ids = tokenizer(x).to(self.model.device)
+                labels = torch.tensor(y).to(self.model.device)
+                outputs = self.get_output(model, input_ids, adapter_s)
                 loss_s += F.cross_entropy(outputs.logits, labels)
 
         orth_loss = self.orthogonal_loss(adapter_d.lora_A, adapter_d.lora_B,
@@ -85,12 +86,9 @@ class DomainKnowledgeDecoupler:
         return total_loss
 
     def get_output(base_model, input_ids, adapter):
-        # Get the output of the model with the given adapter
         outputs = base_model(input_ids=input_ids)
-
         hiden_states = outputs.hidden_states[-1] if outputs.hidden_states else outputs.logits
         lora_output = adapter(hiden_states)
-
         return lora_output
 
 class DomainKnowledgeWarmup:
@@ -117,8 +115,7 @@ class DomainKnowledgeWarmup:
             print(f"Warmup Epoch: {epoch + 1}/{num_epochs}")
             train_loss = 0.0
 
-            for batch in tqdm(dataloader):
-                x_batch, y_batch, domain_batch = zip(*batch)
+            for x_batch, y_batch, domain_batch in tqdm(dataloader):
                 avg_train_batch_loss = 0.0
                 # Train each sample in the batch to get the domain adapter
                 for x, y, domain_name in zip(x_batch, y_batch, domain_batch):
@@ -126,7 +123,8 @@ class DomainKnowledgeWarmup:
                     adapter_d.requires_grad_(False)
                     self.shared_adapter.requires_grad_(True)
 
-                    input_ids, labels = tokenizer(x, y)
+                    input_ids = tokenizer(x).to(model.device)
+                    labels = torch.tensor(y).to(model.device)
                     outputs = self.get_output(model, input_ids, adapter_d, self.shared_adapter)
                     loss = F.cross_entropy(outputs.logits, labels)
 
@@ -148,7 +146,6 @@ class DomainKnowledgeWarmup:
     def get_output(base_model, input_ids, adapter_domain, adapter_shared):
         # Get the output of the model with the given adapter
         outputs = base_model(input_ids=input_ids)
-
         hiden_states = outputs.hidden_states[-1] if outputs.hidden_states else outputs.logits
         lora_output = adapter_domain(hiden_states) + adapter_shared(hiden_states)
         return lora_output
