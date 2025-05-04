@@ -68,6 +68,7 @@ class LLM_CL:
                 optimizer.zero_grad()
                 loss.backward()
                 optimizer.step()
+                print(f"Loss: {loss.item()}")
                 train_on_domain_loss += loss.item()
 
             avg_train_on_domain_loss = train_on_domain_loss / len(train_loader)
