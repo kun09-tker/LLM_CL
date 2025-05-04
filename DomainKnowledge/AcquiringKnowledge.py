@@ -66,18 +66,18 @@ class DomainKnowledgeDecoupler:
 
         loss_d = 0.0
         for x, y in domain_data:
-            input_ids = tokenizer(x, return_tensors="pt").to(model.device)
-            labels = torch.tensor(y).to(model.device)
-            outputs = self.get_output(model, input_ids, adapter_d)
-            loss_d += F.cross_entropy(outputs, labels)
+            input_id = tokenizer(x, return_tensors="pt").to(model.device)
+            label = torch.tensor(y).reshape(1, 3).to(model.device)
+            output = self.get_hidden(model, input_id, adapter_d)
+            loss_d += F.cross_entropy(output, label)
 
         loss_s = 0.0
         for samples in replay_data.values():
             for x, y in samples:
-                input_ids = tokenizer(x, return_tensors="pt").to(model.device)
-                labels = torch.tensor(y).to(model.device)
-                outputs = self.get_output(model, input_ids, adapter_s)
-                loss_s += F.cross_entropy(outputs, labels)
+                input_id = tokenizer(x, return_tensors="pt").to(model.device)
+                label = label = torch.tensor(y).reshape(1, 3).to(model.device)
+                output = self.get_hidden(model, input_id, adapter_s)
+                loss_s += F.cross_entropy(output, label)
 
         orth_loss = self.orthogonal_loss(adapter_d.lora_A, adapter_d.lora_B,
                                          adapter_s.lora_A, adapter_s.lora_B)
@@ -85,9 +85,9 @@ class DomainKnowledgeDecoupler:
         total_loss = loss_d + loss_s + self.lambda_orth * orth_loss
         return total_loss
 
-    def get_output(self, base_model, input_ids, adapter):
-        outputs = base_model(**input_ids)
-        hiden_states = outputs.hidden_states[-1] if outputs.hidden_states else outputs.logits
+    def get_hidden(self, base_model, input_id, adapter):
+        output = base_model(**input_id)
+        hiden_states = output.hidden_states[-1] if output.hidden_states else output.logits
         lora_output = adapter(hiden_states)
         return lora_output
 
@@ -123,10 +123,10 @@ class DomainKnowledgeWarmup:
                     adapter_d.requires_grad_(False)
                     self.shared_adapter.requires_grad_(True)
 
-                    input_ids = tokenizer(x, return_tensors="pt").to(model.device)
-                    labels = torch.tensor(y).to(model.device)
-                    outputs = self.get_output(model, input_ids, adapter_d, self.shared_adapter)
-                    loss = F.cross_entropy(outputs, labels)
+                    input_id = tokenizer(x, return_tensors="pt").to(model.device)
+                    label = label = torch.tensor(y).reshape(1, 3).to(model.device)
+                    output = self.get_hidden(model, input_id, adapter_d, self.shared_adapter)
+                    loss = F.cross_entropy(output, label)
 
                     optimizer.zero_grad()
                     loss.backward()
@@ -143,9 +143,9 @@ class DomainKnowledgeWarmup:
         log_file.flush()
         log_file.close()
 
-    def get_output(self, base_model, input_ids, adapter_domain, adapter_shared):
+    def get_hidden(self, base_model, input_id, adapter_domain, adapter_shared):
         # Get the output of the model with the given adapter
-        outputs = base_model(**input_ids)
-        hiden_states = outputs.hidden_states[-1] if outputs.hidden_states else outputs.logits
+        output = base_model(**input_id)
+        hiden_states = output.hidden_states[-1] if output.hidden_states else output.logits
         lora_output = adapter_domain(hiden_states) + adapter_shared(hiden_states)
         return lora_output

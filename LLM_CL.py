@@ -80,7 +80,8 @@ class LLM_CL:
                     input_ids = self.tokenizer(x_val, return_tensors="pt").to(self.model.device)
                     labels = torch.tensor(y_val).to(self.model.device)
                     adapter_d = self.domain_adapters[domain_name]
-                    outputs = self.get_output(self.model, input_ids, adapter_d)
+                    outputs = self.get_hidden(self.model, input_ids, adapter_d)
+                    print(f"Outputs: {outputs.shape}, Labels: {labels.shape}")
                     val_on_domain_loss += F.cross_entropy(outputs, labels).item()
 
             avg_val_on_domain_loss = val_on_domain_loss / len(val_loader)
@@ -97,7 +98,7 @@ class LLM_CL:
         # Updating replay buffer (after training on the domain)
         self.replay_data[domain_name] = train_domain_data[:self.replay_size]
 
-    def get_output(self, base_model, input_ids, adapter):
+    def get_hidden(self, base_model, input_ids, adapter):
         # Get the output of the model with the given adapter
         outputs = base_model(**input_ids)
 
@@ -124,7 +125,7 @@ class LLM_CL:
         # ===> Inference with automatic domain adapter selection
         best_domain, best_adapter = self.positioner.find_best_domain(x, self.tokenizer)
         input_ids, _ = self.tokenizer(x, return_tensors="pt").to(self.model.device)
-        outputs = self.get_output(self.model, input_ids, best_adapter)
+        outputs = self.get_hidden(self.model, input_ids, best_adapter)
         return torch.argmax(outputs, dim=-1)
 
     def evaluate(self, test_data):
