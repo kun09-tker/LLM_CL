@@ -81,15 +81,15 @@ class DomainKnowledgeDecoupler:
                 output = self.get_hidden(model, input_id, adapter_s)
                 loss_s.append(F.cross_entropy(output, label))
 
-        orth_loss = self.orthogonal_loss(adapter_d.lora_A, adapter_d.lora_B,
-                                         adapter_s.lora_A, adapter_s.lora_B)
+        # orth_loss = self.orthogonal_loss(adapter_d.lora_A, adapter_d.lora_B,
+        #                                  adapter_s.lora_A, adapter_s.lora_B)
 
         loss_d = torch.mean(torch.stack(loss_d))
         if loss_s:
             loss_s = torch.stack(loss_s).mean()
         else:
             loss_s = torch.tensor(0.0, device=model.device)
-        loss = loss_d + loss_s + self.lambda_orth * orth_loss
+        loss = loss_d + loss_s
         loss.backward()
 
         return loss
