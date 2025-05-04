@@ -85,7 +85,7 @@ class DomainKnowledgeDecoupler:
         total_loss = loss_d + loss_s + self.lambda_orth * orth_loss
         return total_loss
 
-    def orthogonal_loss(A_i, B_i, A_s, B_s):
+    def orthogonal_loss(self, A_i, B_i, A_s, B_s):
         # A_i^T A_s
         A_orth = torch.matmul(A_i.T, A_s)
         # B_i^T B_s
