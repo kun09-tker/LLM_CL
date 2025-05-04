@@ -69,7 +69,7 @@ class DomainKnowledgeDecoupler:
             input_ids = tokenizer(x, return_tensors="pt").to(model.device)
             labels = torch.tensor(y).to(model.device)
             outputs = self.get_output(model, input_ids, adapter_d)
-            loss_d += F.cross_entropy(outputs.logits, labels)
+            loss_d += F.cross_entropy(outputs, labels)
 
         loss_s = 0.0
         for samples in replay_data.values():
@@ -77,7 +77,7 @@ class DomainKnowledgeDecoupler:
                 input_ids = tokenizer(x, return_tensors="pt").to(model.device)
                 labels = torch.tensor(y).to(model.device)
                 outputs = self.get_output(model, input_ids, adapter_s)
-                loss_s += F.cross_entropy(outputs.logits, labels)
+                loss_s += F.cross_entropy(outputs, labels)
 
         orth_loss = self.orthogonal_loss(adapter_d.lora_A, adapter_d.lora_B,
                                          adapter_s.lora_A, adapter_s.lora_B)
@@ -126,7 +126,7 @@ class DomainKnowledgeWarmup:
                     input_ids = tokenizer(x, return_tensors="pt").to(model.device)
                     labels = torch.tensor(y).to(model.device)
                     outputs = self.get_output(model, input_ids, adapter_d, self.shared_adapter)
-                    loss = F.cross_entropy(outputs.logits, labels)
+                    loss = F.cross_entropy(outputs, labels)
 
                     optimizer.zero_grad()
                     loss.backward()

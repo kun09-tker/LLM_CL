@@ -81,7 +81,7 @@ class LLM_CL:
                     labels = torch.tensor(y_val).to(self.model.device)
                     adapter_d = self.domain_adapters[domain_name]
                     outputs = self.get_output(self.model, input_ids, adapter_d)
-                    val_on_domain_loss += F.cross_entropy(outputs.logits, labels).item()
+                    val_on_domain_loss += F.cross_entropy(outputs, labels).item()
 
             avg_val_on_domain_loss = val_on_domain_loss / len(val_loader)
             print(f"Validation on domain {domain_name} loss: {avg_val_on_domain_loss}")
@@ -125,7 +125,7 @@ class LLM_CL:
         best_domain, best_adapter = self.positioner.find_best_domain(x, self.tokenizer)
         input_ids, _ = self.tokenizer(x, return_tensors="pt").to(self.model.device)
         outputs = self.get_output(self.model, input_ids, best_adapter)
-        return torch.argmax(outputs.logits, dim=-1)
+        return torch.argmax(outputs, dim=-1)
 
     def evaluate(self, test_data):
         preds = []
