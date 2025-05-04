@@ -59,6 +59,8 @@ class LLM_CL:
             for x_batch, y_batch in tqdm(train_loader):
                 batch_data = list(zip(x_batch, y_batch))
 
+                optimizer.zero_grad()
+
                 loss = self.decoupler.compute_loss(
                     domain_name=domain_name,
                     domain_data=batch_data,
@@ -67,9 +69,6 @@ class LLM_CL:
                     tokenizer=self.tokenizer
                 )
                 print(f"Loss: {loss.item()}")
-                optimizer.zero_grad()
-                print("Before optimizer")
-                loss.backward()
                 print("After backward")
                 optimizer.step()
                 print("After optimizer step")
