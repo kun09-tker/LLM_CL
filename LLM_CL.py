@@ -77,7 +77,7 @@ class LLM_CL:
             val_on_domain_loss = 0.0
             with torch.no_grad():
                 for x_val, y_val in tqdm(val_loader):
-                    input_ids = self.tokenizer(x_val).to(self.model.device)
+                    input_ids = self.tokenizer(x_val, return_tensors="pt").to(self.model.device)
                     labels = torch.tensor(y_val).to(self.model.device)
                     adapter_d = self.domain_adapters[domain_name]
                     outputs = self.get_output(self.model, input_ids, adapter_d)
@@ -99,7 +99,7 @@ class LLM_CL:
 
     def get_output(self, base_model, input_ids, adapter):
         # Get the output of the model with the given adapter
-        outputs = base_model(input_ids=input_ids)
+        outputs = base_model(**input_ids)
 
         hiden_states = outputs.hidden_states[-1] if outputs.hidden_states else outputs.logits
         lora_output = adapter(hiden_states)
@@ -123,7 +123,7 @@ class LLM_CL:
     def predict(self, x):
         # ===> Inference with automatic domain adapter selection
         best_domain, best_adapter = self.positioner.find_best_domain(x, self.tokenizer)
-        input_ids, _ = self.tokenizer(x)
+        input_ids, _ = self.tokenizer(x, return_tensors="pt").to(self.model.device)
         outputs = self.get_output(self.model, input_ids, best_adapter)
         return torch.argmax(outputs.logits, dim=-1)
 

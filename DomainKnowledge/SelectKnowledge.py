@@ -13,7 +13,7 @@ class DomainPositioning:
         for domain_name, samples in domain_data.items():
             embeddings = []
             for x, y in samples:
-                input_ids, _ = tokenizer(x, y)
+                input_ids, _ = tokenizer(x, return_tensors="pt").to(self.model.device)
                 hidden_states = self.model.get_hidden(input_ids, adapter=self.shared_adapter)
                 embeddings.append(hidden_states.mean(dim=1))  # Mean pooling
             domain_rep = torch.stack(embeddings).mean(dim=0)
