@@ -120,7 +120,7 @@ class DomainKnowledgeWarmup:
 
         dataloader = DataLoader(replay_dataset, batch_size=batch_size, shuffle=True)
 
-        for param in self.model.parameters():
+        for param in model.parameters():
             param.requires_grad = False
 
         model.train()

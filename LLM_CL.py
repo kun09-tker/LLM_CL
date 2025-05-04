@@ -51,7 +51,7 @@ class LLM_CL:
         train_loader = DataLoader(train_domain_data, batch_size=self.batch_size, shuffle=True)
         val_loader = DataLoader(val_domain_data, batch_size=self.batch_size, shuffle=False)
 
-        model.train()
+        self.model.train()
         for epoch in range(self.decoupler_epochs):
             print(f"Training on domain: {domain_name}, Epoch: {epoch + 1}/{self.decoupler_epochs}")
             train_on_domain_loss = 0.0
