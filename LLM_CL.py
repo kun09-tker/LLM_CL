@@ -97,7 +97,7 @@ class LLM_CL:
         # Updating replay buffer (after training on the domain)
         self.replay_data[domain_name] = train_domain_data[:self.replay_size]
 
-    def get_output(base_model, input_ids, adapter):
+    def get_output(self, base_model, input_ids, adapter):
         # Get the output of the model with the given adapter
         outputs = base_model(input_ids=input_ids)
 

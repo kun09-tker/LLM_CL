@@ -85,7 +85,7 @@ class DomainKnowledgeDecoupler:
         total_loss = loss_d + loss_s + self.lambda_orth * orth_loss
         return total_loss
 
-    def get_output(base_model, input_ids, adapter):
+    def get_output(self, base_model, input_ids, adapter):
         outputs = base_model(input_ids=input_ids)
         hiden_states = outputs.hidden_states[-1] if outputs.hidden_states else outputs.logits
         lora_output = adapter(hiden_states)
