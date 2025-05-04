@@ -85,7 +85,10 @@ class DomainKnowledgeDecoupler:
                                          adapter_s.lora_A, adapter_s.lora_B)
 
         loss_d = torch.mean(torch.stack(loss_d))
-        loss_s = torch.mean(torch.stack(loss_s))
+        if loss_s:
+            loss_s = torch.stack(loss_s).mean()
+        else:
+            loss_s = torch.tensor(0.0, device=model.device)
         loss = loss_d + loss_s + self.lambda_orth * orth_loss
         loss.backward()
 
