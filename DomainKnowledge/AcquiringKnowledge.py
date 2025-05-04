@@ -66,16 +66,16 @@ class DomainKnowledgeDecoupler:
 
         loss_d = 0.0
         for x, y in domain_data:
-            input_ids = tokenizer(x).to(self.model.device)
-            labels = torch.tensor(y).to(self.model.device)
+            input_ids = tokenizer(x).to(model.device)
+            labels = torch.tensor(y).to(model.device)
             outputs = self.get_output(model, input_ids, adapter_d)
             loss_d += F.cross_entropy(outputs.logits, labels)
 
         loss_s = 0.0
         for samples in replay_data.values():
             for x, y in samples:
-                input_ids = tokenizer(x).to(self.model.device)
-                labels = torch.tensor(y).to(self.model.device)
+                input_ids = tokenizer(x).to(model.device)
+                labels = torch.tensor(y).to(model.device)
                 outputs = self.get_output(model, input_ids, adapter_s)
                 loss_s += F.cross_entropy(outputs.logits, labels)
 
