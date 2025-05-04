@@ -64,28 +64,31 @@ class DomainKnowledgeDecoupler:
         adapter_d = self.domain_adapters[domain_name]
         adapter_s = self.shared_adapter
 
-        loss_d = 0.0
+        loss_d = []
         for x, y in domain_data:
             input_id = tokenizer(x, return_tensors="pt").to(model.device)
             label = y.to(model.device)
             print(f"label: {label.shape}")
             output = self.get_hidden(model, input_id, adapter_d)
             print(f"output: {output.shape}")
-            loss_d += F.cross_entropy(output, label)
+            loss_d.append(F.cross_entropy(output, label))
 
-        loss_s = 0.0
+        loss_s = []
         for samples in replay_data.values():
             for x, y in samples:
                 input_id = tokenizer(x, return_tensors="pt").to(model.device)
                 label = y.to(model.device)
                 output = self.get_hidden(model, input_id, adapter_s)
-                loss_s += F.cross_entropy(output, label)
+                loss_s.append(F.cross_entropy(output, label))
 
         orth_loss = self.orthogonal_loss(adapter_d.lora_A, adapter_d.lora_B,
                                          adapter_s.lora_A, adapter_s.lora_B)
 
+        loss_d = torch.mean(torch.stack(loss_d))
+        loss_s = torch.mean(torch.stack(loss_s))
         loss = loss_d + loss_s + self.lambda_orth * orth_loss
         loss.backward()
+
         return loss
 
     def orthogonal_loss(self, A_i, B_i, A_s, B_s):
