@@ -67,7 +67,9 @@ class DomainKnowledgeDecoupler:
         loss_d = 0.0
         for x, y in domain_data:
             input_id = tokenizer(x, return_tensors="pt").to(model.device)
+            print(f"input_id: {input_id.shape}")
             label = y.to(model.device)
+            print(f"label: {label.shape}")
             output = self.get_hidden(model, input_id, adapter_d)
             loss_d += F.cross_entropy(output, label)
 
