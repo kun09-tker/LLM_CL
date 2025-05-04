@@ -65,10 +65,14 @@ class LLM_CL:
                     model=self.model,
                     tokenizer=self.tokenizer
                 )
-                optimizer.zero_grad()
-                loss.backward()
-                optimizer.step()
                 print(f"Loss: {loss.item()}")
+                optimizer.zero_grad()
+                print("Before optimizer")
+                loss.backward()
+                print("After backward")
+                optimizer.step()
+                print("After optimizer step")
+                print(f"After optimizer Loss: {loss.item()}")
                 train_on_domain_loss += loss.item()
 
             avg_train_on_domain_loss = train_on_domain_loss / len(train_loader)
