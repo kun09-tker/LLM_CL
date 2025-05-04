@@ -85,6 +85,16 @@ class DomainKnowledgeDecoupler:
         total_loss = loss_d + loss_s + self.lambda_orth * orth_loss
         return total_loss
 
+    def orthogonal_loss(A_i, B_i, A_s, B_s):
+        # A_i^T A_s
+        A_orth = torch.matmul(A_i.T, A_s)
+        # B_i^T B_s
+        B_orth = torch.matmul(B_i.T, B_s)
+
+        # Frobenius norm bình phương = sum của các phần tử bình phương
+        loss = torch.norm(A_orth, p='fro')**2 + torch.norm(B_orth, p='fro')**2
+        return loss
+
     def get_hidden(self, base_model, input_id, adapter):
         output = base_model(**input_id)
         hiden_states = output.hidden_states[-1] if output.hidden_states else output.logits
