@@ -68,11 +68,7 @@ class LLM_CL:
                     model=self.model,
                     tokenizer=self.tokenizer
                 )
-                print(f"Loss: {loss.item()}")
-                print("After backward")
                 optimizer.step()
-                print("After optimizer step")
-                print(f"After optimizer Loss: {loss.item()}")
                 train_on_domain_loss += loss.item()
 
             avg_train_on_domain_loss = train_on_domain_loss / len(train_loader)
@@ -107,7 +103,7 @@ class LLM_CL:
         # Get the output of the model with the given adapter
         outputs = base_model(**input_ids)
 
-        hiden_states = outputs.hidden_states[-1] if outputs.hidden_states else outputs.logits
+        hiden_states = outputs.hidden_states[-1] if outputs.hidden_states else outputs.pooler_output
         lora_output = adapter(hiden_states)
         return lora_output
 

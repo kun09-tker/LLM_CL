@@ -68,9 +68,7 @@ class DomainKnowledgeDecoupler:
         for x, y in domain_data:
             input_id = tokenizer(x, return_tensors="pt").to(model.device)
             label = y.to(model.device)
-            print(f"label: {label.shape}")
             output = self.get_hidden(model, input_id, adapter_d)
-            print(f"output: {output.shape}")
             loss_d.append(F.cross_entropy(output, label))
 
         loss_s = []
@@ -106,9 +104,9 @@ class DomainKnowledgeDecoupler:
 
     def get_hidden(self, base_model, input_id, adapter):
         output = base_model(**input_id)
-        hiden_states = output.hidden_states[-1] if output.hidden_states else output.logits
+        hiden_states = output.hidden_states[-1] if output.hidden_states else output.pooler_output
         lora_output = adapter(hiden_states)
-        return lora_output[:, -1, :]
+        return lora_output
 
 class DomainKnowledgeWarmup:
     def __init__(self, shared_adapter, domain_adapters):
@@ -168,6 +166,6 @@ class DomainKnowledgeWarmup:
     def get_hidden(self, base_model, input_id, adapter_domain, adapter_shared):
         # Get the output of the model with the given adapter
         output = base_model(**input_id)
-        hiden_states = output.hidden_states[-1] if output.hidden_states else output.logits
+        hiden_states = output.hidden_states[-1] if output.hidden_states else output.pooler_output
         lora_output = adapter_domain(hiden_states) + adapter_shared(hiden_states)
-        return lora_output[:, -1, :]
+        return lora_output
