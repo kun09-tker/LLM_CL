@@ -88,7 +88,6 @@ class DomainKnowledgeDecoupler:
         else:
             loss_s = torch.tensor(0.0, device=model.device)
         loss = loss_d + loss_s + self.lambda_orth * orth_loss
-        loss.backward()
 
         return loss
 

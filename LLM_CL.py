@@ -68,6 +68,8 @@ class LLM_CL:
                     model=self.model,
                     tokenizer=self.tokenizer
                 )
+
+                loss.backward()
                 optimizer.step()
                 train_on_domain_loss += loss.item()
 
@@ -133,61 +135,3 @@ class LLM_CL:
             preds.append(pred.item())
             labels.append(y)
         return preds, labels
-
-if __name__ == "__main__":
-    # Example usage
-    from transformers import AutoTokenizer, AutoModelForCausalLM
-    from Adapters.LoRA import LoRAAdapter
-
-    base_model_name = "gpt2"
-    tokenizer = AutoTokenizer.from_pretrained(base_model_name)
-    model = AutoModelForCausalLM.from_pretrained(base_model_name)
-    log_on_domain_path = "on_domain.txt"
-
-    shared_adapter = LoRAAdapter(in_features=732, out_features=3, rank=8) # Initialize your shared adapter here
-    domain_adapters = {
-        "restaurant": LoRAAdapter(in_features=732, out_features=3, rank=8),  # Initialize your restaurant adapter here
-        "laptop": LoRAAdapter(in_features=732, out_features=3, rank=8),  # Initialize your laptop adapter here
-        # Add more domain adapters as needed
-    }
-
-    llm_cl = LLM_CL(
-        model=model,
-        tokenizer=tokenizer,
-        shared_adapter=shared_adapter,
-        domain_adapters=domain_adapters,
-        lambda_orth=1e-6,
-        warmup_epochs=5,
-        replay_size=8
-    )
-
-    # Dummy data for training and evaluation
-    train_domain_data = {
-        "restaurant": [("The food was great!", 1), ("Terrible service.", 0)],
-        "laptop": [("Battery life is amazing.", 1), ("The screen is too dim.", 0)]
-    }
-    val_domain_data = {
-        "restaurant": [("I will never come back.", 0), ("Loved the ambiance!", 1)],
-        "laptop": [("Very fast performance.", 1), ("Not worth the price.", 0)]
-    }
-    test_data = [("I love this restaurant!", 1), ("This laptop is terrible.", 0)]
-
-    for domain_name, data in train_domain_data.items():
-        optimizer = torch.optim.AdamW(
-            list(llm_cl.shared_adapter.parameters()) + list(llm_cl.domain_adapters[domain_name].parameters()),
-            lr=1e-4
-        )
-        llm_cl.train_on_domain(domain_name, data, val_domain_data[domain_name], optimizer,
-                               log_path=log_on_domain_path)
-
-    os.makedirs(os.path.dirname(log_on_domain_path), exist_ok=True)
-    log_file = open(log_on_domain_path, "a")
-    log_file.write("END OF TRAINING\n")
-    log_file.flush()
-    log_file.close()
-    optimizer = torch.optim.AdamW(llm_cl.shared_adapter.parameters(), lr=1e-4)
-    llm_cl.warmup_shared_adapter(optimizer)
-    llm_cl.prepare_for_inference()
-
-    preds, labels = llm_cl.evaluate(test_data)
-    print(f"Predictions: {preds}, Labels: {labels}")
