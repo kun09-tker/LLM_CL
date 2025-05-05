@@ -75,17 +75,21 @@ class LLM_CL:
             print(f"Training on domain {domain_name} loss: {avg_train_on_domain_loss}")
 
             print(f"Validation on domain: {domain_name}, Epoch: {epoch + 1}/{self.decoupler_epochs}")
-            val_on_domain_loss = 0.0
+            val_loss = 0.0
             with torch.no_grad():
-                for x_val, y_val in tqdm(val_loader):
-                    input_ids = self.tokenizer(x_val, return_tensors="pt").to(self.model.device)
-                    labels = torch.tensor(y_val).to(self.model.device)
-                    adapter_d = self.domain_adapters[domain_name]
-                    outputs = self.get_hidden(self.model, input_ids, adapter_d)
-                    print(f"Outputs: {outputs.shape}, Labels: {labels.shape}")
-                    val_on_domain_loss += F.cross_entropy(outputs, labels).item()
+                for x_batch, y_batch in tqdm(val_loader):
+                    batch_data = list(zip(x_batch, y_batch))
 
-            avg_val_on_domain_loss = val_on_domain_loss / len(val_loader)
+                    loss = self.decoupler.compute_loss(
+                        domain_name=domain_name,
+                        domain_data=batch_data,
+                        replay_data=self.replay_data,
+                        model=self.model,
+                        tokenizer=self.tokenizer
+                    )
+                    val_loss += loss.item()
+
+            avg_val_on_domain_loss = val_loss / len(val_loader)
             print(f"Validation on domain {domain_name} loss: {avg_val_on_domain_loss}")
 
             log_msg = f"[Domain: {domain_name}] Epoch {epoch + 1}: \
@@ -98,14 +102,6 @@ class LLM_CL:
 
         # Updating replay buffer (after training on the domain)
         self.replay_data[domain_name] = train_domain_data[:self.replay_size]
-
-    def get_hidden(self, base_model, input_ids, adapter):
-        # Get the output of the model with the given adapter
-        outputs = base_model(**input_ids)
-
-        hiden_states = outputs.hidden_states[-1] if outputs.hidden_states else outputs.pooler_output
-        lora_output = adapter(hiden_states)
-        return lora_output
 
     def warmup_shared_adapter(self, optimizer):
         # ===> Warmup using all replay data to align invariant adapter
