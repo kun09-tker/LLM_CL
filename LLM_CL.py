@@ -383,7 +383,12 @@ if __name__ == "__main__":
                 'best_f1': f1
             }, model_path)
 
-        print(f"✅ Saved best model with F1 = {f1:.4f}")
+            msg = f" Saved best model with F1 = {f1:.4f} \n"
+        else:
+            msg = f" Don't save: F1 = {f1:.4f} < best_f1 = {BEST_F1} \n"
+
+        print(msg)
+        log_file.write(msg)
         log_file.close()
 
 
