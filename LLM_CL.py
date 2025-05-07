@@ -102,7 +102,7 @@ class DomainKnowledgeDecoupler:
         self.tokenizer = tokenizer
 
     def __call__(self, x, model, adapter):
-        self.forward(x, model, adapter)
+        return self.forward(x, model, adapter)
 
     def forward(self, x, model, adapter):
         # Tokenize the input
@@ -132,7 +132,7 @@ class DomainKnowledgeWarmup:
         self.tokenizer = tokenizer
 
     def __call__(self, x_replay, model, shared_adapter, domain_adapter):
-        self.forward(x_replay, model, shared_adapter, domain_adapter)
+        return self.forward(x_replay, model, shared_adapter, domain_adapter)
 
     def forward(self, x_replay, model, shared_adapter, domain_adapter):
         # Tokenize the input
