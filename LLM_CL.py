@@ -55,13 +55,12 @@ import torch.nn as nn
 from Adapters.LoRA import LoRAAdapter
 
 class LLM_CL(nn.Module):
-    def __init__(self, model, tokenizer, domain_names, rank=8):
-
+    def __init__(self, model, tokenizer, domain_names, out_features=3, rank=8):
         super(LLM_CL, self).__init__()
         self.model = model
         self.tokenizer = tokenizer
-        self.shared_adapter = LoRAAdapter(model.config.hidden_size, rank=rank).to(model.device)
-        self.domain_adapters = {domain_name: LoRAAdapter(model.config.hidden_size, rank=rank).to(model.device)
+        self.shared_adapter = LoRAAdapter(model.config.hidden_size, out_features=out_features rank=rank).to(model.device)
+        self.domain_adapters = {domain_name: LoRAAdapter(model.config.hidden_size, out_features=out_features, rank=rank).to(model.device)
                                 for domain_name in domain_names}
 
         self.decoupler = DomainKnowledgeDecoupler(tokenizer)
@@ -192,6 +191,7 @@ if __name__ == "__main__":
     # Example usage
     import os
     import torch
+    import random
     import torch.nn as nn
     from tqdm import tqdm
     from transformers import BertTokenizer, BertModel
@@ -243,7 +243,7 @@ if __name__ == "__main__":
         model = BertModel.from_pretrained(base_model_name)
         model.to(device)
 
-        test_data = [sample for _, sample in test_data]
+        test_data = [sample for _, sample in test_data.items()]
 
         # Replay data
         replay_data = {}
