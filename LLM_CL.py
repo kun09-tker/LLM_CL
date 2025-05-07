@@ -101,9 +101,11 @@ class DomainKnowledgeDecoupler:
     def __init__(self, tokenizer):
         self.tokenizer = tokenizer
 
+    def __call__(self, x, model, adapter):
+        self.forward(x, model, adapter)
+
     def forward(self, x, model, adapter):
         # Tokenize the input
-        adapter.requires_grad__(True)
         tokenized_input = self.tokenizer(x, return_tensors='pt').to(model.device)
         return self.get_hidden(tokenized_input, model, adapter)
 
@@ -129,10 +131,11 @@ class DomainKnowledgeWarmup:
     def __init__(self, tokenizer):
         self.tokenizer = tokenizer
 
+    def __call__(self, x_replay, model, shared_adapter, domain_adapter):
+        self.forward(x_replay, model, shared_adapter, domain_adapter)
+
     def forward(self, x_replay, model, shared_adapter, domain_adapter):
         # Tokenize the input
-        domain_adapter.requires_grad__(False)
-        shared_adapter.requires_grad__(True)
         tokenized_input = self.tokenizer(x_replay, return_tensors='pt').to(model.device)
         return self.get_hidden(tokenized_input, model, shared_adapter, domain_adapter)
 
@@ -166,7 +169,7 @@ class DomainPositioning:
 
     def find_best_domain(self, test_input, model, shared_adapter):
         input_ids = self.tokenizer(**test_input).to(model.device)
-        test_embed = self.get_hidden(input_ids, shared_adapter).mean(dim=1).squeeze()
+        test_embed = self.get_hidden(model, input_ids, shared_adapter).mean(dim=1).squeeze()
 
         best_score = -float('inf')
         best_domain = None
@@ -181,8 +184,8 @@ class DomainPositioning:
 
         return best_domain
 
-    def get_hidden(self, input_ids, adapter):
-        outputs = self.model(**input_ids)
+    def get_hidden(self, model, input_ids, adapter):
+        outputs = model(**input_ids).to(model.device)
         hidden_states = outputs.pooler_output
         lora_output = adapter(hidden_states)
         return lora_output
@@ -265,7 +268,8 @@ if __name__ == "__main__":
         optimizer_decoupler = torch.optim.Adam(filter(lambda p: p.requires_grad, llm_cl.parameters()), lr=LEARNING_RATE_D)
 
         # Training loop
-        os.makedirs(LOG_TRAINING_PATH, exist_ok=True)
+        if not os.path.exists(LOG_TRAINING_PATH):
+            os.makedirs(LOG_TRAINING_PATH, exist_ok=True)
         log_file = open(LOG_TRAINING_PATH, "a")
         msg = f"\n================\n {'_'.join(domain_names)} \n================\n"
         print(msg)
@@ -280,7 +284,7 @@ if __name__ == "__main__":
                 model.val()
                 mode = "Validating"
 
-            for domain_name, data in tqdm(domain_data.items(), desc=f"{mode} domain variant for {domain_name}"):
+            for domain_name, data in tqdm(domain_data.items(), desc=f"{mode} domain variant"):
                 loss_d = []
                 for text, label in data:
                     # Domain Knowledge Warmup
