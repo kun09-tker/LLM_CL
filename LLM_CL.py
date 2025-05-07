@@ -56,6 +56,7 @@ from Adapters.LoRA import LoRAAdapter
 
 class LLM_CL(nn.Module):
     def __init__(self, model, tokenizer, domain_names, out_features=3, rank=8):
+        super(LLM_CL, self).__init__()
         self.model = model
         self.tokenizer = tokenizer
         self.shared_adapter = LoRAAdapter(model.config.hidden_size, out_features=out_features, rank=rank).to(model.device)
