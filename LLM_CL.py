@@ -52,7 +52,7 @@
 import torch
 import random
 import torch.nn as nn
-from Adapters import LoRAAdapter
+from Adapters.LoRA import LoRAAdapter
 
 class LLM_CL(nn.Module):
     def __init__(self, model, tokenizer, domain_names, rank=8):
