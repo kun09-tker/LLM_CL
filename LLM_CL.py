@@ -267,7 +267,7 @@ if __name__ == "__main__":
         # Training loop
         os.makedirs(LOG_TRAINING_PATH, exist_ok=True)
         log_file = open(LOG_TRAINING_PATH, "a")
-        msg = f"\n================\n {"_".join(domain_names)} \n================\n"
+        msg = f"\n================\n {'_'.join(domain_names)} \n================\n"
         print(msg)
         log_file.write(msg)
 
@@ -427,9 +427,10 @@ if __name__ == "__main__":
     chunk_domain_names = split_into_random_chunks(domain_names)
 
     for chunk in chunk_domain_names:
-        traning_llm_cl(filter_domains(train_data, chunk),
-                       filter_domains(val_data, chunk),
-                       filter_domains(test_data, chunk))
+        if len(chunk) > 3:
+            traning_llm_cl(filter_domains(train_data, chunk),
+                        filter_domains(val_data, chunk),
+                        filter_domains(test_data, chunk))
 
 
 
