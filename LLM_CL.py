@@ -1,137 +1,433 @@
-import os
+# Domain knowledge decoupling module to learn a domain-invariant adapter (adapter_shared)
+# with separate domain-variant adapters (adapter_domains).
+
+# Domain Knowledge Warmup to leverage the replay data to fine-tune the domain-invariant adapter (adapter_shared)
+# for each domain-variant adapters (adapter_domains) with frozen* domain-variant adapters.
+
+
+#    +----------------------Domain Knowledge Warmup----------------------+
+#    |  +==========================+       +=========================+   |
+#    |  | +--------+   +--------+  |       | +--------+   +--------+ |   |   +----------------+
+#    |  |  \  A₁* /     \  Aₛ   /   |      |  \  Aₙ* /     \  Aₛ   /   |   |   \  A ~ N(μ, σ²) /
+#    |  |   +----+       +----+    |       |   +----+       +----+   |   |    +-------------+
+#    |  |     x      +      x      | ....  |     x      +     x      |   |          x
+#    |  |   +----+       +----+    |       |   +----+       +----+   |   |      +---------+
+#    |  |  /  B₁* \     /  Bₛ   \   |      |  /  Bₙ* \     /  Bₛ   \   |   |     /   B = 0  \
+#    |  | +---+----+   +---+----+  |       | +----+---+   +----+---+ |   |     +----------+
+#    |  +======|============|======+       +======|============|=====+   |      This is Adapter
+#    +---------|------------|---------------------|------------|---------+
+#              V            V                     V            V        ^        * Frozen
+#           +------------------+                +----------------+      |
+#           |   Orthogonal     |                |   Orthogonal   |      |
+#           |   Constraint     |                |   Constraint   |      |
+#           +------------------+                +----------------+      |
+#            ^             ^                     ^             ^        +-----+
+#            |             |   Domain Knowledge  |             |              |
+#   +--------|-------------|------Decoupling-----|-------------|---------+    |
+#   |  +=====|=============|======+        +=====|=============|=======+ |    |
+#   |  | +---+----+   +----+---+  |        | +---+----+   +---+---+   |  |    |
+#   |  |  \  A₁  /     \  Aₛ   /   |       |   \  Aₙ  /     \  Aₛ   /   |  |    |
+#   |  |   +----+       +----+    |        |   +----+       +----+    |  |    |
+#   |  |     x      +      x      |  >...> |     x      +     x       |  |    |
+#   |  |   +----+       +----+    |        |   +----+       +----+    |  |    |
+#   |  |  /  B₁  \     /  Bₛ   \   |       |   /  Bₙ  \     /  Bₛ   \   |  |    |
+#   |  | +---^----+   +---^----+  |        | +----^---+   +----^---+  |  |    |
+#   |  +=====|============|=======+       +======|============|=======+  |    |
+#   +------- |------------|----------------------|------------|----------+    |
+#            |            |                      |            |               |
+#       +----+-----+      |                +-----+----+       |               |
+#       | Domain 1 |      |                | Domain N |       |               |
+#       +----------+      |                +----------+       |               |
+#                         |                                   |               |
+#       +-----------------+--+                                |               |
+#       |     Replay 1       |                                |               |
+#       +--------------------+                                |               |
+#                                                             |               |
+#       +-----------------------------------------------------+----+          |
+#       |                     Replay N                             |----------+
+#       +----------------------------------------------------------+
+
+
+
 import torch
-import torch.nn.functional as F
+import random
+import torch.nn as nn
+from Adapters import LoRAAdapter
 
-from tqdm import tqdm
-from torch.utils.data import DataLoader
-from DomainKnowledge.SelectKnowledge import DomainPositioning
-from DomainKnowledge.AcquiringKnowledge import DomainKnowledgeDecoupler, DomainKnowledgeWarmup
+class LLM_CL(nn.Module):
+    def __init__(self, model, tokenizer, domain_names, rank=8):
 
-
-class LLM_CL:
-    def __init__(self, model, tokenizer, shared_adapter, domain_adapters,
-                 lambda_orth=1e-6, warmup_epochs=5, decoupler_epochs=5, batch_size=16,
-                 replay_size=8):
+        super(LLM_CL, self).__init__()
         self.model = model
         self.tokenizer = tokenizer
-        self.shared_adapter = shared_adapter
-        self.domain_adapters = domain_adapters # dict[DomainName -> Adapter]
-        self.lambda_orth = lambda_orth
-        self.warmup_epochs = warmup_epochs
-        self.decoupler_epochs = decoupler_epochs
-        self.batch_size = batch_size
-        self.replay_size = replay_size
+        self.shared_adapter = LoRAAdapter(model.config.hidden_size, rank=rank).to(model.device)
+        self.domain_adapters = {domain_name: LoRAAdapter(model.config.hidden_size, rank=rank).to(model.device)
+                                for domain_name in domain_names}
 
-        self.decoupler = DomainKnowledgeDecoupler(
-            shared_adapter=self.shared_adapter,
-            domain_adapters=self.domain_adapters,
-            lambda_orth=self.lambda_orth
-        )
-        self.warmup = DomainKnowledgeWarmup(
-            shared_adapter=self.shared_adapter,
-            domain_adapters=self.domain_adapters
-        )
-        self.positioner = DomainPositioning(
-            model=self.model,
-            domain_adapters=self.domain_adapters,
-            shared_adapter=self.shared_adapter
-        )
+        self.decoupler = DomainKnowledgeDecoupler(tokenizer)
+        self.warmup = DomainKnowledgeWarmup(tokenizer)
+        self.positioning = DomainPositioning(tokenizer)
 
         for param in self.model.parameters():
             param.requires_grad = False
 
-        self.replay_data = {}  # dict[DomainName -> list of (x, y)]
+    def domain_variant_hidden(self, x, domain_name):
+        hidden = self.decoupler(
+                            x, self.model,
+                            self.domain_adapters[domain_name]
+                        )
+        return hidden
+    def domain_invariant_hidden(self, x_replay):
+        hidden = self.decoupler(
+                            x_replay, self.model,
+                            self.shared_adapter,
+                        )
+        return hidden
 
-    def train_on_domain(self, domain_name, train_domain_data, val_domain_data, optimizer,
-                        log_path="train_on_domain.txt"):
+    def warmup_knowledge(self, x_replay, domain_name):
+        hidden = self.warmup(
+                            x_replay, self.model,
+                            self.shared_adapter,
+                            self.domain_adapters[domain_name]
+                        )
+        return hidden
 
-        os.makedirs(os.path.dirname(log_path), exist_ok=True)
-        log_file = open(log_path, "a")
+    def prepare_finding(self, domain_data):
+        self.positioning.compute_prototypes(domain_data, self.model, self.shared_adapter)
 
-        train_loader = DataLoader(train_domain_data, batch_size=self.batch_size, shuffle=True)
-        val_loader = DataLoader(val_domain_data, batch_size=self.batch_size, shuffle=False)
+    def find_best_domain_name(self, test_input):
+        return self.positioning.find_best_domain(test_input, self.model, self.shared_adapter)
 
-        self.model.train()
-        for epoch in range(self.decoupler_epochs):
-            print(f"Training on domain: {domain_name}, Epoch: {epoch + 1}/{self.decoupler_epochs}")
-            train_on_domain_loss = 0.0
+class DomainKnowledgeDecoupler:
+    def __init__(self, tokenizer):
+        self.tokenizer = tokenizer
 
-            for x_batch, y_batch in tqdm(train_loader):
-                batch_data = list(zip(x_batch, y_batch))
+    def forward(self, x, model, adapter):
+        # Tokenize the input
+        adapter.requires_grad__(True)
+        tokenized_input = self.tokenizer(x, return_tensors='pt').to(model.device)
+        return self.get_hidden(tokenized_input, model, adapter)
 
-                optimizer.zero_grad()
+    def get_hidden(self, tokenized_input, model, adapter):
+        # Get the hidden states from the model
+        outputs = model(**tokenized_input)
+        hidden_states = outputs.pooler_output
+        # Apply the adapter to the hidden states
+        adapted_hidden_states = adapter(hidden_states)
+        return adapted_hidden_states
 
-                loss = self.decoupler.compute_loss(
-                    domain_name=domain_name,
-                    domain_data=batch_data,
-                    replay_data=self.replay_data,
-                    model=self.model,
-                    tokenizer=self.tokenizer
-                )
+    def orthogonal_constraint(self, domain_adapter, shared_adapter):
+        A_orth = torch.matmul(domain_adapter.lora_A.T, shared_adapter.lora_A)
+        B_orth = torch.matmul(domain_adapter.lora_B.T, shared_adapter.lora_B)
 
-                loss.backward()
-                optimizer.step()
-                train_on_domain_loss += loss.item()
+        A_orth = torch.norm(A_orth, p='fro')
+        B_orth = torch.norm(B_orth, p='fro')
 
-            avg_train_on_domain_loss = train_on_domain_loss / len(train_loader)
-            print(f"Training on domain {domain_name} loss: {avg_train_on_domain_loss}")
+        orthogonal_loss = A_orth ** 2 + B_orth ** 2
+        return orthogonal_loss
 
-            print(f"Validation on domain: {domain_name}, Epoch: {epoch + 1}/{self.decoupler_epochs}")
-            val_loss = 0.0
+class DomainKnowledgeWarmup:
+    def __init__(self, tokenizer):
+        self.tokenizer = tokenizer
+
+    def forward(self, x_replay, model, shared_adapter, domain_adapter):
+        # Tokenize the input
+        domain_adapter.requires_grad__(False)
+        shared_adapter.requires_grad__(True)
+        tokenized_input = self.tokenizer(x_replay, return_tensors='pt').to(model.device)
+        return self.get_hidden(tokenized_input, model, shared_adapter, domain_adapter)
+
+    def get_hidden(self, tokenized_input, model, shared_adapter, domain_adapter):
+        # Get the hidden states from the model
+        output = model(**tokenized_input).pooler_output
+        hidden = shared_adapter(output) + domain_adapter(output)
+        return hidden
+
+class DomainPositioning:
+    def __init__(self, tokenizer):
+        self.tokenizer = tokenizer
+        self.domain_prototypes = {}
+        self.covariance = None
+
+    def compute_prototypes(self, domain_data, model, shared_adapter):
+        reps = []
+        for domain_name, samples in domain_data.items():
+            embeddings = []
+            for x, y in samples:
+                input_ids, _ = self.tokenizer(x, return_tensors="pt").to(model.device)
+                hidden_states = self.get_hidden(input_ids, shared_adapter)
+                embeddings.append(hidden_states.mean(dim=1))  # Mean pooling
+            domain_rep = torch.stack(embeddings).mean(dim=0)
+            self.domain_prototypes[domain_name] = domain_rep
+            reps.extend(embeddings)
+
+        reps_tensor = torch.stack(reps)
+        diffs = reps_tensor - reps_tensor.mean(dim=0)
+        self.covariance = torch.matmul(diffs.T, diffs) / len(reps_tensor)
+
+    def find_best_domain(self, test_input, model, shared_adapter):
+        input_ids = self.tokenizer(**test_input).to(model.device)
+        test_embed = self.get_hidden(input_ids, shared_adapter).mean(dim=1).squeeze()
+
+        best_score = -float('inf')
+        best_domain = None
+        cov_inv = torch.linalg.pinv(self.covariance)
+
+        for domain_name, proto in self.domain_prototypes.items():
+            diff = test_embed - proto
+            score = -diff.T @ cov_inv @ diff
+            if score > best_score:
+                best_score = score
+                best_domain = domain_name
+
+        return best_domain
+
+    def get_hidden(self, input_ids, adapter):
+        outputs = self.model(**input_ids)
+        hidden_states = outputs.pooler_output
+        lora_output = adapter(hidden_states)
+        return lora_output
+
+if __name__ == "__main__":
+    # Example usage
+    import os
+    import torch
+    import torch.nn as nn
+    from tqdm import tqdm
+    from transformers import BertTokenizer, BertModel
+    from sklearn.metrics import accuracy_score, f1_score
+
+        # Define constants
+    EPOCHS_D = 30
+    EPOCHS_W = 10
+    RANK = 8
+    LEARNING_RATE_D = 1e-6
+    LEARNING_RATE_W = 1e-5
+    LAMDA_ORTH = 1e-6
+    REPLAY_SIZE = 10
+    LOG_TRAINING_PATH = "training_log.txt"
+    CHECKPOIN_PATH = ""
+    DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    def compute_metrics(preds, labels):
+        preds = preds.cpu().numpy()
+        labels = labels.cpu().numpy()
+        acc = accuracy_score(labels, preds)
+        f1 = f1_score(labels, preds, average="macro")  # hoặc "macro", tùy bài toán
+        return acc, f1
+
+    def embed_label(label, device):
+        if label == 1:
+            return torch.tensor([1]).to(device)
+        elif label == -1:
+            return torch.tensor([2]).to(device)
+        elif label == 0:
+            return torch.tensor([0]).to(device)
+        else:
+            raise ValueError("Invalid label. Label must be 1, -1, or 0.")
+
+    def split_into_random_chunks(lst, chunk_size=3):
+        shuffled = lst[:]         # sao chép danh sách gốc
+        random.shuffle(shuffled)  # xáo trộn ngẫu nhiên
+
+        chunks = [shuffled[i:i+chunk_size] for i in range(0, len(shuffled), chunk_size)]
+        return chunks
+
+    def filter_domains(data, selected_domains):
+        return {domain: data[domain] for domain in selected_domains if domain in data}
+
+    def traning_llm_cl(train_data, val_data, test_data, device=DEVICE):
+        # Initialize tokenizer and model
+        base_model_name = 'bert-base-uncased'
+        tokenizer = BertTokenizer.from_pretrained(base_model_name)
+        model = BertModel.from_pretrained(base_model_name)
+        model.to(device)
+
+        test_data = [sample for _, sample in test_data]
+
+        # Replay data
+        replay_data = {}
+
+        # Initialize LLM_CL
+        domain_names = list(train_data.keys())
+        llm_cl = LLM_CL(model, tokenizer, domain_names, rank=RANK)
+        model_path = os.path.join(CHECKPOIN_PATH, "_".join(domain_names) + ".pt")
+        if os.path.exists(model_path):
+            checkpoint = torch.load(model_path)
+            llm_cl.load_state_dict(checkpoint['model_state_dict'])
+            BEST_F1 = checkpoint['best_f1']
+        else:
+            BEST_F1 = 0.0
+        llm_cl.to(device)
+
+        # Loss and optimizer
+        criterion = nn.CrossEntropyLoss()
+        optimizer_decoupler = torch.optim.Adam(filter(lambda p: p.requires_grad, llm_cl.parameters()), lr=LEARNING_RATE_D)
+
+        # Training loop
+        os.makedirs(LOG_TRAINING_PATH, exist_ok=True)
+        log_file = open(LOG_TRAINING_PATH, "a")
+        msg = f"\n================\n {"_".join(domain_names)} \n================\n"
+        print(msg)
+        log_file.write(msg)
+
+        # Step 1: Domain Knowledge Decoupling
+        def handle_domain_knowledge_decoupling_step(model, domain_data, replay_data, extend_replay = True):
+
+            mode = "Training"
+            model.train()
+            if not extend_replay:
+                model.val()
+                mode = "Validating"
+
+            for domain_name, data in tqdm(domain_data.items(), desc=f"{mode} domain variant for {domain_name}"):
+                loss_d = []
+                for text, label in data:
+                    # Domain Knowledge Warmup
+                    domain_variant_hidden = model.domain_variant_hidden(text, domain_name)
+                    loss = criterion(domain_variant_hidden, label)
+                    loss_d.append(loss.item())
+
+                    for domain_name, data in tqdm(replay_data.items(), desc=f"{mode} domain invariant"):
+                        loss_s = []
+                        for text, label in data:
+                            # Domain Knowledge Warmup
+                            domain_invariant_hidden = model.domain_invariant_hidden(text)
+                            loss = criterion(domain_invariant_hidden, label)
+                            loss_s.append(loss.item())
+
+                    if extend_replay:
+                        replay_data[domain_name] = random.sample(data, k=REPLAY_SIZE)
+
+            # Orthogonal constraint
+            orthogonal_loss = model.decoupler.orthogonal_constraint(
+                model.domain_adapters[domain_name],
+                model.shared_adapter
+            )
+            loss = sum(loss_d) + sum(loss_s) + orthogonal_loss * LAMDA_ORTH
+
+            return loss, replay_data
+
+        for epoch in range(EPOCHS_D):
+            optimizer_decoupler.zero_grad()
+            loss, replay_data =handle_domain_knowledge_decoupling_step(
+                                    llm_cl, train_data, replay_data, extend_replay = True)
+
+            loss.backward()
+            optimizer_decoupler.step()
+
+            msg = f"Step1 - Epoch {epoch + 1}/{EPOCHS_D}, Loss train: {loss.item()}"
+
             with torch.no_grad():
-                for x_batch, y_batch in tqdm(val_loader):
-                    batch_data = list(zip(x_batch, y_batch))
+                loss, replay_data =handle_domain_knowledge_decoupling_step(
+                                    llm_cl, val_data, replay_data, extend_replay = False)
 
-                    loss = self.decoupler.compute_loss(
-                        domain_name=domain_name,
-                        domain_data=batch_data,
-                        replay_data=self.replay_data,
-                        model=self.model,
-                        tokenizer=self.tokenizer
-                    )
-                    val_loss += loss.item()
+            msg += f"\t Loss val: {loss.item()}"
+            print(msg)
+            log_file.write(msg + "\n")
 
-            avg_val_on_domain_loss = val_loss / len(val_loader)
-            print(f"Validation on domain {domain_name} loss: {avg_val_on_domain_loss}")
+        # Step 2: Domain Knowledge Warmup
+        for domain_name, data in train_data.items():
+            for param in llm_cl.domain_adapters[domain_name].parameters():
+                param.requires_grad = False
 
-            log_msg = f"[Domain: {domain_name}] Epoch {epoch + 1}: \
-                        Train Loss = {avg_train_on_domain_loss:.4f}, \
-                        Val Loss = {avg_val_on_domain_loss:.4f}"
-            log_file.write(log_msg + "\n")
-            log_file.flush()
+        for param in llm_cl.shared_adapter.parameters():
+            param.requires_grad = True
 
+        optimizer_warmup = torch.optim.Adam(filter(lambda p: p.requires_grad, llm_cl.parameters()), lr=LEARNING_RATE_W)
+
+        for epoch in range(EPOCHS_W):
+            total_warmup_loss = 0.0
+
+            for domain_name, data in tqdm(replay_data.items(), desc=f"Warming up domain invariant"):
+                loss_warmup = 0.0
+                for text, label in data:
+                    # Domain Knowledge Warmup
+                    optimizer_warmup.zero_grad()
+                    warmup_hidden = llm_cl.warmup_knowledge(text, domain_name)
+                    loss = criterion(warmup_hidden, label)
+                    loss.backward()
+                    loss_warmup += loss.item()
+                    optimizer_warmup.step()
+
+                total_warmup_loss += loss_warmup
+
+            msg = f"Step2 - Epoch {epoch + 1}/{EPOCHS_W}, Warmup Loss: {total_warmup_loss}"
+            print(msg)
+            log_file.write(msg + "\n")
+
+        # Test step
+        llm_cl.prepare_finding(train_data)
+        loss_test = 0.0
+        all_preds = []
+        all_labels = []
+        for text, label in test_data:
+            domain_name = llm_cl.find_best_domain_name(text)
+            output = llm_cl.domain_variant_hidden(text, domain_name)
+            loss_test += criterion(output, label).items()
+            pred = torch.argmax(output, dim=1)
+            all_preds.append(pred)
+            all_labels.append(label)
+
+        all_preds = torch.cat(all_preds)
+        all_labels = torch.cat(all_labels)
+
+        acc, f1 = compute_metrics(all_preds, all_labels)
+        msg = f"Step 3 Loss test: {loss_test / len(test_data)} - Acc test: {acc} - F1_Macro: {f1}"
+        print(msg)
+        log_file.write(msg + "\n")
+
+        if f1 > BEST_F1:
+            torch.save({
+                'model_state_dict': model.state_dict(),
+                'best_f1': f1
+            }, model_path)
+
+        print(f"✅ Saved best model with F1 = {f1:.4f}")
         log_file.close()
 
-        # Updating replay buffer (after training on the domain)
-        self.replay_data[domain_name] = train_domain_data[:self.replay_size]
 
-    def warmup_shared_adapter(self, optimizer):
-        # ===> Warmup using all replay data to align invariant adapter
-        self.warmup.warmup(
-            replay_data=self.replay_data,
-            model=self.model,
-            tokenizer=self.tokenizer,
-            optimizer=optimizer,
-            num_epochs=self.warmup_epochs,
-            batch_size=self.batch_size
-        )
+        # Data
+    train_data = {
+        'domain1': [('text1', 0), ('text2', 1), ('text3', -1)],
+        'domain2': [('text4', -1), ('text5', 1), ('text6', 0)],
+        'domain3': [('text7', 0), ('text8', 1), ('text9', -1)],
+        'domain4': [('text10', 1), ('text11', -1), ('text12', 0)]
+    }
 
-    def prepare_for_inference(self):
-        # ===> Compute domain prototypes for domain positioning
-        self.positioner.compute_prototypes(self.replay_data, self.tokenizer)
+    val_data = {
+        'domain1': [('text1', 0), ('text2', 1), ('text3', -1)],
+        'domain2': [('text4', -1), ('text5', 1), ('text6', 0)],
+        'domain3': [('text7', 0), ('text8', 1), ('text9', -1)],
+        'domain4': [('text10', 1), ('text11', -1), ('text12', 0)]
+    }
 
-    def predict(self, x):
-        # ===> Inference with automatic domain adapter selection
-        best_domain, best_adapter = self.positioner.find_best_domain(x, self.tokenizer)
-        input_ids, _ = self.tokenizer(x, return_tensors="pt").to(self.model.device)
-        outputs = self.get_hidden(self.model, input_ids, best_adapter)
-        return torch.argmax(outputs, dim=-1)
+    test_data = {
+        'domain1': [('text1', 0), ('text2', 1), ('text3', -1)],
+        'domain2': [('text4', -1), ('text5', 1), ('text6', 0)],
+        'domain3': [('text7', 0), ('text8', 1), ('text9', -1)],
+        'domain4': [('text10', 1), ('text11', -1), ('text12', 0)]
+    }
 
-    def evaluate(self, test_data):
-        preds = []
-        labels = []
-        for x, y in test_data:
-            pred = self.predict(x)
-            preds.append(pred.item())
-            labels.append(y)
-        return preds, labels
+    for domain_name, data in train_data.items():
+        train_data[domain_name] = [(text, embed_label(label, DEVICE)) for text, label in data]
+
+    for domain_name, data in val_data.items():
+        val_data[domain_name] = [(text, embed_label(label, DEVICE)) for text, label in data]
+
+    for domain_name, data in test_data.items():
+        test_data[domain_name] = [(text, embed_label(label, DEVICE)) for text, label in data]
+
+    domain_names = list(train_data.keys())
+    chunk_domain_names = split_into_random_chunks(domain_names)
+
+    for chunk in chunk_domain_names:
+        traning_llm_cl(filter_domains(train_data, chunk),
+                       filter_domains(val_data, chunk),
+                       filter_domains(test_data, chunk))
+
+
+
+
+
+
