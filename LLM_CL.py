@@ -59,7 +59,7 @@ class LLM_CL(nn.Module):
         super(LLM_CL, self).__init__()
         self.model = model
         self.tokenizer = tokenizer
-        self.shared_adapter = LoRAAdapter(model.config.hidden_size, out_features=out_features rank=rank).to(model.device)
+        self.shared_adapter = LoRAAdapter(model.config.hidden_size, out_features=out_features, rank=rank).to(model.device)
         self.domain_adapters = {domain_name: LoRAAdapter(model.config.hidden_size, out_features=out_features, rank=rank).to(model.device)
                                 for domain_name in domain_names}
 
