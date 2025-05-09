@@ -284,24 +284,24 @@ if __name__ == "__main__":
                 model.val()
                 mode = "Validating"
 
-            for domain_name, data in tqdm(domain_data.items(), desc=f"{mode} domain variant"):
+            for domain_name, data in domain_data.items():
                 loss_d = []
-                for text, label in data:
+                for text, label in tqdm(data, desc=f"{mode} domain variant for {domain_name}"):
                     # Domain Knowledge Warmup
                     domain_variant_hidden = model.domain_variant_hidden(text, domain_name)
                     loss = criterion(domain_variant_hidden, label)
                     loss_d.append(loss.item())
 
-                    for domain_name, data in tqdm(replay_data.items(), desc=f"{mode} domain invariant"):
-                        loss_s = []
-                        for text, label in data:
-                            # Domain Knowledge Warmup
-                            domain_invariant_hidden = model.domain_invariant_hidden(text)
-                            loss = criterion(domain_invariant_hidden, label)
-                            loss_s.append(loss.item())
+                for domain_name, data in replay_data.items():
+                    loss_s = []
+                    for text, label in tqdm(data, desc=f"{mode} domain invariant for {domain_name}"):
+                        # Domain Knowledge Warmup
+                        domain_invariant_hidden = model.domain_invariant_hidden(text)
+                        loss = criterion(domain_invariant_hidden, label)
+                        loss_s.append(loss.item())
 
-                    if extend_replay:
-                        replay_data[domain_name] = random.sample(data, k=REPLAY_SIZE)
+                if extend_replay:
+                    replay_data[domain_name] = random.sample(data, k=REPLAY_SIZE)
 
             # Orthogonal constraint
             orthogonal_loss = model.decoupler.orthogonal_constraint(
@@ -343,9 +343,9 @@ if __name__ == "__main__":
         for epoch in range(EPOCHS_W):
             total_warmup_loss = 0.0
 
-            for domain_name, data in tqdm(replay_data.items(), desc=f"Warming up domain invariant"):
+            for domain_name, data in replay_data.items():
                 loss_warmup = 0.0
-                for text, label in data:
+                for text, label in tqdm(data, desc=f"Warming up domain invariant at {domain_name}"):
                     # Domain Knowledge Warmup
                     optimizer_warmup.zero_grad()
                     warmup_hidden = llm_cl.warmup_knowledge(text, domain_name)
@@ -365,7 +365,7 @@ if __name__ == "__main__":
         loss_test = 0.0
         all_preds = []
         all_labels = []
-        for text, label in test_data:
+        for text, label in tqdm(test_data, desc="Testing"):
             domain_name = llm_cl.find_best_domain_name(text)
             output = llm_cl.domain_variant_hidden(text, domain_name)
             loss_test += criterion(output, label).items()

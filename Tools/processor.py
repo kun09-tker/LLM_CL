@@ -71,7 +71,7 @@ class AscProcessor(DataProcessor):
             else:
                 label = 0
 
-            examples.append((f"{sentence}:{aspect}", label))
+            examples.append((f'"{sentence}":{aspect}', label))
         return examples
 
 # class InputExample(object):
