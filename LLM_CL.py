@@ -185,7 +185,7 @@ class DomainPositioning:
         return best_domain
 
     def get_hidden(self, model, input_ids, adapter):
-        outputs = self.tokenizer(**input_ids).to(model.device)
+        outputs = model(**input_ids)
         hidden_states = outputs.pooler_output
         lora_output = adapter(hidden_states)
         return lora_output
