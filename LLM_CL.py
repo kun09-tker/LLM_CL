@@ -155,7 +155,7 @@ class DomainPositioning:
         reps = []
         for domain_name, samples in domain_data.items():
             embeddings = []
-            for x, y in samples:
+            for x, y in tqdm(samples, desc=f"Prepare finding for {domain_name}"):
                 input_ids = self.tokenizer(x, return_tensors="pt").to(model.device)
                 hidden_states = self.get_hidden(model, input_ids, shared_adapter)
                 embeddings.append(hidden_states.mean(dim=1))  # Mean pooling
