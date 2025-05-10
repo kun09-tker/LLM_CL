@@ -52,6 +52,7 @@
 import torch
 import random
 import torch.nn as nn
+from tqdm import tqdm
 from Adapters.LoRA import LoRAAdapter
 
 class LLM_CL(nn.Module):
