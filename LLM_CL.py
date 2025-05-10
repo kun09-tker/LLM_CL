@@ -169,7 +169,7 @@ class DomainPositioning:
         self.covariance = torch.matmul(diffs.T, diffs) / len(reps_tensor)
 
     def find_best_domain(self, test_input, model, shared_adapter):
-        input_ids = self.tokenizer(**test_input).to(model.device)
+        input_ids = self.tokenizer(test_input, return_tensors="pt").to(model.device)
         test_embed = self.get_hidden(model, input_ids, shared_adapter).mean(dim=1).squeeze()
 
         best_score = -float('inf')
