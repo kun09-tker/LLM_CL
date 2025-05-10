@@ -93,7 +93,7 @@ class LLM_CL(nn.Module):
         return hidden
 
     def prepare_finding(self, domain_data):
-        self.positioning.compute_prototypes(domain_data, self.model, self.shared_adapter)
+        return self.positioning.compute_prototypes(domain_data, self.model, self.shared_adapter)
 
     def find_best_domain_name(self, test_input):
         return self.positioning.find_best_domain(test_input, self.model, self.shared_adapter)
