@@ -121,7 +121,8 @@ class LLM_CL:
     def predict(self, x):
         # ===> Inference with automatic domain adapter selection
         best_domain, best_adapter = self.positioner.find_best_domain(x, self.tokenizer)
-        input_ids, _ = self.tokenizer(x, return_tensors="pt").to(self.model.device)
+        input_ids, _ = self.tokenizer(x, return_tensors="pt", max_length=128, \
+                                      truncation=True, padding=True).to(self.model.device)
         outputs = self.get_hidden(self.model, input_ids, best_adapter)
         return torch.argmax(outputs, dim=-1)
 
