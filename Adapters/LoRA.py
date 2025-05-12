@@ -26,7 +26,7 @@ import torch.nn.functional as F
 import torch.nn as nn
 
 class LoRAAdapter(nn.Linear):
-    def __init__(self, in_features, out_features, rank=8, lora_alpha=16, lora_dropout=0.1):
+    def __init__(self, in_features, out_features, rank=8, lora_alpha=16, lora_dropout=0.2):
         super().__init__(in_features, out_features)
         self.rank = rank
         self.lora_alpha = lora_alpha
@@ -56,9 +56,6 @@ class LoRAAdapter(nn.Linear):
         lora_output = torch.matmul(lora_output, self.lora_B)
         lora_output = lora_output * self.scaling
         x_lora = x + lora_output
-
-        # Sigmoid activation
-        x_lora = self.lora_dropout(x_lora)
 
         # Kết hợp với linear output
         output = self.output_linear(x_lora)
