@@ -56,13 +56,13 @@ from tqdm import tqdm
 from peft import LoraConfig, get_peft_model
 
 class LLM_CL(nn.Module):
-    def __init__(self, model, tokenizer, domain_names, out_features=3, rank=8):
+    def __init__(self, model, tokenizer, domain_names, out_features=3, rank=8, lora_alpha=16):
         super(LLM_CL, self).__init__()
         self.model = model
         self.tokenizer = tokenizer
         lora_share_config = LoraConfig(
             r=rank,
-            lora_alpha=16,
+            lora_alpha=lora_alpha,
             target_modules=["ffn.lin1", "ffn.lin2"],
             lora_dropout=0.1,
             bias="none",
@@ -72,7 +72,7 @@ class LLM_CL(nn.Module):
         self.domain_adapters = {
             domain_name: get_peft_model(model, LoraConfig(
                 r=rank,
-                lora_alpha=16,
+                lora_alpha=lora_alpha,
                 target_modules=["ffn.lin1", "ffn.lin2"],
                 lora_dropout=0.1,
                 bias="none",
