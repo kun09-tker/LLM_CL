@@ -26,7 +26,7 @@ import torch.nn.functional as F
 import torch.nn as nn
 
 class LoRAAdapter(nn.Linear):
-    def __init__(self, in_features, out_features, rank=8, lora_alpha=16, lora_dropout=0.2):
+    def __init__(self, in_features, out_features, rank=8, lora_alpha=3, lora_dropout=0.1):
         super().__init__(in_features, out_features)
         self.rank = rank
         self.lora_alpha = lora_alpha
