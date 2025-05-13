@@ -53,27 +53,29 @@ import torch
 import random
 import torch.nn as nn
 from tqdm import tqdm
+from Adapters.Linear import LinearWrapper
 from peft import LoraConfig, get_peft_model
 
 class LLM_CL(nn.Module):
     def __init__(self, model, tokenizer, domain_names, out_features=3, rank=8, lora_alpha=16):
         super(LLM_CL, self).__init__()
         self.model = model
+        self.share_base = LinearWrapper(model.config.hidden_size).to(model.device)
         self.tokenizer = tokenizer
         lora_share_config = LoraConfig(
             r=rank,
             lora_alpha=lora_alpha,
-            target_modules=["ffn.lin1", "ffn.lin2"],
+            target_modules=["linear"],
             lora_dropout=0.1,
             bias="none",
             task_type="FEATURE_EXTRACTION"
         )
-        self.shared_adapter = get_peft_model(model, lora_share_config)
+        self.shared_adapter = get_peft_model(self.share_base, lora_share_config)
         self.domain_adapters = {
             domain_name: get_peft_model(model, LoraConfig(
                 r=rank,
                 lora_alpha=lora_alpha,
-                target_modules=["ffn.lin1", "ffn.lin2"],
+                target_modules=["layer.5.ffn.lin2"],
                 lora_dropout=0.1,
                 bias="none",
                 task_type="FEATURE_EXTRACTION"
@@ -96,6 +98,9 @@ class LLM_CL(nn.Module):
         self.positioning = DomainPositioning(tokenizer, self.attention, self.classifier)
 
         for param in self.model.parameters():
+            param.requires_grad = False
+
+        for param in self.share_base.parameters():
             param.requires_grad = False
 
     def domain_variant_hidden(self, x, domain_name):
@@ -142,44 +147,34 @@ class DomainKnowledgeDecoupler:
         adapted_hidden_states = self.classifier(attn_pooled)
         return adapted_hidden_states
 
-    def orthogonal_constraint(self, domain_adapter, shared_adapter):
-        orthogonal_loss = 0.0
-        domain_state_dict = domain_adapter.state_dict()
-        shared_state_dict = shared_adapter.state_dict()
+def orthogonal_constraint(self, domain_adapter, shared_adapter):
+    orthogonal_loss = 0.0
+    domain_state_dict = domain_adapter.state_dict()
+    shared_state_dict = shared_adapter.state_dict()
 
-        for key in domain_state_dict:
-            if 'lora_A.weight' in key:
-                # Get A_i and A_s
-                print("Find A_i")
-                A_i = domain_state_dict[key]  # Shape: [rank, in_features]
-                A_s_key = key.replace('domain', 'base') if 'domain' in key else key
-                if A_s_key in shared_state_dict:
-                    print("Find A_s")
-                    A_s = shared_state_dict[A_s_key]  # Shape: [rank, in_features]
-                    # Compute ||A_i^T * A_s||^2
-                    A_orth = torch.matmul(A_i.T, A_s)  # [in_features, in_features]
-                    A_orth_norm = torch.norm(A_orth, p='fro') ** 2
-                    orthogonal_loss += A_orth_norm
-                else:
-                    print("Not Find A_s")
-            elif 'lora_B.weight' in key:
-                # Get B_i and B_s
-                print("Find B_i")
-                B_i = domain_state_dict[key]  # Shape: [out_features, rank]
-                B_s_key = key.replace('domain', 'base') if 'domain' in key else key
-                if B_s_key in shared_state_dict:
-                    print("Find B_s")
-                    B_s = shared_state_dict[B_s_key]  # Shape: [out_features, rank]
-                    # Compute ||B_i^T * B_s||^2
-                    B_orth = torch.matmul(B_i.T, B_s)  # [rank, rank]
-                    B_orth_norm = torch.norm(B_orth, p='fro') ** 2
-                    orthogonal_loss += B_orth_norm
-                else:
-                    print("Not Find B_i")
-            else:
-                print("Not find all")
+    for key in domain_state_dict:
+        if "lora_A" in key:
+            Ai = domain_state_dict[key]
+            Ai_T = torch.transpose(Ai, 0, 1)
+        if "lora_B" in key:
+            Bi = domain_state_dict[key]
+            Bi_T = torch.transpose(Bi, 0, 1)
 
-        return orthogonal_loss
+    for key in shared_state_dict:
+        if "lora_A" in key:
+            As = shared_state_dict[key]
+        if "lora_B" in key:
+            Bs = shared_state_dict[key]
+
+    A_orth = torch.matmul(Ai_T, As)  # [in_features, in_features]
+    A_orth_norm = torch.norm(A_orth, p='fro') ** 2
+
+    B_orth = torch.matmul(Bi_T, Bs)  # [out_features, out_features]
+    B_orth_norm = torch.norm(B_orth, p='fro') ** 2
+
+    orthogonal_loss = A_orth_norm + B_orth_norm
+
+    return orthogonal_loss
 
 class DomainKnowledgeWarmup:
     def __init__(self, tokenizer, attention, classifier):
