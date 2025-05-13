@@ -66,7 +66,7 @@ class LLM_CL(nn.Module):
             target_modules=["ffn.lin1", "ffn.lin2"],
             lora_dropout=0.1,
             bias="none",
-            task_type="FEATURE_EXTRACT"
+            task_type="FEATURE_EXTRACTION"
         )
         self.shared_adapter = get_peft_model(model, lora_share_config)
         self.domain_adapters = {
@@ -76,7 +76,7 @@ class LLM_CL(nn.Module):
                 target_modules=["ffn.lin1", "ffn.lin2"],
                 lora_dropout=0.1,
                 bias="none",
-                task_type="FEATURE_EXTRACT"
+                task_type="FEATURE_EXTRACTION"
             )) for domain_name in domain_names
         }
         self.attention = nn.MultiheadAttention(embed_dim=768, num_heads=4, dropout=0.1)
