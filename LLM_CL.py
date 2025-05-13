@@ -143,14 +143,37 @@ class DomainKnowledgeDecoupler:
         return adapted_hidden_states
 
     def orthogonal_constraint(self, domain_adapter, shared_adapter):
+        orthogonal_loss = 0.0
         domain_state_dict = domain_adapter.state_dict()
         shared_state_dict = shared_adapter.state_dict()
-        print(f"D {domain_state_dict}")
-        print(f"S {shared_state_dict}")
-        domain_params = torch.cat([p.flatten() for p in domain_adapter.parameters()])
-        shared_params = torch.cat([p.flatten() for p in shared_adapter.parameters()])
-        orth_loss = torch.dot(domain_params, shared_params) ** 2
-        return orth_loss
+
+        for key in domain_state_dict:
+            if 'lora_A.weight' in key:
+                # Get A_i and A_s
+                print("Find A_i")
+                A_i = domain_state_dict[key]  # Shape: [rank, in_features]
+                A_s_key = key.replace('domain', 'base') if 'domain' in key else key
+                if A_s_key in shared_state_dict:
+                    print("Find A_s")
+                    A_s = shared_state_dict[A_s_key]  # Shape: [rank, in_features]
+                    # Compute ||A_i^T * A_s||^2
+                    A_orth = torch.matmul(A_i.T, A_s)  # [in_features, in_features]
+                    A_orth_norm = torch.norm(A_orth, p='fro') ** 2
+                    orthogonal_loss += A_orth_norm
+            elif 'lora_B.weight' in key:
+                # Get B_i and B_s
+                print("Find B_i")
+                B_i = domain_state_dict[key]  # Shape: [out_features, rank]
+                B_s_key = key.replace('domain', 'base') if 'domain' in key else key
+                if B_s_key in shared_state_dict:
+                    print("Find B_s")
+                    B_s = shared_state_dict[B_s_key]  # Shape: [out_features, rank]
+                    # Compute ||B_i^T * B_s||^2
+                    B_orth = torch.matmul(B_i.T, B_s)  # [rank, rank]
+                    B_orth_norm = torch.norm(B_orth, p='fro') ** 2
+                    orthogonal_loss += B_orth_norm
+
+        return orthogonal_loss
 
 class DomainKnowledgeWarmup:
     def __init__(self, tokenizer, attention, classifier):
