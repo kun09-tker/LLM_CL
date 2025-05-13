@@ -93,7 +93,7 @@ class LLM_CL(nn.Module):
 
         self.decoupler = DomainKnowledgeDecoupler(tokenizer, self.attention, self.classifier)
         self.warmup = DomainKnowledgeWarmup(tokenizer, self.attention, self.classifier)
-        self.positioning = DomainPositioning(tokenizer, self.attention, self.c)
+        self.positioning = DomainPositioning(tokenizer, self.attention, self.classifier)
 
         for param in self.model.parameters():
             param.requires_grad = False
