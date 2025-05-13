@@ -53,127 +53,148 @@ import torch
 import random
 import torch.nn as nn
 from tqdm import tqdm
-from Adapters.LoRA import LoRAAdapter
+from peft import LoraConfig, get_peft_model
 
 class LLM_CL(nn.Module):
     def __init__(self, model, tokenizer, domain_names, out_features=3, rank=8):
         super(LLM_CL, self).__init__()
         self.model = model
         self.tokenizer = tokenizer
-        self.shared_adapter = LoRAAdapter(model.config.hidden_size, out_features=out_features, rank=rank).to(model.device)
-        self.domain_adapters = {domain_name: LoRAAdapter(model.config.hidden_size, out_features=out_features, rank=rank).to(model.device)
-                                for domain_name in domain_names}
+        lora_share_config = LoraConfig(
+            r=rank,
+            lora_alpha=16,
+            target_modules=["ffn.lin1", "ffn.lin2"],
+            lora_dropout=0.1,
+            bias="none",
+            task_type="FEATURE_EXTRACT"
+        )
+        self.shared_adapter = get_peft_model(model, lora_share_config)
+        self.domain_adapters = {
+            domain_name: get_peft_model(model, LoraConfig(
+                r=rank,
+                lora_alpha=16,
+                target_modules=["ffn.lin1", "ffn.lin2"],
+                lora_dropout=0.1,
+                bias="none",
+                task_type="FEATURE_EXTRACT"
+            )) for domain_name in domain_names
+        }
         self.attention = nn.MultiheadAttention(embed_dim=768, num_heads=4, dropout=0.1)
 
-        self.decoupler = DomainKnowledgeDecoupler(tokenizer, self.attention)
-        self.warmup = DomainKnowledgeWarmup(tokenizer, self.attention)
-        self.positioning = DomainPositioning(tokenizer, self.attention)
+        self.classifier = nn.Sequential(
+            nn.Linear(768, 256),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(256, 64),
+            nn.Tanh(),
+            nn.Dropout(0.3),
+            nn.Linear(64, out_features)
+        ).to(self.model.device)
+
+        self.decoupler = DomainKnowledgeDecoupler(tokenizer, self.attention, self.classifier)
+        self.warmup = DomainKnowledgeWarmup(tokenizer, self.attention, self.classifier)
+        self.positioning = DomainPositioning(tokenizer, self.attention, self.c)
 
         for param in self.model.parameters():
             param.requires_grad = False
 
     def domain_variant_hidden(self, x, domain_name):
-        hidden = self.decoupler(
-                            x, self.model,
-                            self.domain_adapters[domain_name]
-                        )
+        hidden = self.decoupler(x, self.domain_adapters[domain_name])
         return hidden
     def domain_invariant_hidden(self, x_replay):
-        hidden = self.decoupler(
-                            x_replay, self.model,
-                            self.shared_adapter,
-                        )
+        hidden = self.decoupler(x_replay, self.shared_adapter)
         return hidden
 
     def warmup_knowledge(self, x_replay, domain_name):
-        hidden = self.warmup(
-                            x_replay, self.model,
-                            self.shared_adapter,
-                            self.domain_adapters[domain_name]
-                        )
+        hidden = self.warmup(x_replay, self.shared_adapter, self.domain_adapters[domain_name])
         return hidden
 
     def prepare_finding(self, domain_data):
-        return self.positioning.compute_prototypes(domain_data, self.model, self.shared_adapter)
+        return self.positioning.compute_prototypes(domain_data, self.shared_adapter)
 
     def find_best_domain_name(self, test_input):
-        return self.positioning.find_best_domain(test_input, self.model, self.shared_adapter)
+        return self.positioning.find_best_domain(test_input, self.shared_adapter)
 
 class DomainKnowledgeDecoupler:
-    def __init__(self, tokenizer, attention):
+    def __init__(self, tokenizer, attention, classifier):
         self.tokenizer = tokenizer
         self.attention = attention
+        self.classifier = classifier
 
-    def __call__(self, x, model, adapter):
-        return self.forward(x, model, adapter)
+    def __call__(self, x, adapter):
+        return self.forward(x, adapter)
 
-    def forward(self, x, model, adapter):
+    def forward(self, x, adapter):
         # Tokenize the input
         tokenized_input = self.tokenizer(x, return_tensors='pt', max_length=128, \
-                                         truncation=True, padding=True).to(model.device)
-        return self.get_hidden(tokenized_input, model, adapter)
+                                         truncation=True, padding=True).to(adapter.device)
+        return self.get_hidden(tokenized_input, adapter)
 
-    def get_hidden(self, tokenized_input, model, adapter):
+    def get_hidden(self, tokenized_input, adapter):
         # Get the hidden states from the model
-        outputs = model(**tokenized_input)
+        outputs = adapter(**tokenized_input)
         hidden_states = outputs.last_hidden_state
         hidden_states = hidden_states.permute(1, 0, 2)
         attn_output, _ = self.attention(hidden_states, hidden_states, hidden_states)
         attn_output = attn_output.permute(1, 0, 2)
         attn_pooled = attn_output.mean(dim=1)
         # Apply the adapter to the hidden states
-        adapted_hidden_states = torch.sigmoid(adapter(attn_pooled))
+        adapted_hidden_states = self.classifier(attn_pooled)
         return adapted_hidden_states
 
     def orthogonal_constraint(self, domain_adapter, shared_adapter):
-        A_orth = torch.matmul(domain_adapter.lora_A.T, shared_adapter.lora_A)
-        B_orth = torch.matmul(domain_adapter.lora_B.T, shared_adapter.lora_B)
-
-        A_orth = torch.norm(A_orth, p='fro')
-        B_orth = torch.norm(B_orth, p='fro')
-
-        orthogonal_loss = A_orth ** 2 + B_orth ** 2
-        return orthogonal_loss
+        domain_params = torch.cat([p.flatten() for p in domain_adapter.parameters()])
+        shared_params = torch.cat([p.flatten() for p in shared_adapter.parameters()])
+        orth_loss = torch.dot(domain_params, shared_params) ** 2
+        return orth_loss
 
 class DomainKnowledgeWarmup:
-    def __init__(self, tokenizer, attention):
+    def __init__(self, tokenizer, attention, classifier):
         self.tokenizer = tokenizer
         self.attention = attention
+        self.classifier = classifier
 
     def __call__(self, x_replay, model, shared_adapter, domain_adapter):
         return self.forward(x_replay, model, shared_adapter, domain_adapter)
 
-    def forward(self, x_replay, model, shared_adapter, domain_adapter):
+    def forward(self, x_replay, shared_adapter, domain_adapter):
         # Tokenize the input
         tokenized_input = self.tokenizer(x_replay, return_tensors='pt', max_length=128, \
-                                         truncation=True, padding=True).to(model.device)
-        return self.get_hidden(tokenized_input, model, shared_adapter, domain_adapter)
+                                         truncation=True, padding=True).to(shared_adapter.device)
+        return self.get_hidden(tokenized_input, shared_adapter, domain_adapter)
 
-    def get_hidden(self, tokenized_input, model, shared_adapter, domain_adapter):
-        # Get the hidden states from the model
-        hidden_states = model(**tokenized_input).last_hidden_state
-        hidden_states = hidden_states.permute(1, 0, 2)
+    def get_hidden(self, tokenized_input, shared_adapter, domain_adapter):
+        # Shared adapter output
+        hidden_states = shared_adapter(**tokenized_input).last_hidden_state  # [batch_size, seq_len, 768]
+        hidden_states = hidden_states.permute(1, 0, 2)  # [seq_len, batch_size, 768]
         attn_output, _ = self.attention(hidden_states, hidden_states, hidden_states)
-        attn_output = attn_output.permute(1, 0, 2)
-        attn_pooled = attn_output.mean(dim=1)
-        hidden = torch.sigmoid(shared_adapter(attn_pooled)) + torch.sigmoid(domain_adapter(attn_pooled))
+        attn_output = attn_output.permute(1, 0, 2)  # [batch_size, seq_len, 768]
+        attn_pooled = attn_output.mean(dim=1)  # [batch_size, 768]
+        shared_output = self.classifier(attn_pooled)  # [batch_size, out_features]
+        # Domain adapter output
+        domain_hidden = domain_adapter(**tokenized_input).last_hidden_state  # [batch_size, seq_len, 768]
+        domain_pooled = domain_hidden.mean(dim=1)  # [batch_size, 768]
+        domain_output = self.classifier(domain_pooled)  # [batch_size, out_features]
+        # Combine outputs
+        hidden = shared_output + domain_output
         return hidden
 
 class DomainPositioning:
-    def __init__(self, tokenizer, attention):
+    def __init__(self, tokenizer, attention, classifier):
         self.tokenizer = tokenizer
         self.attention = attention
+        self.classifier = classifier
         self.domain_prototypes = {}
         self.covariance = None
 
-    def compute_prototypes(self, domain_data, model, shared_adapter):
+    def compute_prototypes(self, domain_data, shared_adapter):
         reps = []
         for domain_name, samples in domain_data.items():
             embeddings = []
             for x, y in tqdm(samples, desc=f"Prepare finding for {domain_name}"):
                 input_ids = self.tokenizer(x, return_tensors="pt", max_length=128, \
-                                           truncation=True, padding=True).to(model.device)
-                hidden_states = self.get_hidden(model, input_ids, shared_adapter)
+                                           truncation=True, padding=True).to(shared_adapter.device)
+                hidden_states = self.get_hidden(input_ids, shared_adapter)
                 embeddings.append(hidden_states.mean(dim=1))  # Mean pooling
             domain_rep = torch.stack(embeddings).mean(dim=0)
             self.domain_prototypes[domain_name] = domain_rep
@@ -184,10 +205,10 @@ class DomainPositioning:
         self.covariance = torch.matmul(diffs.T, diffs) / len(reps_tensor)
         return self.covariance, self.domain_prototypes
 
-    def find_best_domain(self, test_input, model, shared_adapter):
+    def find_best_domain(self, test_input, shared_adapter):
         input_ids = self.tokenizer(test_input, return_tensors="pt", max_length=128, \
-                                   truncation=True, padding=True).to(model.device)
-        test_embed = self.get_hidden(model, input_ids, shared_adapter).mean(dim=1).squeeze()
+                                   truncation=True, padding=True).to(shared_adapter.device)
+        test_embed = self.get_hidden(input_ids, shared_adapter).mean(dim=1).squeeze()
 
         best_score = -float('inf')
         best_domain = None
@@ -202,14 +223,14 @@ class DomainPositioning:
 
         return best_domain
 
-    def get_hidden(self, model, input_ids, adapter):
-        outputs = model(**input_ids)
+    def get_hidden(self, input_ids, adapter):
+        outputs = adapter(**input_ids)
         hidden_states = outputs.last_hidden_state
         hidden_states = hidden_states.permute(1, 0, 2)
         attn_output, _ = self.attention(hidden_states, hidden_states, hidden_states)
         attn_output = attn_output.permute(1, 0, 2)
         attn_pooled = attn_output.mean(dim=1)
-        lora_output = torch.sigmoid(adapter(attn_pooled))
+        lora_output = self.classifier(attn_pooled)
         return lora_output
 
 if __name__ == "__main__":
