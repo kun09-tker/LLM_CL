@@ -145,8 +145,8 @@ class DomainKnowledgeDecoupler:
     def orthogonal_constraint(self, domain_adapter, shared_adapter):
         domain_state_dict = domain_adapter.state_dict()
         shared_state_dict = shared_adapter.state_dict()
-        print(f"D {domain_state_dict}")
-        print(f"S {shared_state_dict}")
+        print(f"D {domain_state_dict[0]}")
+        print(f"S {shared_state_dict[0]}")
         domain_params = torch.cat([p.flatten() for p in domain_adapter.parameters()])
         shared_params = torch.cat([p.flatten() for p in shared_adapter.parameters()])
         orth_loss = torch.dot(domain_params, shared_params) ** 2
