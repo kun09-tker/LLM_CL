@@ -160,6 +160,8 @@ class DomainKnowledgeDecoupler:
                     A_orth = torch.matmul(A_i.T, A_s)  # [in_features, in_features]
                     A_orth_norm = torch.norm(A_orth, p='fro') ** 2
                     orthogonal_loss += A_orth_norm
+                else:
+                    print("Not Find A_s")
             elif 'lora_B.weight' in key:
                 # Get B_i and B_s
                 print("Find B_i")
@@ -172,6 +174,10 @@ class DomainKnowledgeDecoupler:
                     B_orth = torch.matmul(B_i.T, B_s)  # [rank, rank]
                     B_orth_norm = torch.norm(B_orth, p='fro') ** 2
                     orthogonal_loss += B_orth_norm
+                else:
+                    print("Not Find B_i")
+            else:
+                print("Not find all")
 
         return orthogonal_loss
 
