@@ -134,8 +134,8 @@ class DomainKnowledgeDecoupler:
         self.attention = attention
         self.classifier = classifier
 
-    def __call__(self, x, adapter):
-        return self.forward(x, adapter)
+    def __call__(self, x, model, adapter):
+        return self.forward(x, model, adapter)
 
     def forward(self, x, model, adapter):
         # Tokenize the input
