@@ -67,8 +67,7 @@ class LLM_CL(nn.Module):
             lora_alpha=lora_alpha,
             target_modules=["linear"],
             lora_dropout=0.1,
-            bias="none",
-            task_type="FEATURE_EXTRACTION"
+            bias="none"
         )
         self.shared_adapter = get_peft_model(
             LinearWrapper(model.config.hidden_size).to(model.device),
@@ -80,8 +79,7 @@ class LLM_CL(nn.Module):
             lora_alpha=lora_alpha,
             target_modules=["linear"],
             lora_dropout=0.1,
-            bias="none",
-            task_type="FEATURE_EXTRACTION"
+            bias="none"
         )
         self.domain_adapters = {
             domain_name: get_peft_model(
