@@ -154,34 +154,34 @@ class DomainKnowledgeDecoupler:
         classifier_hidden = self.classifier(adapted_hidden)
         return classifier_hidden
 
-def orthogonal_constraint(self, domain_adapter, shared_adapter):
-    orthogonal_loss = 0.0
-    domain_state_dict = domain_adapter.state_dict()
-    shared_state_dict = shared_adapter.state_dict()
+    def orthogonal_constraint(self, domain_adapter, shared_adapter):
+        orthogonal_loss = 0.0
+        domain_state_dict = domain_adapter.state_dict()
+        shared_state_dict = shared_adapter.state_dict()
 
-    for key in domain_state_dict:
-        if "lora_A" in key:
-            Ai = domain_state_dict[key]
-            Ai_T = torch.transpose(Ai, 0, 1)
-        if "lora_B" in key:
-            Bi = domain_state_dict[key]
-            Bi_T = torch.transpose(Bi, 0, 1)
+        for key in domain_state_dict:
+            if "lora_A" in key:
+                Ai = domain_state_dict[key]
+                Ai_T = torch.transpose(Ai, 0, 1)
+            if "lora_B" in key:
+                Bi = domain_state_dict[key]
+                Bi_T = torch.transpose(Bi, 0, 1)
 
-    for key in shared_state_dict:
-        if "lora_A" in key:
-            As = shared_state_dict[key]
-        if "lora_B" in key:
-            Bs = shared_state_dict[key]
+        for key in shared_state_dict:
+            if "lora_A" in key:
+                As = shared_state_dict[key]
+            if "lora_B" in key:
+                Bs = shared_state_dict[key]
 
-    A_orth = torch.matmul(Ai_T, As)  # [in_features, in_features]
-    A_orth_norm = torch.norm(A_orth, p='fro') ** 2
+        A_orth = torch.matmul(Ai_T, As)  # [in_features, in_features]
+        A_orth_norm = torch.norm(A_orth, p='fro') ** 2
 
-    B_orth = torch.matmul(Bi_T, Bs)  # [out_features, out_features]
-    B_orth_norm = torch.norm(B_orth, p='fro') ** 2
+        B_orth = torch.matmul(Bi_T, Bs)  # [out_features, out_features]
+        B_orth_norm = torch.norm(B_orth, p='fro') ** 2
 
-    orthogonal_loss = A_orth_norm + B_orth_norm
+        orthogonal_loss = A_orth_norm + B_orth_norm
 
-    return orthogonal_loss
+        return orthogonal_loss
 
 class DomainKnowledgeWarmup:
     def __init__(self, tokenizer, attention, classifier):
