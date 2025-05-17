@@ -51,27 +51,35 @@ class AscProcessor(DataProcessor):
     def _create_examples(self, lines, set_type):
         """Creates examples for the training and dev sets."""
         examples = []
+        count_p = 0
+        count_n = 0
         for (i, ids) in enumerate(lines):
             id = "%s-%s" % (set_type, ids )
             aspect = lines[ids]['term']
             sentence = lines[ids]['sentence']
             label = lines[ids]['polarity']
 
-            if label == "+":
-                label = "positive"
-            elif label == "-":
-                label = "negative"
-            else:
-                label = "neutral"
+            # if label == "+":
+            #     label = "positive"
+            # elif label == "-":
+            #     label = "negative"
+            # else:
+            #     label = "neutral"
 
-            if label == "positive":
+            # print(f"{label}")
+            if label == "positive" or label == "+":
+                count_p += 1
                 label = 1
-            elif label == "negative":
+            elif label == "negative" or label == "-":
+                count_n += 1
                 label = -1
             else:
                 label = 0
 
             examples.append((f'"{sentence}":{aspect}', label))
+
+        print(count_p)
+        print(count_n)
         return examples
 
 # class InputExample(object):
