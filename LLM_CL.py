@@ -153,8 +153,8 @@ class DomainKnowledgeDecoupler:
 
         outputs = model(**tokenized_input)
         hidden_states = outputs.last_hidden_state
-        hidden_states = hidden_states.permute(1, 0, 2)
 
+        # hidden_states = hidden_states.permute(1, 0, 2)
         # attn_output, _ = self.attention(hidden_states, hidden_states, hidden_states)
         # attn_output = attn_output.permute(1, 0, 2)
         # attn_pooled = attn_output.mean(dim=1)
@@ -216,8 +216,8 @@ class DomainKnowledgeWarmup:
     def get_hidden(self, tokenized_input, model, shared_adapter, domain_adapter):
 
         hidden_states = model(**tokenized_input).last_hidden_state
-        hidden_states = hidden_states.permute(1, 0, 2)
 
+        # hidden_states = hidden_states.permute(1, 0, 2)
         # attn_output, _ = self.attention(hidden_states, hidden_states, hidden_states)
         # attn_output = attn_output.permute(1, 0, 2)
         # attn_pooled = attn_output.mean(dim=1)
@@ -284,8 +284,8 @@ class DomainPositioning:
     def get_hidden(self, input_ids, model, adapter):
         outputs = model(**input_ids)
         hidden_states = outputs.last_hidden_state
-        hidden_states = hidden_states.permute(1, 0, 2)
 
+        # hidden_states = hidden_states.permute(1, 0, 2)
         # attn_output, _ = self.attention(hidden_states, hidden_states, hidden_states)
         # attn_output = attn_output.permute(1, 0, 2)
         # attn_pooled = attn_output.mean(dim=1)
