@@ -88,7 +88,7 @@ class LLM_CL(nn.Module):
             ) for domain_name in domain_names
         }
 
-        self.attention = nn.MultiheadAttention(embed_dim=768, num_heads=4, dropout=0.1)
+        # self.attention = nn.MultiheadAttention(embed_dim=768, num_heads=4, dropout=0.1)
 
         self.classifier = nn.Sequential(
             nn.Linear(768, 256),
@@ -100,9 +100,13 @@ class LLM_CL(nn.Module):
             nn.Linear(64, out_features)
         ).to(self.model.device)
 
-        self.decoupler = DomainKnowledgeDecoupler(tokenizer, self.attention, self.classifier)
-        self.warmup = DomainKnowledgeWarmup(tokenizer, self.attention, self.classifier)
-        self.positioning = DomainPositioning(tokenizer, self.attention, self.classifier)
+        # self.decoupler = DomainKnowledgeDecoupler(tokenizer, self.attention, self.classifier)
+        # self.warmup = DomainKnowledgeWarmup(tokenizer, self.attention, self.classifier)
+        # self.positioning = DomainPositioning(tokenizer, self.attention, self.classifier)
+
+        self.decoupler = DomainKnowledgeDecoupler(tokenizer, self.classifier)
+        self.warmup = DomainKnowledgeWarmup(tokenizer, self.classifier)
+        self.positioning = DomainPositioning(tokenizer, self.classifier)
 
         for param in self.model.parameters():
             param.requires_grad = False
@@ -127,9 +131,13 @@ class LLM_CL(nn.Module):
         return self.positioning.find_best_domain(test_input, self.model, self.shared_adapter)
 
 class DomainKnowledgeDecoupler:
-    def __init__(self, tokenizer, attention, classifier):
+    # def __init__(self, tokenizer, attention, classifier):
+    #     self.tokenizer = tokenizer
+    #     self.attention = attention
+    #     self.classifier = classifier
+
+    def __init__(self, tokenizer, classifier):
         self.tokenizer = tokenizer
-        self.attention = attention
         self.classifier = classifier
 
     def __call__(self, x, model, adapter):
@@ -142,15 +150,19 @@ class DomainKnowledgeDecoupler:
         return self.get_hidden(tokenized_input, model, adapter)
 
     def get_hidden(self, tokenized_input, model, adapter):
-        # Get the hidden states from the model
+
         outputs = model(**tokenized_input)
         hidden_states = outputs.last_hidden_state
         hidden_states = hidden_states.permute(1, 0, 2)
-        attn_output, _ = self.attention(hidden_states, hidden_states, hidden_states)
-        attn_output = attn_output.permute(1, 0, 2)
-        attn_pooled = attn_output.mean(dim=1)
-        # Apply the adapter to the hidden states
-        adapted_hidden = adapter(attn_pooled)
+
+        # attn_output, _ = self.attention(hidden_states, hidden_states, hidden_states)
+        # attn_output = attn_output.permute(1, 0, 2)
+        # attn_pooled = attn_output.mean(dim=1)
+        # adapted_hidden = adapter(attn_pooled)
+
+        hidden_states =  hidden_states.mean(dim=1)
+        adapted_hidden = adapter(hidden_states)
+
         classifier_hidden = self.classifier(adapted_hidden)
         return classifier_hidden
 
@@ -184,9 +196,12 @@ class DomainKnowledgeDecoupler:
         return orthogonal_loss
 
 class DomainKnowledgeWarmup:
-    def __init__(self, tokenizer, attention, classifier):
+    # def __init__(self, tokenizer, attention, classifier):
+    #     self.tokenizer = tokenizer
+    #     self.attention = attention
+    #     self.classifier = classifier
+    def __init__(self, tokenizer, classifier):
         self.tokenizer = tokenizer
-        self.attention = attention
         self.classifier = classifier
 
     def __call__(self, x_replay, model, shared_adapter, domain_adapter):
@@ -200,22 +215,32 @@ class DomainKnowledgeWarmup:
 
     def get_hidden(self, tokenized_input, model, shared_adapter, domain_adapter):
 
-        hidden_states = model(**tokenized_input).last_hidden_state  # [batch_size, seq_len, 768]
-        hidden_states = hidden_states.permute(1, 0, 2)  # [seq_len, batch_size, 768]
-        attn_output, _ = self.attention(hidden_states, hidden_states, hidden_states)
-        attn_output = attn_output.permute(1, 0, 2)  # [batch_size, seq_len, 768]
-        attn_pooled = attn_output.mean(dim=1)  # [batch_size, 768]
-        # Shared adapter output
-        shared_adapter_hidden = shared_adapter(attn_pooled)
-        # Domain adapter output
-        domain_adapter_hidden = domain_adapter(attn_pooled)
-        # Combine outputs
+        hidden_states = model(**tokenized_input).last_hidden_state
+        hidden_states = hidden_states.permute(1, 0, 2)
+
+        # attn_output, _ = self.attention(hidden_states, hidden_states, hidden_states)
+        # attn_output = attn_output.permute(1, 0, 2)
+        # attn_pooled = attn_output.mean(dim=1)
+
+        # shared_adapter_hidden = shared_adapter(attn_pooled)
+        # domain_adapter_hidden = domain_adapter(attn_pooled)
+
+        hidden_states = hidden_states.mean(dim=1)
+        shared_adapter_hidden = shared_adapter(hidden_states)
+        domain_adapter_hidden = domain_adapter(hidden_states)
+
         return self.classifier(shared_adapter_hidden + domain_adapter_hidden)
 
 class DomainPositioning:
-    def __init__(self, tokenizer, attention, classifier):
+    # def __init__(self, tokenizer, attention, classifier):
+    #     self.tokenizer = tokenizer
+    #     self.attention = attention
+    #     self.classifier = classifier
+    #     self.domain_prototypes = {}
+    #     self.covariance = None
+
+    def __init__(self, tokenizer, classifier):
         self.tokenizer = tokenizer
-        self.attention = attention
         self.classifier = classifier
         self.domain_prototypes = {}
         self.covariance = None
@@ -260,10 +285,15 @@ class DomainPositioning:
         outputs = model(**input_ids)
         hidden_states = outputs.last_hidden_state
         hidden_states = hidden_states.permute(1, 0, 2)
-        attn_output, _ = self.attention(hidden_states, hidden_states, hidden_states)
-        attn_output = attn_output.permute(1, 0, 2)
-        attn_pooled = attn_output.mean(dim=1)
-        adapted_hidden = adapter(attn_pooled)
+
+        # attn_output, _ = self.attention(hidden_states, hidden_states, hidden_states)
+        # attn_output = attn_output.permute(1, 0, 2)
+        # attn_pooled = attn_output.mean(dim=1)
+        # adapted_hidden = adapter(attn_pooled)
+
+        hidden_states = hidden_states.mean(dim=1)
+        adapted_hidden = adapter(hidden_states)
+
         lora_output = self.classifier(adapted_hidden)
         return lora_output
 
