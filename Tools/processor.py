@@ -78,8 +78,10 @@ class AscProcessor(DataProcessor):
 
             examples.append({
                 "text": sentence,
-                "aspects": aspect,
-                "labels": label
+                "aspects": [{
+                    "category": aspect,
+                    "polarity": label
+                }],
             })
 
         print(count_p)
