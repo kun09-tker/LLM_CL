@@ -69,14 +69,18 @@ class AscProcessor(DataProcessor):
             # print(f"{label}")
             if label == "positive" or label == "+":
                 count_p += 1
-                label = 1
+                label = "positive"
             elif label == "negative" or label == "-":
                 count_n += 1
-                label = -1
+                label = "negative"
             else:
-                label = 0
+                label = "neutral"
 
-            examples.append((f'"{sentence}":{aspect}', label))
+            examples.append({
+                "text": sentence,
+                "aspects": aspect,
+                "labels": label
+            })
 
         print(count_p)
         print(count_n)
