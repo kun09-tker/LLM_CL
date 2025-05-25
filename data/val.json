@@ -1,0 +1,4435 @@
+{
+    "rest": [
+        {
+            "text": "This is the only Thai place I go too in NYC, it's wonderful, and live relaxed Jazz on certain nights.",
+            "aspects": "Jazz",
+            "labels": "positive"
+        },
+        {
+            "text": "The service was typical short-order, dinner type.",
+            "aspects": "service",
+            "labels": "neutral"
+        },
+        {
+            "text": "Because of the delicate thin crust, take-out pies get soggy in their boxes.",
+            "aspects": "crust",
+            "labels": "negative"
+        },
+        {
+            "text": "Because of the delicate thin crust, take-out pies get soggy in their boxes.",
+            "aspects": "take-out pies",
+            "labels": "negative"
+        },
+        {
+            "text": "however, it's the service that leaves a bad taste in my mouth.",
+            "aspects": "service",
+            "labels": "negative"
+        },
+        {
+            "text": "The selection changes frequently but the basic dishes are always available.",
+            "aspects": "selection",
+            "labels": "neutral"
+        },
+        {
+            "text": "I really recommend the very simple Unda (Egg) rolls.",
+            "aspects": "Unda (Egg) rolls",
+            "labels": "positive"
+        },
+        {
+            "text": "To my right, the hostess stood over a busboy and hissed rapido, rapido as he tried to clear and re-set a table for six.",
+            "aspects": "table",
+            "labels": "neutral"
+        },
+        {
+            "text": "To my right, the hostess stood over a busboy and hissed rapido, rapido as he tried to clear and re-set a table for six.",
+            "aspects": "hostess",
+            "labels": "negative"
+        },
+        {
+            "text": "The place's decor and hidden bathrooms made for a good laugh.",
+            "aspects": "decor",
+            "labels": "positive"
+        },
+        {
+            "text": "The place's decor and hidden bathrooms made for a good laugh.",
+            "aspects": "bathrooms",
+            "labels": "positive"
+        },
+        {
+            "text": "For appetizers, I recommend the shrimp fritters and dumplings.",
+            "aspects": "dumplings",
+            "labels": "positive"
+        },
+        {
+            "text": "For appetizers, I recommend the shrimp fritters and dumplings.",
+            "aspects": "appetizers",
+            "labels": "neutral"
+        },
+        {
+            "text": "For appetizers, I recommend the shrimp fritters and dumplings.",
+            "aspects": "shrimp fritters",
+            "labels": "positive"
+        },
+        {
+            "text": "Veal Parmigana - Better than Patsy's!",
+            "aspects": "Veal Parmigana",
+            "labels": "positive"
+        },
+        {
+            "text": "They need a kick out of it but until then the sushi is pretty good and the place is consistent.",
+            "aspects": "sushi",
+            "labels": "positive"
+        },
+        {
+            "text": "After dealing with subpar pizza all over the Kensington neighborhood - I've found little toninos.",
+            "aspects": "pizza",
+            "labels": "negative"
+        },
+        {
+            "text": "Very good wine choices.",
+            "aspects": "wine choices",
+            "labels": "positive"
+        },
+        {
+            "text": "We were told that they were booked solid and no other table was available.",
+            "aspects": "table",
+            "labels": "negative"
+        },
+        {
+            "text": "All in all the food was above average and I would return to see how they operate with four or less dinners.",
+            "aspects": "dinners",
+            "labels": "neutral"
+        },
+        {
+            "text": "All in all the food was above average and I would return to see how they operate with four or less dinners.",
+            "aspects": "food",
+            "labels": "positive"
+        },
+        {
+            "text": "The selection changes frequently but the basic dishes are always available.",
+            "aspects": "basic dishes",
+            "labels": "neutral"
+        },
+        {
+            "text": "They showed up 15 minutes after the tuna melt.",
+            "aspects": "tuna",
+            "labels": "positive"
+        },
+        {
+            "text": "This place is always very crowded and popular.",
+            "aspects": "place",
+            "labels": "positive"
+        },
+        {
+            "text": "I'd highly recommend it for a special occasion -- it provides and intimate setting and nice service.",
+            "aspects": "service",
+            "labels": "positive"
+        },
+        {
+            "text": "I'd highly recommend it for a special occasion -- it provides and intimate setting and nice service.",
+            "aspects": "setting",
+            "labels": "positive"
+        },
+        {
+            "text": "Ask for Usha, the nicest bartender in manhattan.",
+            "aspects": "bartender",
+            "labels": "positive"
+        },
+        {
+            "text": "The dish had like 6 pieces of beef in it.",
+            "aspects": "dish",
+            "labels": "neutral"
+        },
+        {
+            "text": "I've had to wait only a few times during lunch but this place is definitely worth the wait.",
+            "aspects": "lunch",
+            "labels": "neutral"
+        },
+        {
+            "text": "I've had to wait only a few times during lunch but this place is definitely worth the wait.",
+            "aspects": "wait",
+            "labels": "positive"
+        },
+        {
+            "text": "The dish had like 6 pieces of beef in it.",
+            "aspects": "beef",
+            "labels": "neutral"
+        },
+        {
+            "text": "I don't know about you guys, but when I go somewhere to eat I go for the food not for the atmosphere.",
+            "aspects": "food",
+            "labels": "neutral"
+        },
+        {
+            "text": "I don't know about you guys, but when I go somewhere to eat I go for the food not for the atmosphere.",
+            "aspects": "atmosphere",
+            "labels": "neutral"
+        },
+        {
+            "text": "Try the Times Square cocktail -- ginger lemonade with vodka (also available without vodka.)",
+            "aspects": "Times Square cocktail",
+            "labels": "positive"
+        },
+        {
+            "text": "Try the Times Square cocktail -- ginger lemonade with vodka (also available without vodka.)",
+            "aspects": "ginger lemonade with vodka",
+            "labels": "positive"
+        },
+        {
+            "text": "I went with 5 friends and we lingered at the table for a bit and didn't feel rushed at all even though there was a wait.",
+            "aspects": "table",
+            "labels": "neutral"
+        },
+        {
+            "text": "I went with 5 friends and we lingered at the table for a bit and didn't feel rushed at all even though there was a wait.",
+            "aspects": "wait",
+            "labels": "negative"
+        },
+        {
+            "text": "If you like the food and the value you get from some of Chinatown restaurants, this is not the place for you.",
+            "aspects": "food",
+            "labels": "neutral"
+        },
+        {
+            "text": "If you like the food and the value you get from some of Chinatown restaurants, this is not the place for you.",
+            "aspects": "value",
+            "labels": "neutral"
+        },
+        {
+            "text": "From the appetizers we ate, the dim sum and other variety of foods, it was impossible to criticize the food.",
+            "aspects": "appetizers",
+            "labels": "positive"
+        },
+        {
+            "text": "From the appetizers we ate, the dim sum and other variety of foods, it was impossible to criticize the food.",
+            "aspects": "dim sum",
+            "labels": "positive"
+        },
+        {
+            "text": "From the appetizers we ate, the dim sum and other variety of foods, it was impossible to criticize the food.",
+            "aspects": "foods",
+            "labels": "positive"
+        },
+        {
+            "text": "From the appetizers we ate, the dim sum and other variety of foods, it was impossible to criticize the food.",
+            "aspects": "food",
+            "labels": "positive"
+        },
+        {
+            "text": "I'm partial to the Gnocchi.",
+            "aspects": "Gnocchi",
+            "labels": "positive"
+        },
+        {
+            "text": "It might have been a little too spicy for my friend, which you can couteract with eat more rice and keeping water on hand.",
+            "aspects": "rice",
+            "labels": "neutral"
+        },
+        {
+            "text": "My wife and I went to Orsay for Valentine's dinner.",
+            "aspects": "dinner",
+            "labels": "neutral"
+        },
+        {
+            "text": "Such nice people working here - but I have to review the food.",
+            "aspects": "food",
+            "labels": "neutral"
+        },
+        {
+            "text": "Such nice people working here - but I have to review the food.",
+            "aspects": "people",
+            "labels": "positive"
+        },
+        {
+            "text": "Interesting other dishes for a change include chicken in curry sauce and salmon caserole.",
+            "aspects": "chicken in curry sauc",
+            "labels": "positive"
+        },
+        {
+            "text": "Interesting other dishes for a change include chicken in curry sauce and salmon caserole.",
+            "aspects": "dishes",
+            "labels": "positive"
+        },
+        {
+            "text": "One of my favorites though was the Angry Lobster, a cold lobster salad that was magnificent.",
+            "aspects": "cold lobster salad",
+            "labels": "positive"
+        },
+        {
+            "text": "Interesting other dishes for a change include chicken in curry sauce and salmon caserole.",
+            "aspects": "salmon caserole",
+            "labels": "positive"
+        },
+        {
+            "text": "Great wine, great food.",
+            "aspects": "food",
+            "labels": "positive"
+        },
+        {
+            "text": "Great wine, great food.",
+            "aspects": "wine",
+            "labels": "positive"
+        },
+        {
+            "text": "We ate outside at Haru's Sake bar because Haru's restaurant next door was overflowing.",
+            "aspects": "bar",
+            "labels": "neutral"
+        },
+        {
+            "text": "However, if you want great food at a great price and don't mind the decor, you can't beat this place.",
+            "aspects": "food",
+            "labels": "positive"
+        },
+        {
+            "text": "However, if you want great food at a great price and don't mind the decor, you can't beat this place.",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": "However, if you want great food at a great price and don't mind the decor, you can't beat this place.",
+            "aspects": "decor",
+            "labels": "negative"
+        },
+        {
+            "text": "The service is outstanding and my crab-cake eggs benedict could not have been better.",
+            "aspects": "service",
+            "labels": "positive"
+        },
+        {
+            "text": "The service is outstanding and my crab-cake eggs benedict could not have been better.",
+            "aspects": "crab-cake eggs benedict",
+            "labels": "positive"
+        },
+        {
+            "text": "I can't believe people complain about no cheese sticks?",
+            "aspects": "cheese sticks",
+            "labels": "neutral"
+        },
+        {
+            "text": "A gentleman, maybe the manager, came to our table, and without so much as a smile or greeting asked for our order.",
+            "aspects": "table",
+            "labels": "neutral"
+        },
+        {
+            "text": "A gentleman, maybe the manager, came to our table, and without so much as a smile or greeting asked for our order.",
+            "aspects": "manager",
+            "labels": "negative"
+        },
+        {
+            "text": "We got in line and were served while in line a bannan fritter.",
+            "aspects": "served",
+            "labels": "neutral"
+        },
+        {
+            "text": "To my right, the hostess stood over a busboy and hissed rapido, rapido as he tried to clear and re-set a table for six.",
+            "aspects": "busboy",
+            "labels": "neutral"
+        },
+        {
+            "text": "We got in line and were served while in line a bannan fritter.",
+            "aspects": "bannan fritter",
+            "labels": "neutral"
+        },
+        {
+            "text": "Kenny the owner is always there and he treats my family like we are part of his family.",
+            "aspects": "owner",
+            "labels": "positive"
+        },
+        {
+            "text": "If you are in a big group, this place is perfect because it recomends sharing - they have lazy susans on most tables - even families can feel comfortable here.",
+            "aspects": "tables",
+            "labels": "positive"
+        },
+        {
+            "text": "If you are in a big group, this place is perfect because it recomends sharing - they have lazy susans on most tables - even families can feel comfortable here.",
+            "aspects": "lazy susans",
+            "labels": "positive"
+        },
+        {
+            "text": "The burger was great, also.",
+            "aspects": "burger",
+            "labels": "positive"
+        },
+        {
+            "text": "Delicious food, excellent service, and a pretty atmosphere make this a great choice for dinner and the $5.99 lunch buffet makes it an even better choice for lunch!",
+            "aspects": "lunch buffet",
+            "labels": "positive"
+        },
+        {
+            "text": "Delicious food, excellent service, and a pretty atmosphere make this a great choice for dinner and the $5.99 lunch buffet makes it an even better choice for lunch!",
+            "aspects": "lunch",
+            "labels": "positive"
+        },
+        {
+            "text": "Delicious food, excellent service, and a pretty atmosphere make this a great choice for dinner and the $5.99 lunch buffet makes it an even better choice for lunch!",
+            "aspects": "dinner",
+            "labels": "positive"
+        },
+        {
+            "text": "Delicious food, excellent service, and a pretty atmosphere make this a great choice for dinner and the $5.99 lunch buffet makes it an even better choice for lunch!",
+            "aspects": "atmosphere",
+            "labels": "positive"
+        },
+        {
+            "text": "Delicious food, excellent service, and a pretty atmosphere make this a great choice for dinner and the $5.99 lunch buffet makes it an even better choice for lunch!",
+            "aspects": "food",
+            "labels": "positive"
+        },
+        {
+            "text": "Delicious food, excellent service, and a pretty atmosphere make this a great choice for dinner and the $5.99 lunch buffet makes it an even better choice for lunch!",
+            "aspects": "service",
+            "labels": "positive"
+        },
+        {
+            "text": "Went to Ottimo and was expecting outstanding pizza (as I love La Pizza Fresca).",
+            "aspects": "pizza",
+            "labels": "neutral"
+        },
+        {
+            "text": "We shared a bottle of sake, an order of edamames, and she had the sushi plate while I had the sashimi.",
+            "aspects": "edamames",
+            "labels": "neutral"
+        },
+        {
+            "text": "It might have been a little too spicy for my friend, which you can couteract with eat more rice and keeping water on hand.",
+            "aspects": "water",
+            "labels": "neutral"
+        },
+        {
+            "text": "We shared a bottle of sake, an order of edamames, and she had the sushi plate while I had the sashimi.",
+            "aspects": "sashimi",
+            "labels": "neutral"
+        },
+        {
+            "text": "We shared a bottle of sake, an order of edamames, and she had the sushi plate while I had the sashimi.",
+            "aspects": "sushi plate",
+            "labels": "neutral"
+        },
+        {
+            "text": "Just because it's cheap does NOT mean the portions are small or the food is nasty, IT IS GREAT!",
+            "aspects": "food",
+            "labels": "positive"
+        },
+        {
+            "text": "Just because it's cheap does NOT mean the portions are small or the food is nasty, IT IS GREAT!",
+            "aspects": "portions",
+            "labels": "positive"
+        },
+        {
+            "text": "A wonderful place!",
+            "aspects": "place",
+            "labels": "positive"
+        },
+        {
+            "text": "Its location is good and the fact that Hutner College is near and their prices are very reasonable, makes students go back to Suan again and again.",
+            "aspects": "location",
+            "labels": "positive"
+        },
+        {
+            "text": "Its location is good and the fact that Hutner College is near and their prices are very reasonable, makes students go back to Suan again and again.",
+            "aspects": "prices",
+            "labels": "positive"
+        },
+        {
+            "text": "My family and I ate here last night for our annual Christmas dinner with the family members who would rather spend the holidays with friends out-of-town.",
+            "aspects": "Christmas dinner",
+            "labels": "neutral"
+        },
+        {
+            "text": "I've had pizza both times and the caprese salad appetizer.",
+            "aspects": "pizza",
+            "labels": "neutral"
+        },
+        {
+            "text": "I've had pizza both times and the caprese salad appetizer.",
+            "aspects": "caprese salad appetizer",
+            "labels": "neutral"
+        },
+        {
+            "text": "My son and his girlfriend both wanted cheeseburgers and they were huge!",
+            "aspects": "cheeseburgers",
+            "labels": "positive"
+        },
+        {
+            "text": "I've had the chicken with garlic sauce, chicken with black bean sauce, and hunan chicken.",
+            "aspects": "chicken with garlic sauce",
+            "labels": "neutral"
+        },
+        {
+            "text": "I've had the chicken with garlic sauce, chicken with black bean sauce, and hunan chicken.",
+            "aspects": "chicken with black bean sauce",
+            "labels": "neutral"
+        },
+        {
+            "text": "I've had the chicken with garlic sauce, chicken with black bean sauce, and hunan chicken.",
+            "aspects": "hunan chicken",
+            "labels": "neutral"
+        },
+        {
+            "text": "We shared a bottle of sake, an order of edamames, and she had the sushi plate while I had the sashimi.",
+            "aspects": "bottle of sake",
+            "labels": "neutral"
+        },
+        {
+            "text": "they did give a 15% discount at the end, wasn't enough, as they knew the service was horrible.",
+            "aspects": "service",
+            "labels": "negative"
+        },
+        {
+            "text": "they did give a 15% discount at the end, wasn't enough, as they knew the service was horrible.",
+            "aspects": "discount",
+            "labels": "negative"
+        },
+        {
+            "text": "I grew up on these bagels.",
+            "aspects": "bagels",
+            "labels": "positive"
+        },
+        {
+            "text": "Tasty steak, pork loin, the works.",
+            "aspects": "steak",
+            "labels": "positive"
+        },
+        {
+            "text": "Tasty steak, pork loin, the works.",
+            "aspects": "pork loin",
+            "labels": "positive"
+        },
+        {
+            "text": "We also ordered two hot dogs thinking they would be pretty good since there is a whole section on the menu devoted to them.",
+            "aspects": "menu",
+            "labels": "neutral"
+        },
+        {
+            "text": "Don't dine at Tamarind for the vegetarian dishes, they are simply not up to par with the non-veg selections.",
+            "aspects": "non-veg selections",
+            "labels": "positive"
+        },
+        {
+            "text": "Don't dine at Tamarind for the vegetarian dishes, they are simply not up to par with the non-veg selections.",
+            "aspects": "vegetarian dishes",
+            "labels": "negative"
+        },
+        {
+            "text": "Consequently, their burgers fell apart in their hands and made such a mess that they did'nt feel like finishing them.",
+            "aspects": "burgers",
+            "labels": "negative"
+        },
+        {
+            "text": "Appetizers are somewhere around $7 each and the main dishes are between $11 and $16.",
+            "aspects": "main dishes",
+            "labels": "neutral"
+        },
+        {
+            "text": "One of my favorites though was the Angry Lobster, a cold lobster salad that was magnificent.",
+            "aspects": "Angry Lobster",
+            "labels": "positive"
+        },
+        {
+            "text": "I have to say that if this what makes it easier to get a saet a lunch- I dont mind.",
+            "aspects": "lunch",
+            "labels": "neutral"
+        },
+        {
+            "text": "Appetizers are somewhere around $7 each and the main dishes are between $11 and $16.",
+            "aspects": "Appetizers",
+            "labels": "neutral"
+        },
+        {
+            "text": "What makes this restaurant special are the authentic sichuan cooking and being the only one in NYC that offers authentic chongqing hotpot.",
+            "aspects": "sichuan cooking",
+            "labels": "positive"
+        },
+        {
+            "text": "What makes this restaurant special are the authentic sichuan cooking and being the only one in NYC that offers authentic chongqing hotpot.",
+            "aspects": "chongqing hotpot",
+            "labels": "positive"
+        },
+        {
+            "text": "When we notified him that he didn't mention the specials, he didn't apologize but let us know that we made a very good decision regardless.",
+            "aspects": "specials",
+            "labels": "neutral"
+        },
+        {
+            "text": "The service was mediocre, and the lack of air conditioning made for a less than comfortable meal.",
+            "aspects": "meal",
+            "labels": "negative"
+        },
+        {
+            "text": "The service was mediocre, and the lack of air conditioning made for a less than comfortable meal.",
+            "aspects": "service",
+            "labels": "neutral"
+        },
+        {
+            "text": "The service was mediocre, and the lack of air conditioning made for a less than comfortable meal.",
+            "aspects": "air conditioning",
+            "labels": "negative"
+        },
+        {
+            "text": "Deliveries often take up to an hour and the prices are higher than most other pizzerias in the area.",
+            "aspects": "prices",
+            "labels": "negative"
+        },
+        {
+            "text": "Deliveries often take up to an hour and the prices are higher than most other pizzerias in the area.",
+            "aspects": "Deliveries",
+            "labels": "negative"
+        },
+        {
+            "text": "I wasn't there for the Half-Price Saturday Night Special, but Tuesday Night.",
+            "aspects": "Half-Price Saturday Night Special",
+            "labels": "neutral"
+        },
+        {
+            "text": "we were tired and cold when we got to the restaurant, then we sat down to begin ordering appetizers.",
+            "aspects": "appetizers",
+            "labels": "neutral"
+        },
+        {
+            "text": "The pizza was great.",
+            "aspects": "pizza",
+            "labels": "positive"
+        },
+        {
+            "text": "We were seated and ignored by waitstaff.",
+            "aspects": "waitstaff",
+            "labels": "negative"
+        },
+        {
+            "text": "They need a kick out of it but until then the sushi is pretty good and the place is consistent.",
+            "aspects": "place",
+            "labels": "positive"
+        },
+        {
+            "text": "The restaurant is dark and not very attractive and then you have spot lights shining on you putting you in the worst light possible, reaching for sunglasses.",
+            "aspects": "spot lights",
+            "labels": "negative"
+        },
+        {
+            "text": "then we ordered a dinosaur rolls and white tuna sashimi.",
+            "aspects": "dinosaur rolls",
+            "labels": "neutral"
+        },
+        {
+            "text": "then we ordered a dinosaur rolls and white tuna sashimi.",
+            "aspects": "white tuna sashimi",
+            "labels": "neutral"
+        },
+        {
+            "text": "Sake collection was excellent (Try Nanbu Bijin), but pricy.",
+            "aspects": "Nanbu Bijin",
+            "labels": "positive"
+        },
+        {
+            "text": "He was terribly thirsty after the meal too.",
+            "aspects": "meal",
+            "labels": "negative"
+        },
+        {
+            "text": "honestly the worst sushi my husband and i had in our entire lives.",
+            "aspects": "sushi",
+            "labels": "negative"
+        },
+        {
+            "text": "Get the soup and a nosh (pastrami sandwich) for $8 and you're golden.",
+            "aspects": "soup",
+            "labels": "positive"
+        },
+        {
+            "text": "The fish is fresh and each piece is sliced to perfection and seasoned by the sushi chef (usually with a little fresh wasabi and soy sauce but also sometimes with some sea salt).",
+            "aspects": "wasabi",
+            "labels": "positive"
+        },
+        {
+            "text": "Get the soup and a nosh (pastrami sandwich) for $8 and you're golden.",
+            "aspects": "nosh (pastrami sandwich)",
+            "labels": "positive"
+        },
+        {
+            "text": "The restaraurant is very small so reservations are a must.",
+            "aspects": "reservations",
+            "labels": "neutral"
+        },
+        {
+            "text": "The fish is fresh and each piece is sliced to perfection and seasoned by the sushi chef (usually with a little fresh wasabi and soy sauce but also sometimes with some sea salt).",
+            "aspects": "soy sauce",
+            "labels": "positive"
+        },
+        {
+            "text": "I had never had Edamame pureed before but I thought it was innovative and tasty (could've used a bit more salt).",
+            "aspects": "Edamame pureed",
+            "labels": "positive"
+        },
+        {
+            "text": "The food and staff always surprise me with the new heights they are taken to.",
+            "aspects": "staff",
+            "labels": "positive"
+        },
+        {
+            "text": "The food and staff always surprise me with the new heights they are taken to.",
+            "aspects": "food",
+            "labels": "positive"
+        },
+        {
+            "text": "they were able to squeeze me in at 6 after i called the night before my anniversary for a friday night reservation and told me they'd treat us well for the occasion.",
+            "aspects": "reservation",
+            "labels": "neutral"
+        },
+        {
+            "text": "Note that they do not serve beer, you must bring your own.",
+            "aspects": "beer",
+            "labels": "negative"
+        },
+        {
+            "text": "Kind of a small place but I guess if they are not too busy might be able to fit a group or kids.",
+            "aspects": "place",
+            "labels": "negative"
+        },
+        {
+            "text": "We also ordered two hot dogs thinking they would be pretty good since there is a whole section on the menu devoted to them.",
+            "aspects": "hot dogs",
+            "labels": "neutral"
+        },
+        {
+            "text": "The price was extremely reasonable for the appetizers and food we ate.",
+            "aspects": "food",
+            "labels": "positive"
+        },
+        {
+            "text": "The price was extremely reasonable for the appetizers and food we ate.",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": "The price was extremely reasonable for the appetizers and food we ate.",
+            "aspects": "appetizers",
+            "labels": "positive"
+        },
+        {
+            "text": "Each table has a pot of boiling water sunken into its surface, and you get platters of thin sliced meats, various vegetables, and rice and glass noodles.",
+            "aspects": "meats",
+            "labels": "neutral"
+        },
+        {
+            "text": "Each table has a pot of boiling water sunken into its surface, and you get platters of thin sliced meats, various vegetables, and rice and glass noodles.",
+            "aspects": "rice",
+            "labels": "neutral"
+        },
+        {
+            "text": "Each table has a pot of boiling water sunken into its surface, and you get platters of thin sliced meats, various vegetables, and rice and glass noodles.",
+            "aspects": "vegetables",
+            "labels": "neutral"
+        },
+        {
+            "text": "Each table has a pot of boiling water sunken into its surface, and you get platters of thin sliced meats, various vegetables, and rice and glass noodles.",
+            "aspects": "glass noodles",
+            "labels": "neutral"
+        },
+        {
+            "text": "Each table has a pot of boiling water sunken into its surface, and you get platters of thin sliced meats, various vegetables, and rice and glass noodles.",
+            "aspects": "pot of boiling water",
+            "labels": "neutral"
+        },
+        {
+            "text": "Each table has a pot of boiling water sunken into its surface, and you get platters of thin sliced meats, various vegetables, and rice and glass noodles.",
+            "aspects": "table",
+            "labels": "neutral"
+        },
+        {
+            "text": "Our tiny table for two (dinner plates hung over edge) was right in the middle of one of the lanes of waiter traffic.",
+            "aspects": "table",
+            "labels": "negative"
+        },
+        {
+            "text": "Our tiny table for two (dinner plates hung over edge) was right in the middle of one of the lanes of waiter traffic.",
+            "aspects": "waiter traffic",
+            "labels": "negative"
+        },
+        {
+            "text": "Our tiny table for two (dinner plates hung over edge) was right in the middle of one of the lanes of waiter traffic.",
+            "aspects": "dinner plates",
+            "labels": "negative"
+        }
+    ],
+    "laptop": [
+        {
+            "text": "Not even safe mode boots.",
+            "aspects": "safe mode",
+            "labels": "negative"
+        },
+        {
+            "text": "Keyboard was also very nice and had a solid feel.",
+            "aspects": "Keyboard",
+            "labels": "positive"
+        },
+        {
+            "text": "Keyboard is plastic and spongey feeling.",
+            "aspects": "Keyboard",
+            "labels": "negative"
+        },
+        {
+            "text": "I would recommend this laptop to anyone looking to get a new laptop who is willing to spend a little more money to get great quality!",
+            "aspects": "quality",
+            "labels": "positive"
+        },
+        {
+            "text": "Thus, when you carry it at a slanted angle, the screen will \"topple\" or \"slide\" down, if you understand what I mean.",
+            "aspects": "screen",
+            "labels": "negative"
+        },
+        {
+            "text": "When I called Sony the Customer Service was Great.",
+            "aspects": "Customer Service",
+            "labels": "positive"
+        },
+        {
+            "text": "I also did not like the loud noises it made or how the bottom of the computer would get really hot.",
+            "aspects": "noises",
+            "labels": "negative"
+        },
+        {
+            "text": "I also did not like the loud noises it made or how the bottom of the computer would get really hot.",
+            "aspects": "bottom of the computer",
+            "labels": "negative"
+        },
+        {
+            "text": "Also, one of the users mentioned how the edges on the macbook is sharp, if you have money to spend on one of the incase shells, it doesn't seem to be a problem.",
+            "aspects": "edges",
+            "labels": "negative"
+        },
+        {
+            "text": "Also, one of the users mentioned how the edges on the macbook is sharp, if you have money to spend on one of the incase shells, it doesn't seem to be a problem.",
+            "aspects": "incase shells",
+            "labels": "positive"
+        },
+        {
+            "text": "He has replaced his hard drive twice and (of course) has had to pay for antivirus software every year.",
+            "aspects": "antivirus software",
+            "labels": "negative"
+        },
+        {
+            "text": "He has replaced his hard drive twice and (of course) has had to pay for antivirus software every year.",
+            "aspects": "hard drive",
+            "labels": "negative"
+        },
+        {
+            "text": "It is easy to navigate and update programs.",
+            "aspects": "navigate",
+            "labels": "positive"
+        },
+        {
+            "text": "\u00a0 even though I had the receipt in front of me proving it still had 2 months left on the warranty.",
+            "aspects": "warranty",
+            "labels": "negative"
+        },
+        {
+            "text": "3 weeks went by and the computer keeps crashing and will not open any applications.",
+            "aspects": "applications",
+            "labels": "neutral"
+        },
+        {
+            "text": "All apple associates are always wiling to help you out with anything, no matter when you purchased the computer and how many years passed.",
+            "aspects": "apple associates",
+            "labels": "positive"
+        },
+        {
+            "text": "i also love having the extra calculator number set up on the keyboard which most laptops do not have.",
+            "aspects": "keyboard",
+            "labels": "positive"
+        },
+        {
+            "text": "The screen is nice, side view angles are pretty good.",
+            "aspects": "screen",
+            "labels": "positive"
+        },
+        {
+            "text": "Crisp screen, great battery life, and plenty of storage.",
+            "aspects": "screen",
+            "labels": "positive"
+        },
+        {
+            "text": "Took me 11 hours, 3 trips to different FedEx offices, and brutal conversations with 14 of the worse IT support technicians in the world.",
+            "aspects": "IT support technicians",
+            "labels": "negative"
+        },
+        {
+            "text": "It is much faster than my desktop which is a Core2 Quad running at 2.83 GHz.",
+            "aspects": "Core2 Quad",
+            "labels": "neutral"
+        },
+        {
+            "text": ", Applications respond immediately (not like the tired MS applications).",
+            "aspects": "Applications",
+            "labels": "positive"
+        },
+        {
+            "text": ", Applications respond immediately (not like the tired MS applications).",
+            "aspects": "MS applications",
+            "labels": "negative"
+        },
+        {
+            "text": "Then after 4 or so months the charger stopped working so I was forced to go out and buy new hardware just to keep this computer running.",
+            "aspects": "charger",
+            "labels": "negative"
+        },
+        {
+            "text": "Then after 4 or so months the charger stopped working so I was forced to go out and buy new hardware just to keep this computer running.",
+            "aspects": "hardware",
+            "labels": "negative"
+        },
+        {
+            "text": "I wish iWork or MS Office came with the Mac, but MS Office doesn't even come with most pc laptops.",
+            "aspects": "iWork",
+            "labels": "negative"
+        },
+        {
+            "text": "You can't even get a satellite card which is why I bought to begin with.",
+            "aspects": "satellite card",
+            "labels": "negative"
+        },
+        {
+            "text": "It has a lot of memory and a great battery life.",
+            "aspects": "battery life",
+            "labels": "positive"
+        },
+        {
+            "text": "It has a lot of memory and a great battery life.",
+            "aspects": "memory",
+            "labels": "positive"
+        },
+        {
+            "text": "Not to mention sometimes the whole charger unit will decide not to work entirely.",
+            "aspects": "charger unit",
+            "labels": "negative"
+        },
+        {
+            "text": "I had to adjust my mousepad sensitivity, because it is very sensitive.",
+            "aspects": "mousepad sensitivity",
+            "labels": "negative"
+        },
+        {
+            "text": "I wish iWork or MS Office came with the Mac, but MS Office doesn't even come with most pc laptops.",
+            "aspects": "MS Office",
+            "labels": "negative"
+        },
+        {
+            "text": "We also use Paralles so we can run virtual machines of Windows XP Professional, Windows 7 Home Premium, Windows Server Enterprise 2003, and Windows Server 2008 Enterprise.",
+            "aspects": "Windows 7 Home Premium",
+            "labels": "neutral"
+        },
+        {
+            "text": "I love this program, it is superior to windows movie maker.",
+            "aspects": "windows movie maker",
+            "labels": "negative"
+        },
+        {
+            "text": "I love this program, it is superior to windows movie maker.",
+            "aspects": "program",
+            "labels": "positive"
+        },
+        {
+            "text": "It is easy to use, its keyboard easily accommodates large hands, and its weight is fantasic.",
+            "aspects": "weight",
+            "labels": "positive"
+        },
+        {
+            "text": "I had in the past a Dell laptop and they sent me the items it needed or they sent a repair technician to my house to fix it.",
+            "aspects": "repair technician",
+            "labels": "positive"
+        },
+        {
+            "text": "It is easy to use, its keyboard easily accommodates large hands, and its weight is fantasic.",
+            "aspects": "keyboard",
+            "labels": "positive"
+        },
+        {
+            "text": "I wish iWork or MS Office came with the Mac, but MS Office doesn't even come with most pc laptops.",
+            "aspects": "MS Office",
+            "labels": "negative"
+        },
+        {
+            "text": "Comes with iMovie;",
+            "aspects": "iMovie",
+            "labels": "positive"
+        },
+        {
+            "text": "This is an over-sized, 18-inch laptop.",
+            "aspects": "18-inch",
+            "labels": "negative"
+        },
+        {
+            "text": "It is easy to use, its keyboard easily accommodates large hands, and its weight is fantasic.",
+            "aspects": "use",
+            "labels": "positive"
+        },
+        {
+            "text": "I had to pay $100 for a universal charger for this cheap $300 laptop.",
+            "aspects": "universal charger",
+            "labels": "negative"
+        },
+        {
+            "text": "Wonderful zooming.",
+            "aspects": "zooming",
+            "labels": "positive"
+        },
+        {
+            "text": "I've also had to have the keyboard replaced at my expense.",
+            "aspects": "keyboard",
+            "labels": "negative"
+        },
+        {
+            "text": "I have other computers that get strong signals that don't drop in places that this \"net\"book loses its signal.",
+            "aspects": "signals",
+            "labels": "positive"
+        },
+        {
+            "text": "I have other computers that get strong signals that don't drop in places that this \"net\"book loses its signal.",
+            "aspects": "signal",
+            "labels": "negative"
+        },
+        {
+            "text": "Unless you want to be inconvenienced with a non working power supply which you can't find a replacement for because they made the attachment so small.",
+            "aspects": "power supply",
+            "labels": "negative"
+        },
+        {
+            "text": "The leather carrying case, keyboard and mouse arrived in two days from Memphis warehouse.",
+            "aspects": "keyboard",
+            "labels": "neutral"
+        },
+        {
+            "text": "As usual at customer service center, she asked me to hold for a moment while she went to the back-office and compare it with other same model netbooks and discussed it with her colleague (I could see them).",
+            "aspects": "customer service center",
+            "labels": "negative"
+        },
+        {
+            "text": "Had some trouble finding a case that it would fit in.",
+            "aspects": "case",
+            "labels": "negative"
+        },
+        {
+            "text": "1.You can not change your desktop background (window's 7 starter does NOT support that function).",
+            "aspects": "window's 7 starter",
+            "labels": "negative"
+        },
+        {
+            "text": "1.You can not change your desktop background (window's 7 starter does NOT support that function).",
+            "aspects": "desktop background",
+            "labels": "negative"
+        },
+        {
+            "text": "1.You can not change your desktop background (window's 7 starter does NOT support that function).",
+            "aspects": "function",
+            "labels": "negative"
+        },
+        {
+            "text": "defective software.",
+            "aspects": "software",
+            "labels": "negative"
+        },
+        {
+            "text": "Called Acer many times, they want me to pay the shipping to ship it to their repair center - I was very disappointed since it is a brand new computer!",
+            "aspects": "shipping",
+            "labels": "negative"
+        },
+        {
+            "text": "Called Acer many times, they want me to pay the shipping to ship it to their repair center - I was very disappointed since it is a brand new computer!",
+            "aspects": "repair center",
+            "labels": "neutral"
+        },
+        {
+            "text": "The laptop is relatively simple to use, though I bought  Macs for Dummies,  which is well worth $2",
+            "aspects": "use",
+            "labels": "positive"
+        },
+        {
+            "text": "There is a backlit keyboard which is perfect for typing in the dark.",
+            "aspects": "backlit keyboard",
+            "labels": "positive"
+        },
+        {
+            "text": "I upgraded the memory and replaced the base Windows 7 Starter to Win 7 Home, and it runs just fine.",
+            "aspects": "Win 7 Home",
+            "labels": "neutral"
+        },
+        {
+            "text": "I upgraded the memory and replaced the base Windows 7 Starter to Win 7 Home, and it runs just fine.",
+            "aspects": "Windows 7 Starter",
+            "labels": "neutral"
+        },
+        {
+            "text": "I upgraded the memory and replaced the base Windows 7 Starter to Win 7 Home, and it runs just fine.",
+            "aspects": "runs",
+            "labels": "positive"
+        },
+        {
+            "text": "I upgraded the memory and replaced the base Windows 7 Starter to Win 7 Home, and it runs just fine.",
+            "aspects": "memory",
+            "labels": "neutral"
+        },
+        {
+            "text": "\u00a0 Worse, for the price I could get a *netbook* that outperforms this machine.",
+            "aspects": "price",
+            "labels": "negative"
+        },
+        {
+            "text": "It seemed to be a very nice laptop except I was not able to load my Garmin GPS software or Microsoft Office 2003.",
+            "aspects": "Garmin GPS software",
+            "labels": "negative"
+        },
+        {
+            "text": "The screen is huge and coloful, but no LED backlighting.",
+            "aspects": "screen",
+            "labels": "positive"
+        },
+        {
+            "text": "In all honesty, if someone is looking for a quality laptop and willing to pay a little more money for a normal sized laptop than a cheaper and less impressive laptop, then do not buy this computer.",
+            "aspects": "sized",
+            "labels": "neutral"
+        },
+        {
+            "text": "Everything about this computer is easy to use.",
+            "aspects": "use",
+            "labels": "positive"
+        },
+        {
+            "text": "It is good to know that I can mobilize without having to worry about the battery life.",
+            "aspects": "battery life",
+            "labels": "positive"
+        },
+        {
+            "text": "Long story, but after many calls to various  offices, I was told that no one can override the depot and that managers  don't take phone calls or e/mails.",
+            "aspects": "depot",
+            "labels": "neutral"
+        },
+        {
+            "text": "The touch pad is among the best.",
+            "aspects": "touch pad",
+            "labels": "positive"
+        },
+        {
+            "text": "This computer that I have has had issues with the keyboard where it lost half the keyboard functions.",
+            "aspects": "keyboard",
+            "labels": "negative"
+        },
+        {
+            "text": "This computer that I have has had issues with the keyboard where it lost half the keyboard functions.",
+            "aspects": "keyboard functions",
+            "labels": "negative"
+        },
+        {
+            "text": "I would like to use a different operating system altogether.",
+            "aspects": "operating system",
+            "labels": "neutral"
+        },
+        {
+            "text": "We also use Paralles so we can run virtual machines of Windows XP Professional, Windows 7 Home Premium, Windows Server Enterprise 2003, and Windows Server 2008 Enterprise.",
+            "aspects": "Paralles",
+            "labels": "neutral"
+        },
+        {
+            "text": "My computer froze on several occasion, had buttons that randomely would fall off and even had moments when the computer would refuse to turn on at all.",
+            "aspects": "buttons",
+            "labels": "negative"
+        },
+        {
+            "text": "We also use Paralles so we can run virtual machines of Windows XP Professional, Windows 7 Home Premium, Windows Server Enterprise 2003, and Windows Server 2008 Enterprise.",
+            "aspects": "Windows XP Professional",
+            "labels": "neutral"
+        },
+        {
+            "text": "No tutorials on the display.",
+            "aspects": "tutorials",
+            "labels": "negative"
+        },
+        {
+            "text": "We also use Paralles so we can run virtual machines of Windows XP Professional, Windows 7 Home Premium, Windows Server Enterprise 2003, and Windows Server 2008 Enterprise.",
+            "aspects": "Windows Server Enterprise 2003",
+            "labels": "neutral"
+        },
+        {
+            "text": "Also, my sister got the exact same laptop (since they were so cheap) and after 8 months, the screen split in half just from everyday use.",
+            "aspects": "screen",
+            "labels": "negative"
+        },
+        {
+            "text": "The only drawback for me is how dirty the screen gets, and rather quickly too.",
+            "aspects": "screen",
+            "labels": "negative"
+        },
+        {
+            "text": "Cords coming out the right for power plus cords coming out front for headphones/mic plus network connection on left make for a very messy setup with cords going every direction.",
+            "aspects": "headphones",
+            "labels": "negative"
+        },
+        {
+            "text": "Cords coming out the right for power plus cords coming out front for headphones/mic plus network connection on left make for a very messy setup with cords going every direction.",
+            "aspects": "setup",
+            "labels": "negative"
+        },
+        {
+            "text": "Cords coming out the right for power plus cords coming out front for headphones/mic plus network connection on left make for a very messy setup with cords going every direction.",
+            "aspects": "cords",
+            "labels": "negative"
+        },
+        {
+            "text": "Cords coming out the right for power plus cords coming out front for headphones/mic plus network connection on left make for a very messy setup with cords going every direction.",
+            "aspects": "power",
+            "labels": "negative"
+        },
+        {
+            "text": "Cords coming out the right for power plus cords coming out front for headphones/mic plus network connection on left make for a very messy setup with cords going every direction.",
+            "aspects": "Cords",
+            "labels": "negative"
+        },
+        {
+            "text": "Cords coming out the right for power plus cords coming out front for headphones/mic plus network connection on left make for a very messy setup with cords going every direction.",
+            "aspects": "mic",
+            "labels": "negative"
+        },
+        {
+            "text": "Cords coming out the right for power plus cords coming out front for headphones/mic plus network connection on left make for a very messy setup with cords going every direction.",
+            "aspects": "network connection",
+            "labels": "negative"
+        },
+        {
+            "text": "Cords coming out the right for power plus cords coming out front for headphones/mic plus network connection on left make for a very messy setup with cords going every direction.",
+            "aspects": "cords",
+            "labels": "negative"
+        },
+        {
+            "text": "Seems to slow down occassionally but can run many applications (ie Internet tabs, programs, etc) simultaneously.",
+            "aspects": "programs",
+            "labels": "neutral"
+        },
+        {
+            "text": "Seems to slow down occassionally but can run many applications (ie Internet tabs, programs, etc) simultaneously.",
+            "aspects": "applications",
+            "labels": "positive"
+        },
+        {
+            "text": "Seems to slow down occassionally but can run many applications (ie Internet tabs, programs, etc) simultaneously.",
+            "aspects": "Internet tabs",
+            "labels": "positive"
+        },
+        {
+            "text": "I spoke with a service rep at Micro Center and his girlfriend is having the same problem with her power adapter, so it's not just an isolated incident!!!",
+            "aspects": "service rep",
+            "labels": "neutral"
+        },
+        {
+            "text": "It is a much more streamlined system for adding programs, using the internet, and doing other things everyone does on a computer.",
+            "aspects": "system",
+            "labels": "positive"
+        },
+        {
+            "text": "It is a much more streamlined system for adding programs, using the internet, and doing other things everyone does on a computer.",
+            "aspects": "programs",
+            "labels": "neutral"
+        },
+        {
+            "text": "previous laptops were pc's, still have them, but the mac osx is a clean and smooth operating system.",
+            "aspects": "mac osx",
+            "labels": "positive"
+        },
+        {
+            "text": "It is a much more streamlined system for adding programs, using the internet, and doing other things everyone does on a computer.",
+            "aspects": "using the internet",
+            "labels": "neutral"
+        },
+        {
+            "text": "Because he said that the hinge is under the motherboard and they have to dismantle the whole thing before it can be tightened.",
+            "aspects": "hinge",
+            "labels": "negative"
+        },
+        {
+            "text": "Because he said that the hinge is under the motherboard and they have to dismantle the whole thing before it can be tightened.",
+            "aspects": "motherboard",
+            "labels": "neutral"
+        },
+        {
+            "text": "Anyway, in early July of this year, the DVD burner stopped working, and the computer stared having issues with power supply.",
+            "aspects": "DVD burner",
+            "labels": "negative"
+        },
+        {
+            "text": "Anyway, in early July of this year, the DVD burner stopped working, and the computer stared having issues with power supply.",
+            "aspects": "power supply",
+            "labels": "negative"
+        },
+        {
+            "text": "previous laptops were pc's, still have them, but the mac osx is a clean and smooth operating system.",
+            "aspects": "operating system",
+            "labels": "positive"
+        },
+        {
+            "text": "This purchase opened me to the world of Macbooks, and I am impressed with the intuition of the design, the beauty of the product, and the excellent technological advances associated with it.",
+            "aspects": "design",
+            "labels": "positive"
+        },
+        {
+            "text": "This purchase opened me to the world of Macbooks, and I am impressed with the intuition of the design, the beauty of the product, and the excellent technological advances associated with it.",
+            "aspects": "beauty",
+            "labels": "positive"
+        },
+        {
+            "text": "I had the staff telling me older version did not make the fan noise cause it is a \"different\" computer.",
+            "aspects": "fan noise",
+            "labels": "negative"
+        },
+        {
+            "text": "I had the staff telling me older version did not make the fan noise cause it is a \"different\" computer.",
+            "aspects": "staff",
+            "labels": "negative"
+        },
+        {
+            "text": "The price is great for this model, I only plan on using it for media in the entertainment room.",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": "Even out of warranty!",
+            "aspects": "warranty",
+            "labels": "neutral"
+        },
+        {
+            "text": "The screen gets smeary and dusty very quickly and it's very noticeable.",
+            "aspects": "screen",
+            "labels": "negative"
+        },
+        {
+            "text": "The leather carrying case, keyboard and mouse arrived in two days from Memphis warehouse.",
+            "aspects": "leather carrying case",
+            "labels": "neutral"
+        },
+        {
+            "text": "The leather carrying case, keyboard and mouse arrived in two days from Memphis warehouse.",
+            "aspects": "mouse",
+            "labels": "neutral"
+        },
+        {
+            "text": "It's now all commodity hardware.",
+            "aspects": "commodity hardware",
+            "labels": "neutral"
+        },
+        {
+            "text": "Strengths:Well-shaped Weaknesses:A bad videocard!",
+            "aspects": "shaped",
+            "labels": "positive"
+        },
+        {
+            "text": "Strengths:Well-shaped Weaknesses:A bad videocard!",
+            "aspects": "videocard",
+            "labels": "negative"
+        },
+        {
+            "text": "Crisp screen, great battery life, and plenty of storage.",
+            "aspects": "storage",
+            "labels": "positive"
+        },
+        {
+            "text": "Crisp screen, great battery life, and plenty of storage.",
+            "aspects": "battery life",
+            "labels": "positive"
+        },
+        {
+            "text": "No luck, although I waited for hours on the phone-Visited MacHouse, they stated the their call center is down due to too many phonecalls (difficult to believe).",
+            "aspects": "call center",
+            "labels": "negative"
+        },
+        {
+            "text": "I spoke with a service rep at Micro Center and his girlfriend is having the same problem with her power adapter, so it's not just an isolated incident!!!",
+            "aspects": "power adapter",
+            "labels": "negative"
+        },
+        {
+            "text": "With notes saying they replaced the hard drive.",
+            "aspects": "hard drive",
+            "labels": "neutral"
+        },
+        {
+            "text": "I love my Apple, it is quick and easy to use.",
+            "aspects": "use",
+            "labels": "positive"
+        },
+        {
+            "text": "Looks nice, but has a horribly cheap feel.",
+            "aspects": "feel",
+            "labels": "negative"
+        },
+        {
+            "text": "Looks nice, but has a horribly cheap feel.",
+            "aspects": "Looks",
+            "labels": "positive"
+        },
+        {
+            "text": "The Toshiba Satellite has been more than I expected for the price.",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": "All in all, a very disappointing experience except that I learned how good the Geek Squad is and also Customer Service.",
+            "aspects": "Customer Service",
+            "labels": "positive"
+        },
+        {
+            "text": "It did not have all the features I expected it to have.",
+            "aspects": "features",
+            "labels": "negative"
+        },
+        {
+            "text": "The battery is really long.",
+            "aspects": "battery",
+            "labels": "positive"
+        },
+        {
+            "text": "You can do it all on this bad boy but the main thing this netbook was desinged for was surfing the web and boy o boy does it ever.",
+            "aspects": "surfing the web",
+            "labels": "positive"
+        },
+        {
+            "text": "I am not sure if it was the drive itself, however;",
+            "aspects": "drive",
+            "labels": "neutral"
+        },
+        {
+            "text": "I should have checked this before I installed my applications.",
+            "aspects": "applications",
+            "labels": "neutral"
+        },
+        {
+            "text": "How Toshiba handles the repair seems to vary, some folks  indicate that they were charged for even an intial fix, others had the  repair done 5 times.",
+            "aspects": "repair",
+            "labels": "positive"
+        },
+        {
+            "text": "Price and purpose is awesome!",
+            "aspects": "Price",
+            "labels": "positive"
+        },
+        {
+            "text": "It is a REAL touchpad, not the toy I saw in other brands.",
+            "aspects": "touchpad",
+            "labels": "positive"
+        },
+        {
+            "text": "Can't close the 2nd HDD bay since there are brackets you have to break off (even then, it still doesn't shut) That could be a major flaw for the dual HDD user.",
+            "aspects": "HDD bay",
+            "labels": "negative"
+        },
+        {
+            "text": "The battery life, before the battery completely died of course, left much to be desired.",
+            "aspects": "battery life",
+            "labels": "negative"
+        },
+        {
+            "text": "The battery life, before the battery completely died of course, left much to be desired.",
+            "aspects": "battery",
+            "labels": "negative"
+        },
+        {
+            "text": "The powerpoint opened seamlessly in the apple and the mac hooked up to the projector so easily it was almost scary.",
+            "aspects": "powerpoint",
+            "labels": "positive"
+        },
+        {
+            "text": "It seemed to be a very nice laptop except I was not able to load my Garmin GPS software or Microsoft Office 2003.",
+            "aspects": "Microsoft Office 2003",
+            "labels": "negative"
+        },
+        {
+            "text": "This is a great little computer for the price.",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": "The fact that the screen reacts to the lighting around you is an added luxury-when you are working around others in dark areas and want privacy or don't want to bother them with bright lighting, it is very convenient to have a darker, softer lit screen.",
+            "aspects": "screen",
+            "labels": "positive"
+        },
+        {
+            "text": "The fact that the screen reacts to the lighting around you is an added luxury-when you are working around others in dark areas and want privacy or don't want to bother them with bright lighting, it is very convenient to have a darker, softer lit screen.",
+            "aspects": "screen",
+            "labels": "positive"
+        },
+        {
+            "text": "The laptop is very lightweight, can easily carry around in a knapsack full of text books and it barely adds any weight.",
+            "aspects": "carry",
+            "labels": "positive"
+        },
+        {
+            "text": "The laptop is very lightweight, can easily carry around in a knapsack full of text books and it barely adds any weight.",
+            "aspects": "weight",
+            "labels": "positive"
+        },
+        {
+            "text": "This computer was so challenging to carry and handle.",
+            "aspects": "carry",
+            "labels": "negative"
+        },
+        {
+            "text": "This computer was so challenging to carry and handle.",
+            "aspects": "handle",
+            "labels": "negative"
+        },
+        {
+            "text": "Was very much worth the price i paid.",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": "It had most of the features and all of the power that I wanted to replace my desktop machine.",
+            "aspects": "features",
+            "labels": "positive"
+        },
+        {
+            "text": "It had most of the features and all of the power that I wanted to replace my desktop machine.",
+            "aspects": "power",
+            "labels": "positive"
+        },
+        {
+            "text": "The feel of this is better than the Toshiba, too.",
+            "aspects": "feel",
+            "labels": "positive"
+        },
+        {
+            "text": "We also use Paralles so we can run virtual machines of Windows XP Professional, Windows 7 Home Premium, Windows Server Enterprise 2003, and Windows Server 2008 Enterprise.",
+            "aspects": "Windows Server 2008 Enterprise",
+            "labels": "neutral"
+        },
+        {
+            "text": "COMPUTER HAS BEEN AT SERVICE FACILITY MORE THAN IN MY HANDS.",
+            "aspects": "SERVICE FACILITY",
+            "labels": "negative"
+        }
+    ],
+    "Speaker": [
+        {
+            "text": " The highs and lows sound great and personally I think the bass is at a perfect level -LRB- at 50 % -RRB- , definitely not boomy .",
+            "aspects": " bass",
+            "labels": "positive"
+        },
+        {
+            "text": " The highs and lows sound great and personally I think the bass is at a perfect level -LRB- at 50 % -RRB- , definitely not boomy .",
+            "aspects": " lows",
+            "labels": "positive"
+        },
+        {
+            "text": " The highs and lows sound great and personally I think the bass is at a perfect level -LRB- at 50 % -RRB- , definitely not boomy .",
+            "aspects": "highs",
+            "labels": "positive"
+        },
+        {
+            "text": " Bottom line is for the price , these things sound GREAT and have tons of good bass .",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": " Bottom line is for the price , these things sound GREAT and have tons of good bass .",
+            "aspects": " sound",
+            "labels": "positive"
+        },
+        {
+            "text": " Bottom line is for the price , these things sound GREAT and have tons of good bass .",
+            "aspects": " bass",
+            "labels": "positive"
+        },
+        {
+            "text": " These are great bike speakers for the weekend cycling in the park .",
+            "aspects": "speakers",
+            "labels": "positive"
+        },
+        {
+            "text": " The mount is easy to use ... it 's just velcro straps to tie up on the handlebars .",
+            "aspects": " use",
+            "labels": "positive"
+        },
+        {
+            "text": " The mount is easy to use ... it 's just velcro straps to tie up on the handlebars .",
+            "aspects": "mount",
+            "labels": "positive"
+        },
+        {
+            "text": " It is also a bit bigger than expected but that 's OK because all I need is something to work with my iphone .",
+            "aspects": "bigger",
+            "labels": "negative"
+        },
+        {
+            "text": " I believe this are great speakers but you also have to accept the audio capabilities of your Desktop Computer or Laptop , I try this at BestBuy and the sound was perfect for this small speaker , now when I got home and try them on my desktop the sound was ok , I have a Mac and I wanted to avoid installing a sound card since it 's a nightmare to find a fully compatible PCI card , I found a great plug-in for Mac I-tunes , SRS Iwow , after installing the demo I was totally impress by the quality of sound , just a great alternative for mac users .",
+            "aspects": " sound",
+            "labels": "positive"
+        },
+        {
+            "text": " I believe this are great speakers but you also have to accept the audio capabilities of your Desktop Computer or Laptop , I try this at BestBuy and the sound was perfect for this small speaker , now when I got home and try them on my desktop the sound was ok , I have a Mac and I wanted to avoid installing a sound card since it 's a nightmare to find a fully compatible PCI card , I found a great plug-in for Mac I-tunes , SRS Iwow , after installing the demo I was totally impress by the quality of sound , just a great alternative for mac users .",
+            "aspects": "speakers",
+            "labels": "positive"
+        },
+        {
+            "text": " My brother and I were equally shocked at how loud this thing really is .",
+            "aspects": "loud",
+            "labels": "positive"
+        },
+        {
+            "text": " I deducted a star because , when I put my iPod and iPad on full volume , the speaker 's bass began to completely ruin the sound .",
+            "aspects": "bass",
+            "labels": "negative"
+        },
+        {
+            "text": " The sound became instantly clear again .",
+            "aspects": "sound",
+            "labels": "positive"
+        },
+        {
+            "text": " I do wish I could enjoy lots of bass without the sound losing quality , but the sheer volume of this thing makes up for that !",
+            "aspects": "bass",
+            "labels": "negative"
+        },
+        {
+            "text": " I do wish I could enjoy lots of bass without the sound losing quality , but the sheer volume of this thing makes up for that !",
+            "aspects": " sheer volume",
+            "labels": "positive"
+        },
+        {
+            "text": " Upon opening these I found them to be really small but having a solid feel to them .",
+            "aspects": "small",
+            "labels": "positive"
+        },
+        {
+            "text": " There are a few things that I do n't like about the design .",
+            "aspects": "design",
+            "labels": "negative"
+        },
+        {
+            "text": " There is no speaker grill to offer any protection to the driver .",
+            "aspects": "speaker grill",
+            "labels": "negative"
+        },
+        {
+            "text": " With the smooth knob I find it hard to judge if I am actually gripping it and turning it by feel alone .",
+            "aspects": "knob",
+            "labels": "positive"
+        },
+        {
+            "text": " This is the best speaker mount I had so far .",
+            "aspects": "speaker mount",
+            "labels": "positive"
+        },
+        {
+            "text": " Although I was concerned about the plastic material and the fragile look , but it really works .",
+            "aspects": " look",
+            "labels": "negative"
+        },
+        {
+            "text": " Although I was concerned about the plastic material and the fragile look , but it really works .",
+            "aspects": "material",
+            "labels": "negative"
+        },
+        {
+            "text": " This speaker mount is suitable for small speaker .",
+            "aspects": "speaker mount",
+            "labels": "positive"
+        },
+        {
+            "text": " This speaker mount is suitable for small speaker .",
+            "aspects": " speaker",
+            "labels": "positive"
+        },
+        {
+            "text": " The sound is far from good and there 's a lot of interference mainly when doing any Wifi activity .",
+            "aspects": "sound",
+            "labels": "negative"
+        },
+        {
+            "text": " Volume level is OK .",
+            "aspects": "Volume level",
+            "labels": "positive"
+        },
+        {
+            "text": " material is on the cheap side .",
+            "aspects": "material",
+            "labels": "negative"
+        },
+        {
+            "text": " JBL S310 II is truly amazing .",
+            "aspects": "JBL S310 II",
+            "labels": "positive"
+        },
+        {
+            "text": " Sound is crystal clear and the bass is very deep as well .",
+            "aspects": " bass",
+            "labels": "positive"
+        },
+        {
+            "text": " Sound is crystal clear and the bass is very deep as well .",
+            "aspects": "Sound",
+            "labels": "positive"
+        },
+        {
+            "text": " I am using JBL N38 II as surround left & right , which is again a very nice excellent speaker set .",
+            "aspects": "speaker set",
+            "labels": "positive"
+        },
+        {
+            "text": " The Center channel is JBL - S - Center II , this unit is very powerful and produces crystal clear dialogues , and it 's a 3-way speaker system .",
+            "aspects": "unit",
+            "labels": "positive"
+        },
+        {
+            "text": " The Center channel is JBL - S - Center II , this unit is very powerful and produces crystal clear dialogues , and it 's a 3-way speaker system .",
+            "aspects": " dialogues",
+            "labels": "positive"
+        },
+        {
+            "text": " Harmon international has done a great job on all of these equipment , the AVR 525 produces crystal clear sound with excellent clarity .",
+            "aspects": " clarity",
+            "labels": "positive"
+        },
+        {
+            "text": " Harmon international has done a great job on all of these equipment , the AVR 525 produces crystal clear sound with excellent clarity .",
+            "aspects": " sound",
+            "labels": "positive"
+        },
+        {
+            "text": " Harmon international has done a great job on all of these equipment , the AVR 525 produces crystal clear sound with excellent clarity .",
+            "aspects": "AVR 525",
+            "labels": "positive"
+        },
+        {
+            "text": " <p> I am very happy about my investment and the quality service of Amazon and J&R store .",
+            "aspects": "quality service",
+            "labels": "positive"
+        },
+        {
+            "text": " Great product , works perfectly for my office !!!",
+            "aspects": "product",
+            "labels": "positive"
+        },
+        {
+            "text": " I love the BASS this thing gets , I have two 12 '' subs in my car , that should tell you enough if I am saying the bass is great !!",
+            "aspects": " bass",
+            "labels": "positive"
+        },
+        {
+            "text": " I love the BASS this thing gets , I have two 12 '' subs in my car , that should tell you enough if I am saying the bass is great !!",
+            "aspects": "BASS",
+            "labels": "positive"
+        },
+        {
+            "text": " All I can say is that this is an excellent devise .",
+            "aspects": "devise",
+            "labels": "positive"
+        },
+        {
+            "text": " I highly recommend this device !",
+            "aspects": "device",
+            "labels": "positive"
+        }
+    ],
+    "Router": [
+        {
+            "text": " It is a wonderful little router .",
+            "aspects": "router",
+            "labels": "positive"
+        },
+        {
+            "text": " Connection speed to the other 2 machines seems awesome - much quicker than the router I replaced , and when combined with the simplicity of the Valet Plus , this makes for a great product .",
+            "aspects": " product",
+            "labels": "positive"
+        },
+        {
+            "text": " Connection speed to the other 2 machines seems awesome - much quicker than the router I replaced , and when combined with the simplicity of the Valet Plus , this makes for a great product .",
+            "aspects": "Connection speed",
+            "labels": "positive"
+        },
+        {
+            "text": " This router is the best I have used to date .",
+            "aspects": "router",
+            "labels": "positive"
+        },
+        {
+            "text": " However , if speed , reliability , and power to transmit a signal across the house are your requirements , then this router will do the job .",
+            "aspects": " transmit a signal",
+            "labels": "positive"
+        },
+        {
+            "text": " However , if speed , reliability , and power to transmit a signal across the house are your requirements , then this router will do the job .",
+            "aspects": " reliability",
+            "labels": "positive"
+        },
+        {
+            "text": " However , if speed , reliability , and power to transmit a signal across the house are your requirements , then this router will do the job .",
+            "aspects": "speed",
+            "labels": "positive"
+        },
+        {
+            "text": " Worked great until the new firmware that installs SecureSpot .",
+            "aspects": "Worked",
+            "labels": "positive"
+        },
+        {
+            "text": " Worked great until the new firmware that installs SecureSpot .",
+            "aspects": " firmware",
+            "labels": "negative"
+        },
+        {
+            "text": " When the SecureSpot free trial finishes , they ask you to buy it and when you do n't , it stops working well .",
+            "aspects": "working",
+            "labels": "negative"
+        },
+        {
+            "text": " Even when you disable SecureSpot completely , it will upon reboot keep saying your computer is new even when it is n't and force you to tell it that your computer is authorized .",
+            "aspects": "SecureSpot",
+            "labels": "negative"
+        },
+        {
+            "text": " You ca n't , that `` upgrade '' is irreversible .",
+            "aspects": "upgrade",
+            "labels": "negative"
+        },
+        {
+            "text": " D-Link got greedy and in trying to sell you their pathetic extras made the product unusable .",
+            "aspects": "D-Link",
+            "labels": "negative"
+        },
+        {
+            "text": " D-Link got greedy and in trying to sell you their pathetic extras made the product unusable .",
+            "aspects": " product",
+            "labels": "negative"
+        },
+        {
+            "text": " Setup was easy -LRB- Windows XP wired , Windows 7 Professional wifi -RRB- .",
+            "aspects": "Setup",
+            "labels": "positive"
+        },
+        {
+            "text": " I followed the easy instructions in the manual , and once online at the router 's login , there is a setup Wizard which will work with your OS if you choose to use it .",
+            "aspects": "instructions",
+            "labels": "positive"
+        },
+        {
+            "text": " I just set it up manually , which is very easy .",
+            "aspects": "set",
+            "labels": "positive"
+        },
+        {
+            "text": " The router recognized my other wifi devices easily , and further setup was a breeze .",
+            "aspects": "setup",
+            "labels": "positive"
+        },
+        {
+            "text": " My Linksys froze for 30 minutes or longer when applying changes .",
+            "aspects": "Linksys",
+            "labels": "negative"
+        },
+        {
+            "text": " I 'm very happy with this router , and would recommend it .",
+            "aspects": "router",
+            "labels": "positive"
+        },
+        {
+            "text": " Update : I 've been using this router for 3 months and it 's still working very well - wifi remains strong and consistant .",
+            "aspects": "working",
+            "labels": "positive"
+        },
+        {
+            "text": " I remain extremely pleased with this router !",
+            "aspects": "router",
+            "labels": "positive"
+        },
+        {
+            "text": " It works fine but performance is no better than my old SMC G 54mbs .",
+            "aspects": "works",
+            "labels": "positive"
+        },
+        {
+            "text": " It works fine but performance is no better than my old SMC G 54mbs .",
+            "aspects": " performance",
+            "labels": "negative"
+        },
+        {
+            "text": " First thing I tested was the speed , and I have to say it was abysmal .",
+            "aspects": "speed",
+            "labels": "negative"
+        },
+        {
+            "text": " Hooked up to the D-Link extreme N , connected speed dropped to 18mbps and wireless down to 8mbps .",
+            "aspects": "speed",
+            "labels": "negative"
+        },
+        {
+            "text": " At first I dealt with this as 18mbps was still REALLY fast .",
+            "aspects": "fast",
+            "labels": "positive"
+        },
+        {
+            "text": " The next day , I turned on my laptop and it connected to the network , but no internet connection .",
+            "aspects": "internet connection",
+            "labels": "negative"
+        },
+        {
+            "text": " This is a good product .",
+            "aspects": "product",
+            "labels": "positive"
+        },
+        {
+            "text": " Not cheap but not expensive either .",
+            "aspects": " expensive",
+            "labels": "positive"
+        },
+        {
+            "text": " Not cheap but not expensive either .",
+            "aspects": "cheap",
+            "labels": "negative"
+        }
+    ],
+    "Computer": [
+        {
+            "text": " The monitor works very well with a sharp and bright display .",
+            "aspects": " display",
+            "labels": "positive"
+        },
+        {
+            "text": " The only negative thing about this was the instructions for adjusting the display were not very clear and it took a little time to figure out how to do it .",
+            "aspects": "instructions",
+            "labels": "negative"
+        },
+        {
+            "text": " While upgrading the memory the keyboard connector broke .",
+            "aspects": "keyboard connector",
+            "labels": "negative"
+        },
+        {
+            "text": " I 'm not very happy with this machine or Acer .",
+            "aspects": " Acer",
+            "labels": "negative"
+        },
+        {
+            "text": " I 'm not very happy with this machine or Acer .",
+            "aspects": "machine",
+            "labels": "negative"
+        },
+        {
+            "text": " I would not recommend this or any Acer product to anyone except perhaps my ex .",
+            "aspects": "Acer product",
+            "labels": "negative"
+        },
+        {
+            "text": " Changing brightness is easy , with four presets and one user changeable -LRB- I leave that at minimum brightness for at night -RRB- .",
+            "aspects": "brightness",
+            "labels": "positive"
+        },
+        {
+            "text": " The screen is a very pleasing matte , and the colors are great .",
+            "aspects": " colors",
+            "labels": "positive"
+        },
+        {
+            "text": " The screen is a very pleasing matte , and the colors are great .",
+            "aspects": "screen",
+            "labels": "positive"
+        },
+        {
+            "text": " I have used this monitor for a few months and have had no problems .",
+            "aspects": "monitor",
+            "labels": "positive"
+        },
+        {
+            "text": " It has good color and price was great .",
+            "aspects": " price",
+            "labels": "positive"
+        },
+        {
+            "text": " It has good color and price was great .",
+            "aspects": "color",
+            "labels": "positive"
+        },
+        {
+            "text": " Fantastic display ... do n't understand why this model is n't available anymore .",
+            "aspects": "display",
+            "labels": "positive"
+        },
+        {
+            "text": " Bright , vivid , clean lines , wide viewing angle , and best of all - great price !",
+            "aspects": " viewing angle",
+            "labels": "positive"
+        },
+        {
+            "text": " Bright , vivid , clean lines , wide viewing angle , and best of all - great price !",
+            "aspects": " price",
+            "labels": "positive"
+        },
+        {
+            "text": " Bright , vivid , clean lines , wide viewing angle , and best of all - great price !",
+            "aspects": "lines",
+            "labels": "positive"
+        },
+        {
+            "text": " It was worth the wait because AG Neovo 's standout 17 '' monitor has all this and more .",
+            "aspects": "AG Neovo 's standout 17 '' monitor",
+            "labels": "positive"
+        },
+        {
+            "text": " The contrast , crispness , and readability from even the most extreme viewing angles ca n't be beat .",
+            "aspects": " crispness",
+            "labels": "positive"
+        },
+        {
+            "text": " The contrast , crispness , and readability from even the most extreme viewing angles ca n't be beat .",
+            "aspects": "contrast",
+            "labels": "positive"
+        },
+        {
+            "text": " The contrast , crispness , and readability from even the most extreme viewing angles ca n't be beat .",
+            "aspects": " readability",
+            "labels": "positive"
+        },
+        {
+            "text": " The contrast , crispness , and readability from even the most extreme viewing angles ca n't be beat .",
+            "aspects": " viewing angles",
+            "labels": "positive"
+        },
+        {
+            "text": " When the Matrox G550 Dual-DVI card comes out , I 'll consider purchasing one more of these super displays .",
+            "aspects": "displays",
+            "labels": "positive"
+        },
+        {
+            "text": " Expensive , but for us -- well worth it .",
+            "aspects": "Expensive",
+            "labels": "negative"
+        },
+        {
+            "text": " The changing colors help to tell , with a quick glance .",
+            "aspects": "colors",
+            "labels": "positive"
+        },
+        {
+            "text": " The idea of this device is great : it picks up a 5-day weather forecast from AccuWeather and displays the key elements on its screen .",
+            "aspects": "device",
+            "labels": "positive"
+        },
+        {
+            "text": " The replacement unit had a problem too : the little switch on the bottom was n't working properly , making it impossible to select among city forecasts in my area .",
+            "aspects": "switch",
+            "labels": "negative"
+        },
+        {
+            "text": " So if you 're game for a little fiddling , you may be very pleased with this 5-day forecaster .",
+            "aspects": "5-day forecaster",
+            "labels": "positive"
+        },
+        {
+            "text": " This product did not work at all .",
+            "aspects": "product",
+            "labels": "negative"
+        },
+        {
+            "text": " I spend 10 hours\\/day in a VNC session with dark colors ; the colors and brightness change across the panel when I look from the center to the corner .",
+            "aspects": " brightness",
+            "labels": "negative"
+        },
+        {
+            "text": " I spend 10 hours\\/day in a VNC session with dark colors ; the colors and brightness change across the panel when I look from the center to the corner .",
+            "aspects": "colors",
+            "labels": "negative"
+        },
+        {
+            "text": " For my work this panel is unusable .",
+            "aspects": "panel",
+            "labels": "negative"
+        },
+        {
+            "text": " Others may have better luck , but I have never seen a flat-panel with such horrible viewing angles .",
+            "aspects": "viewing angles",
+            "labels": "negative"
+        },
+        {
+            "text": " These monitors are great for the price .",
+            "aspects": "monitors",
+            "labels": "positive"
+        },
+        {
+            "text": " These monitors are great for the price .",
+            "aspects": " price",
+            "labels": "positive"
+        },
+        {
+            "text": " Shipping was fast and they are very easy to set up .",
+            "aspects": "Shipping",
+            "labels": "positive"
+        }
+    ],
+    "Nokia6610": [
+        {
+            "text": "great phone , easy to use , excellent network , no regrets ! ! ! ",
+            "aspects": "phone",
+            "labels": "positive"
+        },
+        {
+            "text": "i purchased this phone for just 50 $ and there is no end to what i can do with it . ",
+            "aspects": "phone",
+            "labels": "positive"
+        },
+        {
+            "text": "nokia and t-mobile really teamed up well on this baby . ",
+            "aspects": "phone",
+            "labels": "positive"
+        },
+        {
+            "text": "service is great as far as i can tell , features work like a charm , ringtones are high quality if you buy them from t-mobile and aim is great . ",
+            "aspects": "service",
+            "labels": "positive"
+        },
+        {
+            "text": "service is great as far as i can tell , features work like a charm , ringtones are high quality if you buy them from t-mobile and aim is great . ",
+            "aspects": "ringtone",
+            "labels": "positive"
+        },
+        {
+            "text": "this is probably your best bet if you are looking for a phone in this price range , or like me , do not have the patience to deal with annoying flip phones . ",
+            "aspects": "phone",
+            "labels": "positive"
+        },
+        {
+            "text": "1 month , no problems , great phone i 'm very pleased with my 6610 phone . ",
+            "aspects": "phone",
+            "labels": "positive"
+        },
+        {
+            "text": "yes , the features are numerous . ",
+            "aspects": "feature",
+            "labels": "positive"
+        },
+        {
+            "text": "the speakerphone works better than any speakerphone i 've ever had . ",
+            "aspects": "speakerphone",
+            "labels": "positive"
+        },
+        {
+            "text": "the sound quality is excellent , except , maybe a * tad * too quiet at times when there are quieter talkers on the other end of the line . ",
+            "aspects": "sound quality",
+            "labels": "positive"
+        },
+        {
+            "text": "the included earpiece is very comfortable and easy to use . ",
+            "aspects": "earpiece",
+            "labels": "positive"
+        },
+        {
+            "text": "i have not had any distortion problems with this phone and am more pleased with this phone than any i 've used before . ",
+            "aspects": "phone",
+            "labels": "positive"
+        },
+        {
+            "text": "first let me say that it is much smaller than it looks on the web and it also looks better . ",
+            "aspects": "size",
+            "labels": "positive"
+        },
+        {
+            "text": "first let me say that it is much smaller than it looks on the web and it also looks better . ",
+            "aspects": " look",
+            "labels": "positive"
+        },
+        {
+            "text": "the radio feature has superb sound quality . ",
+            "aspects": "radio",
+            "labels": "positive"
+        },
+        {
+            "text": "it has a classic design yet looks hip . ",
+            "aspects": "design",
+            "labels": "positive"
+        },
+        {
+            "text": "it is extremely light and dissapears in your pocket . ",
+            "aspects": "weight",
+            "labels": "positive"
+        },
+        {
+            "text": "the battery is alot better than most of the phones out there . ",
+            "aspects": "battery",
+            "labels": "positive"
+        },
+        {
+            "text": "this phone is great as a whole and is not like others with one or two good qualities . ",
+            "aspects": "phone",
+            "labels": "positive"
+        },
+        {
+            "text": "the only problem that i have found with the internet service is that it does not access mls ( real estate broker software ) very well at all . ",
+            "aspects": "internet",
+            "labels": "negative"
+        },
+        {
+            "text": "it does well in all aspects of internet browsing . ",
+            "aspects": "browsing",
+            "labels": "positive"
+        },
+        {
+            "text": "i find the lack of entertaining games on this phone quite disturbing . ",
+            "aspects": "game",
+            "labels": "negative"
+        },
+        {
+            "text": "battery life is good for a phone of this size . ",
+            "aspects": "battery life",
+            "labels": "positive"
+        },
+        {
+            "text": "but anyway , the only thing you should really look at here is the fact that the phone does have voice dialing . ",
+            "aspects": "voice dialing",
+            "labels": "positive"
+        },
+        {
+            "text": "great screen and great sound . ",
+            "aspects": "sound",
+            "labels": "positive"
+        },
+        {
+            "text": "great screen and great sound . ",
+            "aspects": "screen",
+            "labels": "positive"
+        },
+        {
+            "text": "the 6610 excels as a cell phone , thank god . ",
+            "aspects": "phone",
+            "labels": "positive"
+        },
+        {
+            "text": "the voice quality is very good , and it gets great reception ( that is , in places where you get t-mobile coverage , which is not that good ; see below ) . ",
+            "aspects": "reception",
+            "labels": "positive"
+        },
+        {
+            "text": "the voice quality is very good , and it gets great reception ( that is , in places where you get t-mobile coverage , which is not that good ; see below ) . ",
+            "aspects": "voice quality",
+            "labels": "positive"
+        },
+        {
+            "text": "the color screen makes this free-after-rebates phone shine bright , and commands are very responsive . ",
+            "aspects": "command",
+            "labels": "positive"
+        },
+        {
+            "text": "the color screen makes this free-after-rebates phone shine bright , and commands are very responsive . ",
+            "aspects": "screen",
+            "labels": "positive"
+        },
+        {
+            "text": "my only gripe about the hardware is the buttons . ",
+            "aspects": "button",
+            "labels": "negative"
+        },
+        {
+            "text": "this model does have the traditional key arrangement , it 's just that they are really close to one another , and have unconventional shapes , so it takes a big getting used to for someone like me with big hands . ",
+            "aspects": "key",
+            "labels": "negative"
+        },
+        {
+            "text": "other than that , this is a perfect phone for those of us with no patience for flips . ",
+            "aspects": "phone",
+            "labels": "positive"
+        }
+    ],
+    "NikonCoolpix4300": [
+        {
+            "text": "seriously ! i love it ! ",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "but this camera is great ! ",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "the picture quality is amazing and you can connect it to your tv and could make silent movies that way if you wanted to . ",
+            "aspects": "picture quality",
+            "labels": "positive"
+        },
+        {
+            "text": "the picture quality is amazing and you can connect it to your tv and could make silent movies that way if you wanted to . ",
+            "aspects": "movie",
+            "labels": "positive"
+        },
+        {
+            "text": "it does have a lense cap , but it wo n't let you take pics with it on which is real good . ",
+            "aspects": "lense cap",
+            "labels": "positive"
+        },
+        {
+            "text": "the battery recharges ral fast and the recharger thingy that comes with is real nice . ",
+            "aspects": "battery",
+            "labels": "positive"
+        },
+        {
+            "text": "ooh , and i dropped it and it still works fine : this little camera has so many features i have n't even gotten to all of them yet . ",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "it 's easy for beginners to use , but has features that more serious photographers will love , so it 's an excellent camera to grow into . ",
+            "aspects": "feature",
+            "labels": "positive"
+        },
+        {
+            "text": "it 's easy for beginners to use , but has features that more serious photographers will love , so it 's an excellent camera to grow into . ",
+            "aspects": "use",
+            "labels": "positive"
+        },
+        {
+            "text": "it 's easy for beginners to use , but has features that more serious photographers will love , so it 's an excellent camera to grow into . ",
+            "aspects": " camera",
+            "labels": "positive"
+        },
+        {
+            "text": "it 's light weight enough to take with you everywhere , but powerful enough to get outstanding pix . ",
+            "aspects": "weight",
+            "labels": "positive"
+        },
+        {
+            "text": "it 's light weight enough to take with you everywhere , but powerful enough to get outstanding pix . ",
+            "aspects": " picture",
+            "labels": "positive"
+        },
+        {
+            "text": "i love the continuous shot mode , which allows you to take up to 16 pix in rapid succession -- great for action shots . ",
+            "aspects": "continuous shot mode",
+            "labels": "positive"
+        },
+        {
+            "text": "i 'm amazed at the photo quality -- prints are indistinguishable from 35mm prints . ",
+            "aspects": "print",
+            "labels": "positive"
+        },
+        {
+            "text": "i 'm amazed at the photo quality -- prints are indistinguishable from 35mm prints . ",
+            "aspects": "photo quality",
+            "labels": "positive"
+        },
+        {
+            "text": "i only have one complaint , and that is the 8mb card included . ",
+            "aspects": "8mb card",
+            "labels": "negative"
+        },
+        {
+            "text": "8mb for a camera like this is a joke . ",
+            "aspects": "8mb",
+            "labels": "negative"
+        },
+        {
+            "text": "1 it has all the features an amatuer photo-enthusiast would want . ",
+            "aspects": "feature",
+            "labels": "positive"
+        },
+        {
+            "text": "2 it is easy enough for my grandmother to use . ",
+            "aspects": "use",
+            "labels": "positive"
+        },
+        {
+            "text": "3 it is very compact but the controls are so well designed that they 're still easy to use . ",
+            "aspects": "control",
+            "labels": "positive"
+        }
+    ],
+    "CreativeLabsNomadJukeboxZenXtra40GB": [
+        {
+            "text": "kind of bulky and the wheel is awkward , but i can deal with that . ",
+            "aspects": "weight",
+            "labels": "negative"
+        },
+        {
+            "text": "software definitely sucks , hangs up my notebook about half the time , but i do n't mind buying notmad . ",
+            "aspects": "software",
+            "labels": "negative"
+        },
+        {
+            "text": "i am annoyed that the player 's not automatically recognized as a hard drive . ",
+            "aspects": "player",
+            "labels": "negative"
+        },
+        {
+            "text": "i loved it until it broke , but less than a month is not an acceptible period of time for something to work . ",
+            "aspects": "player",
+            "labels": "negative"
+        },
+        {
+            "text": "i loved this product when i first got it - great sound , easy to use ( even though i agree that the software was n't the best ) and held enough songs to suit any mood . ",
+            "aspects": " sound",
+            "labels": "positive"
+        },
+        {
+            "text": "i loved this product when i first got it - great sound , easy to use ( even though i agree that the software was n't the best ) and held enough songs to suit any mood . ",
+            "aspects": " use",
+            "labels": "positive"
+        },
+        {
+            "text": "i loved this product when i first got it - great sound , easy to use ( even though i agree that the software was n't the best ) and held enough songs to suit any mood . ",
+            "aspects": "product",
+            "labels": "positive"
+        },
+        {
+            "text": "i was willing to live with the larger size ( inconvenient on the road ) but the durability was a big zero . ",
+            "aspects": "durability",
+            "labels": "negative"
+        },
+        {
+            "text": "always carried it in a case in by briefcase but one day the hard drive just zapped . ",
+            "aspects": "hard drive",
+            "labels": "negative"
+        },
+        {
+            "text": "i am disappointed and looking elsewhere for something that can withstand the \" rigor \" of a business traveler . ",
+            "aspects": "player",
+            "labels": "negative"
+        },
+        {
+            "text": "the combination of the price , storage size , and player features makes this player the best on the market . ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "fact is , it could n't be easier to use . ",
+            "aspects": "software",
+            "labels": "positive"
+        },
+        {
+            "text": "sound quality on this is amazing , as with all creative products . ",
+            "aspects": "sound quality",
+            "labels": "positive"
+        },
+        {
+            "text": "even leaving it on the default setting ( without the eax enhancements ) produces crystal clear playback . ",
+            "aspects": "sound",
+            "labels": "positive"
+        },
+        {
+            "text": "the menu allows you to search for files by artist , genre , and album quite easily . ",
+            "aspects": "menu",
+            "labels": "positive"
+        },
+        {
+            "text": "the battery stays charged for a long time , and takes no more than 2 or 3 hours at most to fully recharge via the included ac adapter . ",
+            "aspects": "battery",
+            "labels": "positive"
+        },
+        {
+            "text": "connect the player to your computer ( via usb ) , open up mediasource , and you can listen to your stored mp3s as they stream directly from the xtra ! ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "usb 2.0 transfer is insanely fast . ",
+            "aspects": "usb 2.0",
+            "labels": "positive"
+        },
+        {
+            "text": "minor complaints : 1 ) even though the music is sorted via id3 tag on the player , the option to search for music contained in a folder is unavailable . ",
+            "aspects": "folder",
+            "labels": "negative"
+        },
+        {
+            "text": "the zen xtra will transfer the files to the player , but not the folder name . ",
+            "aspects": "folder",
+            "labels": "negative"
+        },
+        {
+            "text": "2 ) having unfilled id3 tags will cause music to be potentially placed in a folder called \" unknown . \" ",
+            "aspects": "id3 tag",
+            "labels": "negative"
+        },
+        {
+            "text": "3 ) with mediasource being so easy , i found no use for the bundled nomad explorer software . ",
+            "aspects": "nomad explorer",
+            "labels": "negative"
+        },
+        {
+            "text": "in fact , it caused my system to hang more times than not , so i uninstalled it and stuck with mediasource 100 % . ",
+            "aspects": "nomad explorer",
+            "labels": "negative"
+        },
+        {
+            "text": "my first impression was positive . ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "first , the sound quality is okay , but ( as at least one other reviewer has mentioned ) the eax can cause audio interference after about 30 minutes . ",
+            "aspects": "eax",
+            "labels": "negative"
+        },
+        {
+            "text": "second , the menu system and controls are poorly designed . ",
+            "aspects": "menue",
+            "labels": "negative"
+        },
+        {
+            "text": "second , the menu system and controls are poorly designed . ",
+            "aspects": "control",
+            "labels": "negative"
+        },
+        {
+            "text": "the toggle button that is used to scroll is poorly designed and does not work well . ",
+            "aspects": "scroll",
+            "labels": "negative"
+        },
+        {
+            "text": "the general button placement is not very user friendly . ",
+            "aspects": "button",
+            "labels": "negative"
+        },
+        {
+            "text": "third , the poor design continues with the case . ",
+            "aspects": "case",
+            "labels": "negative"
+        },
+        {
+            "text": "overall , a good buy for the price . ",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": "easy enough to navigate through , although i 'd prefer a sturdier button besides the thumbwheel scroll / pushbutton . ",
+            "aspects": "navigation",
+            "labels": "positive"
+        },
+        {
+            "text": "my biggest complaint is the battery life or lack there of . ",
+            "aspects": "battery life",
+            "labels": "negative"
+        },
+        {
+            "text": "there is no way the battery supplied lasts 14 hours ! ",
+            "aspects": "battery",
+            "labels": "negative"
+        },
+        {
+            "text": "i 've also had the nomad zen lock-up several times . ",
+            "aspects": "lock up",
+            "labels": "negative"
+        },
+        {
+            "text": "the nomad zen could use a little sturdier construction like the archos jukeboxes or some kind of shock resistant case . ",
+            "aspects": "construction",
+            "labels": "negative"
+        },
+        {
+            "text": "at the very least , a sturdier more protective carrying case would be nice . ",
+            "aspects": "case",
+            "labels": "negative"
+        },
+        {
+            "text": "pros : huge storage capacity for the price , easy to navigate , can modify existing playlists on the fly , has a removable battery ",
+            "aspects": "storage",
+            "labels": "positive"
+        },
+        {
+            "text": "pros : huge storage capacity for the price , easy to navigate , can modify existing playlists on the fly , has a removable battery ",
+            "aspects": "navigation",
+            "labels": "positive"
+        },
+        {
+            "text": "pros : huge storage capacity for the price , easy to navigate , can modify existing playlists on the fly , has a removable battery ",
+            "aspects": "battery",
+            "labels": "positive"
+        },
+        {
+            "text": "pros : huge storage capacity for the price , easy to navigate , can modify existing playlists on the fly , has a removable battery ",
+            "aspects": "playlist",
+            "labels": "positive"
+        },
+        {
+            "text": "battery life is about 1/4 of that advertised , no operators manual available for any of the nomad zen players ( on or off-line ) , occasional software lockups , replacement battery is expensive ",
+            "aspects": "replacement battery",
+            "labels": "negative"
+        },
+        {
+            "text": "battery life is about 1/4 of that advertised , no operators manual available for any of the nomad zen players ( on or off-line ) , occasional software lockups , replacement battery is expensive ",
+            "aspects": "battery life",
+            "labels": "negative"
+        },
+        {
+            "text": "battery life is about 1/4 of that advertised , no operators manual available for any of the nomad zen players ( on or off-line ) , occasional software lockups , replacement battery is expensive ",
+            "aspects": "manual",
+            "labels": "negative"
+        },
+        {
+            "text": "battery life is about 1/4 of that advertised , no operators manual available for any of the nomad zen players ( on or off-line ) , occasional software lockups , replacement battery is expensive ",
+            "aspects": "lock up",
+            "labels": "negative"
+        },
+        {
+            "text": "creative zen feedback suffers from construction quality , poor product support , difficulty of using the scroll wheel and reasonably consistent feedback about problems with the headphone jack . ",
+            "aspects": "construction",
+            "labels": "negative"
+        },
+        {
+            "text": "creative zen feedback suffers from construction quality , poor product support , difficulty of using the scroll wheel and reasonably consistent feedback about problems with the headphone jack . ",
+            "aspects": "support",
+            "labels": "negative"
+        },
+        {
+            "text": "creative zen feedback suffers from construction quality , poor product support , difficulty of using the scroll wheel and reasonably consistent feedback about problems with the headphone jack . ",
+            "aspects": "scroll wheel",
+            "labels": "negative"
+        },
+        {
+            "text": "creative zen feedback suffers from construction quality , poor product support , difficulty of using the scroll wheel and reasonably consistent feedback about problems with the headphone jack . ",
+            "aspects": "headphone jack",
+            "labels": "negative"
+        },
+        {
+            "text": "what is added in functionality ( battery replacement ) detracts in build quality as the face plate is prone to popping off . ",
+            "aspects": "build",
+            "labels": "negative"
+        },
+        {
+            "text": "feedback on creative 's product support is universally poor ; this is not limited to the zen , it applies to all the company 's products . ",
+            "aspects": "support",
+            "labels": "negative"
+        },
+        {
+            "text": "the scroll wheel is finicky ; it works most of the time but there is a learning curve for pressing it just right ; new users say they have 50 % - 75 % success rate ; some find it so frustrating that they just return the device . ",
+            "aspects": "scroll wheel",
+            "labels": "negative"
+        },
+        {
+            "text": "the creative software is awkward / difficult to use and just plain does n't load on some computers . ",
+            "aspects": "software",
+            "labels": "negative"
+        },
+        {
+            "text": "enough people have reported that their headphone jack does n't work after a month of using the device to believe that creative has some inbuilt manufacturing or quality control problem . ",
+            "aspects": "headphone jack",
+            "labels": "negative"
+        },
+        {
+            "text": "the zen does n't support folders so it is not really a storage device ; even with third party software that \" creates \" folders , documents and programs can 't be launched from the zen , so it is not a hard disk , it 's a storage device at best . ",
+            "aspects": "folder",
+            "labels": "negative"
+        },
+        {
+            "text": "reviews for sound quality are generally ( but not universally ) positive . ",
+            "aspects": "sound quality",
+            "labels": "positive"
+        },
+        {
+            "text": "sure , this thing is definitely more cost-effective than an ipod . ",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": "but with a low price , comes lower quality . ",
+            "aspects": "quality",
+            "labels": "negative"
+        },
+        {
+            "text": "our special friends at creative gave this thing good sound quality , great features , long battery life , and an unbeatable price . ",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": "our special friends at creative gave this thing good sound quality , great features , long battery life , and an unbeatable price . ",
+            "aspects": "battery life",
+            "labels": "positive"
+        },
+        {
+            "text": "our special friends at creative gave this thing good sound quality , great features , long battery life , and an unbeatable price . ",
+            "aspects": "sound quality",
+            "labels": "positive"
+        },
+        {
+            "text": "the catch is it 's built like a piece of crap . ",
+            "aspects": "player",
+            "labels": "negative"
+        },
+        {
+            "text": "i did n't abuse it , i charged it every day , but the headphone jack just sort of fizzled out . ",
+            "aspects": "headphone jack",
+            "labels": "negative"
+        },
+        {
+            "text": "i bought the player this week and i like it by far . ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "removable and cheap battery - a li battery usually works properly for 1-3 years . ",
+            "aspects": "battery",
+            "labels": "positive"
+        },
+        {
+            "text": "value : comparing data storage with price . ",
+            "aspects": "value",
+            "labels": "positive"
+        },
+        {
+            "text": "the appearance is okayed ( at least not ugly ) . ",
+            "aspects": "appearance",
+            "labels": "positive"
+        },
+        {
+            "text": "the size is small ( just a little bit bigger than an i-pod . ) ",
+            "aspects": "size",
+            "labels": "positive"
+        },
+        {
+            "text": "easy to use : a lot of reviews has mentioned about this ",
+            "aspects": "use",
+            "labels": "positive"
+        },
+        {
+            "text": "the software , mediasource , cannot work on my pc . ( laptop , intel p4-2.0 , xp os ) . ",
+            "aspects": "mediasource",
+            "labels": "negative"
+        },
+        {
+            "text": "in fact , each of my creative mp3 players had software problem in the first place . ",
+            "aspects": "software",
+            "labels": "negative"
+        },
+        {
+            "text": "in short , this player is good at size , value , hardware design but really bad at its software ",
+            "aspects": "software",
+            "labels": "negative"
+        },
+        {
+            "text": "in short , this player is good at size , value , hardware design but really bad at its software ",
+            "aspects": "design",
+            "labels": "positive"
+        },
+        {
+            "text": "in short , this player is good at size , value , hardware design but really bad at its software ",
+            "aspects": "size",
+            "labels": "positive"
+        },
+        {
+            "text": "in short , this player is good at size , value , hardware design but really bad at its software ",
+            "aspects": "value",
+            "labels": "positive"
+        },
+        {
+            "text": "the display is awesome , you can see everything you want and read it clearly ",
+            "aspects": "display",
+            "labels": "positive"
+        },
+        {
+            "text": "huge storage space , i loaded my entire collection of music , which isnt that much , 400 songs , and still have 26 gb , out of the 28 provided to you . ",
+            "aspects": "storage",
+            "labels": "positive"
+        },
+        {
+            "text": "the sound is awesome , but if u put it too loud , depends on yoursound quality , the sound might crack . ",
+            "aspects": "sound",
+            "labels": "positive"
+        },
+        {
+            "text": "with eax on , you can modify your sound , with 4 different presets , which is pretty good , you can get different variations with it . ",
+            "aspects": "eax",
+            "labels": "positive"
+        },
+        {
+            "text": "if you use software correctly , put in all the id3 tags , you will get an awesome database collection , from which you can easily access your songs . ",
+            "aspects": "software",
+            "labels": "positive"
+        },
+        {
+            "text": "i dont know what other people are saying , but the software is awesome . ",
+            "aspects": "software",
+            "labels": "positive"
+        },
+        {
+            "text": "battery recharge , is an awesome thing , because it recharges in only like 2-3 hours . ",
+            "aspects": "battery",
+            "labels": "positive"
+        },
+        {
+            "text": "when you turn on your player , the player turns on really fast , and the music continues to play , as you left it when you were turning it off . ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "you can manage your profile , change the contrast of backlight , make different type of display , either list or tabbed . ",
+            "aspects": "manage",
+            "labels": "positive"
+        },
+        {
+            "text": "you can do other different things with it such as choose what kind of \" now playing \" interface , you can see the interface as modern or classical . ",
+            "aspects": "interface",
+            "labels": "positive"
+        }
+    ],
+    "CanonG3": [
+        {
+            "text": "while light , it will not easily go in small handbags or pockets . ",
+            "aspects": "size",
+            "labels": "negative"
+        },
+        {
+            "text": "the function lever - the one which switches between capture and view mode feels fragile . ",
+            "aspects": "lever",
+            "labels": "negative"
+        },
+        {
+            "text": "flash - as with all built-in flashes in small cameras , you get overilluminated main subjects with depth being lost . ",
+            "aspects": "flash",
+            "labels": "negative"
+        },
+        {
+            "text": "the strap is horrible and gets in the way of parts of the camera you need access to . ",
+            "aspects": "strap",
+            "labels": "negative"
+        },
+        {
+            "text": "the functionality on this camera is mind-blowing . ",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "canon have packed a lot in here and the options and controls are easy to use and logically laid out . ",
+            "aspects": " control",
+            "labels": "positive"
+        },
+        {
+            "text": "canon have packed a lot in here and the options and controls are easy to use and logically laid out . ",
+            "aspects": "option",
+            "labels": "positive"
+        },
+        {
+            "text": "learning how to use it will not take very long . ",
+            "aspects": "learning",
+            "labels": "positive"
+        },
+        {
+            "text": "the image quality is excellent . ",
+            "aspects": "image quality",
+            "labels": "positive"
+        },
+        {
+            "text": "range of functions - as indicated above - it has something for everyone : point and shoot power plus advanced functions for those who are serious about photography . ",
+            "aspects": "function",
+            "labels": "positive"
+        },
+        {
+            "text": "this is by far the finest camera in its price and category i have ever used . ",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "the macro works great for medical photographs and the auto mode is terrific for point and shoot . ",
+            "aspects": " auto mode",
+            "labels": "positive"
+        },
+        {
+            "text": "the macro works great for medical photographs and the auto mode is terrific for point and shoot . ",
+            "aspects": "macro",
+            "labels": "positive"
+        },
+        {
+            "text": "this camera is closest to perfect than any other digicam that is 4-5 megapixel . ",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "i 'm glad canon decided to keep the 4mp resolution and improved upon it with new technology ; ",
+            "aspects": "4mp resolution",
+            "labels": "positive"
+        },
+        {
+            "text": "yes there is a corner lens barrel distortion ( i do n't like it too but no harm done since i always use the camea lcd screen to see exactly what i 'm going to get ) in the viewfinder when you do n't zoom ( when you zoom the lens distortion goes away ) , canon knows this and engineered it that way to minimize the parallax phenomenon ; that is what lmost exactly ot the picture . ",
+            "aspects": "distortion",
+            "labels": "negative"
+        },
+        {
+            "text": "in terms of the shots taken , this camera is insanely great ! ",
+            "aspects": "shot",
+            "labels": "positive"
+        },
+        {
+            "text": "the pictures are fabulous and their is a ( short ) learning curve to it ; there are tons of features i have n't even gotten to . ",
+            "aspects": "learning curve",
+            "labels": "positive"
+        },
+        {
+            "text": "the pictures are fabulous and their is a ( short ) learning curve to it ; there are tons of features i have n't even gotten to . ",
+            "aspects": "picture",
+            "labels": "positive"
+        },
+        {
+            "text": "i 've been pleased with the picture quality and durability in snow , car , boat and wind . ",
+            "aspects": "picture quality",
+            "labels": "positive"
+        },
+        {
+            "text": "the camera 's a work of art / science -- that 's understood . ",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "it takes great pictures , operates quickly , and feels solid . ",
+            "aspects": "picture",
+            "labels": "positive"
+        },
+        {
+            "text": "it takes great pictures , operates quickly , and feels solid . ",
+            "aspects": "feel",
+            "labels": "positive"
+        },
+        {
+            "text": "to address two previous somewhat negative reviews : ( 1 ) yes , the lens barrel does obstruct part of the lower left corner in the lens viewfinder ; however , the lcd viewfinder is rather stunning and i find myself rarely using the lens viewfinder . ",
+            "aspects": "viewfinder",
+            "labels": "negative"
+        },
+        {
+            "text": "this camera has a major design flaw . ",
+            "aspects": "design",
+            "labels": "negative"
+        },
+        {
+            "text": "when you look through the viewfinder ( not the lcd ) the bottom left corner of the picture ( about 15 % ) is blocked by the lens . ",
+            "aspects": "viewfinder",
+            "labels": "negative"
+        },
+        {
+            "text": "everything else about the camera is great . ",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "if you strictly use the lcd and not the view finder , i highly recommend the camera . ",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "and so far , i 've been very pleased . ",
+            "aspects": "camera",
+            "labels": "positive"
+        }
+    ],
+    "ApexAD2600Progressive": [
+        {
+            "text": "seemed like a good deal , but this pos frequently cannot recognize dvds and music cds -- takes a long time loading and then concludes , \" no disc \" . ",
+            "aspects": " no disc",
+            "labels": "negative"
+        },
+        {
+            "text": "seemed like a good deal , but this pos frequently cannot recognize dvds and music cds -- takes a long time loading and then concludes , \" no disc \" . ",
+            "aspects": "cd",
+            "labels": "negative"
+        },
+        {
+            "text": "seemed like a good deal , but this pos frequently cannot recognize dvds and music cds -- takes a long time loading and then concludes , \" no disc \" . ",
+            "aspects": "dvd",
+            "labels": "negative"
+        },
+        {
+            "text": "granted , i have only used this dvd player for about 2 hours setting it up for my mom for christmas , but that was long enough for me to find problems with this dvd player . ",
+            "aspects": "dvd player",
+            "labels": "negative"
+        },
+        {
+            "text": "first , the player did not allow me to access the menus of dvds . ",
+            "aspects": "menu",
+            "labels": "negative"
+        },
+        {
+            "text": "this is extemely lame . ",
+            "aspects": "menu",
+            "labels": "negative"
+        },
+        {
+            "text": "the remote is flimsy-feeling and awkward to use . ",
+            "aspects": "remote",
+            "labels": "negative"
+        },
+        {
+            "text": "in addition , it only seems to work if you 're about five feet away from the player , although that may have been just the batteries that came with it . ",
+            "aspects": "remote",
+            "labels": "negative"
+        },
+        {
+            "text": "the player does seem to play dvds adequately enough . ",
+            "aspects": "dvd",
+            "labels": "positive"
+        },
+        {
+            "text": "after less than 24 hours it turned out to be a huge disappointment , for myself and for my parents , for whom it was a gift . ",
+            "aspects": "player",
+            "labels": "negative"
+        },
+        {
+            "text": "it played only one out of three dvd 's without problems , the other two being afflicted by a number of glitches . ",
+            "aspects": "dvd",
+            "labels": "negative"
+        },
+        {
+            "text": "both of the problem dvd 's would repeatedly freeze during playback , while the counter on the player kept going . ",
+            "aspects": "dvd",
+            "labels": "negative"
+        },
+        {
+            "text": "one also exhibited extremely slow speed when going to the menu . ",
+            "aspects": "speed",
+            "labels": "negative"
+        },
+        {
+            "text": "the dvd door would scratch the top of the disc every time it closed . ",
+            "aspects": "door",
+            "labels": "negative"
+        },
+        {
+            "text": "there were a few attractive features , such as the small size and the layout of the remote . ",
+            "aspects": "size",
+            "labels": "positive"
+        },
+        {
+            "text": "there were a few attractive features , such as the small size and the layout of the remote . ",
+            "aspects": "remote layout",
+            "labels": "positive"
+        },
+        {
+            "text": "all in all , trying to save some money on this player resulted in me shelling a great deal more when i purchased a much nicer dvd vcr combo player to make up for blazing crappiness of this very embarassing gift . ",
+            "aspects": "player",
+            "labels": "negative"
+        },
+        {
+            "text": "i was impressed by this very inexpensive player.for the first three hours , and then it died . ",
+            "aspects": "player",
+            "labels": "negative"
+        },
+        {
+            "text": "i looked into buying an inexpensive dvd player that had more than the standard set of features and this item seemed to be the best in that category . ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "i just hooked it up and everything seemed to be going fine . ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "there are a couple of quirks that were a bit annoying like having to actually press the power button before the tray will open ( my prev. machine did it automatically ) , and the fact that the external display is too small and too faded to read from any significant distance . ",
+            "aspects": " external display",
+            "labels": "negative"
+        },
+        {
+            "text": "there are a couple of quirks that were a bit annoying like having to actually press the power button before the tray will open ( my prev. machine did it automatically ) , and the fact that the external display is too small and too faded to read from any significant distance . ",
+            "aspects": "noise",
+            "labels": "negative"
+        },
+        {
+            "text": "still , i was willing to overlook those things as this unit looks sleek and has a myriad of features ! ",
+            "aspects": "look",
+            "labels": "positive"
+        },
+        {
+            "text": "still , i was willing to overlook those things as this unit looks sleek and has a myriad of features ! ",
+            "aspects": "feature",
+            "labels": "positive"
+        },
+        {
+            "text": "i get to chapter 34 and everything freezes ! ",
+            "aspects": "freeze",
+            "labels": "negative"
+        },
+        {
+            "text": "i try navigating to a chapter past 34 via the menu and it would n't do it ! ",
+            "aspects": "player",
+            "labels": "negative"
+        },
+        {
+            "text": "i try navigating using the player 's built in menu , and it still would n't work ! ",
+            "aspects": "player",
+            "labels": "negative"
+        },
+        {
+            "text": "unfortunately , the player would not read any of my region one dvds. even though they were not damaged in any way . ",
+            "aspects": " read",
+            "labels": "negative"
+        },
+        {
+            "text": "unfortunately , the player would not read any of my region one dvds. even though they were not damaged in any way . ",
+            "aspects": "dvd",
+            "labels": "negative"
+        },
+        {
+            "text": "i called apex 's support number numerous times but it just kept ringing . ",
+            "aspects": "support",
+            "labels": "negative"
+        },
+        {
+            "text": "this is probably one of the few dvd players at $ 40 that can play almost everything you throw at it . ",
+            "aspects": "dvd player",
+            "labels": "positive"
+        },
+        {
+            "text": "ability to play most discs - i tried dvd , vcd , dvd-r , audio cd and it played all ",
+            "aspects": "format",
+            "labels": "positive"
+        },
+        {
+            "text": "good looks ",
+            "aspects": "look",
+            "labels": "positive"
+        },
+        {
+            "text": "the build quality shows why its so cheap - small scratches on the base plate , something that you would n't see on a sony and an overall plasticky feel ",
+            "aspects": "quality",
+            "labels": "negative"
+        },
+        {
+            "text": "remote buttons are small and closely spaced , especially with the menu buttons . ",
+            "aspects": "remote button",
+            "labels": "negative"
+        },
+        {
+            "text": "this is wonderful to have for your first dvd player . ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "i brought it for my sister in college and she loves it ! ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "apex is the best cheap quality brand for dvd players . ",
+            "aspects": "apex",
+            "labels": "positive"
+        },
+        {
+            "text": "also , very light and portable . ",
+            "aspects": "weight",
+            "labels": "positive"
+        },
+        {
+            "text": "the one i purchased for a frend as a gift will not read any dvd disc . ",
+            "aspects": " read",
+            "labels": "negative"
+        },
+        {
+            "text": "the one i purchased for a frend as a gift will not read any dvd disc . ",
+            "aspects": "dvd disc",
+            "labels": "negative"
+        },
+        {
+            "text": "it will read and play all cd audio disc . ",
+            "aspects": " cd audio disc",
+            "labels": "positive"
+        },
+        {
+            "text": "it will read and play all cd audio disc . ",
+            "aspects": "read",
+            "labels": "positive"
+        }
+    ],
+    "CanonPowerShotSD500": [
+        {
+            "text": "overall build quality, good macros-results, impressive video-quality, good pictures with flash (good colours, sharp results), excellent auto white balance.",
+            "aspects": "build",
+            "labels": "positive"
+        },
+        {
+            "text": "overall build quality, good macros-results, impressive video-quality, good pictures with flash (good colours, sharp results), excellent auto white balance.",
+            "aspects": "flash",
+            "labels": "positive"
+        },
+        {
+            "text": "overall build quality, good macros-results, impressive video-quality, good pictures with flash (good colours, sharp results), excellent auto white balance.",
+            "aspects": "white balance",
+            "labels": "positive"
+        },
+        {
+            "text": "overall build quality, good macros-results, impressive video-quality, good pictures with flash (good colours, sharp results), excellent auto white balance.",
+            "aspects": "macros-results",
+            "labels": "positive"
+        },
+        {
+            "text": "Could be better to be a perfect camera (and some competitors do some of this better): purple fringing, details in high-light area, noise over ISO100, red-eyes, (few)processing artefacts, (few)loss of some details especially of the hairs of peoples in low light, automatic autofocus, whizing while video-playback, better video comression (smaler viedo-files), more manual controls, longer lasting battery, indicator for battery, better protection of the LCD, less weight. ",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "When the overall image quality (especially natural colours, details, natural looking of the pictures) is the most important thing, then this camera ist top notch and very impressive. ",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "When the overall image quality (especially natural colours, details, natural looking of the pictures) is the most important thing, then this camera ist top notch and very impressive. ",
+            "aspects": "image",
+            "labels": "positive"
+        },
+        {
+            "text": "In low light with flash I found it clear better then the sony P200 (too much red, colours overall not as natural but fewer red-eyes). ",
+            "aspects": "flash",
+            "labels": "positive"
+        },
+        {
+            "text": "Some adjustments in the settings could help make it better.",
+            "aspects": "settings",
+            "labels": "negative"
+        },
+        {
+            "text": "I found best results in most situation with manual/center auto focus, manual mode, ISO 100 (shorter aperture-time, so more often sharper images as with ISO 50), auto white balance (auto white balance is better than of the other canon cameras I have and they already do very-well).",
+            "aspects": "focus",
+            "labels": "positive"
+        },
+        {
+            "text": "I upgraded from a very small 3.2 mpxl camera to this camera with great results. ",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "Good color and very little needed to correct photos on Paintshop Pro. ",
+            "aspects": "color",
+            "labels": "positive"
+        },
+        {
+            "text": "Neat feature for self-timer allows you to record two different warnings. ",
+            "aspects": "Picture",
+            "labels": "positive"
+        },
+        {
+            "text": "The manual is excellent. ",
+            "aspects": "manual",
+            "labels": "positive"
+        },
+        {
+            "text": "Also, multiple picture feature is very, very fast.",
+            "aspects": "multiple picture",
+            "labels": "positive"
+        }
+    ],
+    "CanonS100": [
+        {
+            "text": "It's so small and light, even with a spare battery, you really can take it anywhere.",
+            "aspects": "light",
+            "labels": "positive"
+        },
+        {
+            "text": "In auto mode anyone can use it as a point and shoot camera.",
+            "aspects": "auto mode",
+            "labels": "positive"
+        },
+        {
+            "text": "The manual modes give you a lot of control over exposure and white balance (but there is no manual focus or manual exposure).",
+            "aspects": "manual modes",
+            "labels": "positive"
+        },
+        {
+            "text": "There are better cameras but none anywhere near as light and compact.",
+            "aspects": "compact",
+            "labels": "positive"
+        },
+        {
+            "text": "There are better cameras but none anywhere near as light and compact.",
+            "aspects": "light",
+            "labels": "positive"
+        },
+        {
+            "text": "1- Small.",
+            "aspects": "Small",
+            "labels": "positive"
+        },
+        {
+            "text": "VERY smal.",
+            "aspects": "smal",
+            "labels": "positive"
+        },
+        {
+            "text": "I've had a lot of cameras, but this one is ACTUALLY being used, and not stored in a desk: it's allways in my shist pocket.",
+            "aspects": "cameras",
+            "labels": "positive"
+        },
+        {
+            "text": "2- Excellent picture quality and so simple to use!!!",
+            "aspects": "picture quality",
+            "labels": "positive"
+        },
+        {
+            "text": "2- Excellent picture quality and so simple to use!!!",
+            "aspects": "use",
+            "labels": "positive"
+        },
+        {
+            "text": "4- Looks great.",
+            "aspects": "Looks",
+            "labels": "positive"
+        },
+        {
+            "text": "Silver metal case -NOT PLASTIC.",
+            "aspects": "case",
+            "labels": "positive"
+        },
+        {
+            "text": "5- Excelent software package.",
+            "aspects": "software",
+            "labels": "positive"
+        },
+        {
+            "text": "6- Small but very clear TFT screen.",
+            "aspects": "TFT screen",
+            "labels": "positive"
+        },
+        {
+            "text": "Don't care about sunlight: it's TFT.",
+            "aspects": "TFT",
+            "labels": "positive"
+        },
+        {
+            "text": "7- 360\u001a panoramic pictures are a very big deal.",
+            "aspects": "panorama mode",
+            "labels": "positive"
+        },
+        {
+            "text": "8- Buttons are little, but If you have steady fingers and dealed with a casio wirst calculator watch, you can deal with almost anything.",
+            "aspects": "buttons",
+            "labels": "negative"
+        },
+        {
+            "text": "Buttons size is OK for me, my wife, but not my grany.",
+            "aspects": "buttons",
+            "labels": "negative"
+        },
+        {
+            "text": "i researched and researched between getting the canon s20 or the canon s100, and of course i got the latter!",
+            "aspects": "canon s100",
+            "labels": "positive"
+        },
+        {
+            "text": "I was looking for something that wasn't too complicated to use and to help the pics I post on Ebay show more detial.",
+            "aspects": "picture detail",
+            "labels": "positive"
+        },
+        {
+            "text": "I was looking for something that wasn't too complicated to use and to help the pics I post on Ebay show more detial.",
+            "aspects": "ease of use",
+            "labels": "positive"
+        },
+        {
+            "text": "This camera is great, wonderfully small, and has attactive hi-tech casing.",
+            "aspects": "casing",
+            "labels": "positive"
+        }
+    ],
+    "DiaperChamp": [
+        {
+            "text": "This is a GREAT product!",
+            "aspects": "product",
+            "labels": "positive"
+        },
+        {
+            "text": "I had never liked the idea of the Diaper Genie because of the refills.",
+            "aspects": "Diapers",
+            "labels": "negative"
+        },
+        {
+            "text": "The Champ works great.",
+            "aspects": "works",
+            "labels": "positive"
+        },
+        {
+            "text": "We use regular kitchen sized garbage bags.",
+            "aspects": "garbage bags",
+            "labels": "positive"
+        },
+        {
+            "text": "We've never experienced odor from the pail.",
+            "aspects": "odor",
+            "labels": "positive"
+        },
+        {
+            "text": "It was easy to assemble, and the diapers fit perfectly into the little nook before they make their way into the pail portion.",
+            "aspects": " fit",
+            "labels": "positive"
+        },
+        {
+            "text": "It was easy to assemble, and the diapers fit perfectly into the little nook before they make their way into the pail portion.",
+            "aspects": "assemble",
+            "labels": "positive"
+        },
+        {
+            "text": "I also love that you can flip the device with one hand...",
+            "aspects": "filp",
+            "labels": "positive"
+        },
+        {
+            "text": "Excellent diaper disposal unit.",
+            "aspects": "unit",
+            "labels": "positive"
+        },
+        {
+            "text": "I am soooo pleased with this product!!!",
+            "aspects": "product",
+            "labels": "positive"
+        },
+        {
+            "text": "A wise investment for the pocketbook & for the nose!!!",
+            "aspects": "investment",
+            "labels": "positive"
+        },
+        {
+            "text": "Diaper Champ is great.",
+            "aspects": "Diaper Champ",
+            "labels": "positive"
+        },
+        {
+            "text": "So I can't tell you if Diaper Champ will be as good at containing the formula generated poop smell, but it's excellent at containing the smell of poop of my breastfed baby!",
+            "aspects": "Diaper Champ",
+            "labels": "positive"
+        },
+        {
+            "text": "Friends told me that the Diaper Genie did not work very well, so bought the Diaper Champ based on on-line reviews and I have been happy with it.",
+            "aspects": "Diaper Champ",
+            "labels": "positive"
+        },
+        {
+            "text": "It works easily with one hand, which is important.",
+            "aspects": "works",
+            "labels": "positive"
+        },
+        {
+            "text": "Also, it takes any kitchen sized trash bag, so there is no special bag to stock.",
+            "aspects": "trash bag",
+            "labels": "positive"
+        },
+        {
+            "text": "While the perfect ordor free diaper pail has yet to be invented, the Diaper Champ is a good as it gets.",
+            "aspects": "Diaper Champ",
+            "labels": "positive"
+        },
+        {
+            "text": "Gets stinky after a few months, the seal on the piston doesn't seal anymore.",
+            "aspects": "seal",
+            "labels": "negative"
+        },
+        {
+            "text": "Also, diapers and wipes get stuck in the grove below the piston.",
+            "aspects": "wipes",
+            "labels": "negative"
+        },
+        {
+            "text": "I gave up and got a diaper Dekor.",
+            "aspects": "diaper Dekor",
+            "labels": "negative"
+        },
+        {
+            "text": "Also much less stinky.",
+            "aspects": "stinky",
+            "labels": "negative"
+        },
+        {
+            "text": "Don't buy the diaper champ.",
+            "aspects": "diaper champ",
+            "labels": "negative"
+        },
+        {
+            "text": "I was using the cheapie pail...and it worked ok until the opening device fell apart.",
+            "aspects": "worked",
+            "labels": "positive"
+        },
+        {
+            "text": "I was using the cheapie pail...and it worked ok until the opening device fell apart.",
+            "aspects": "pail",
+            "labels": "positive"
+        }
+    ],
+    "HitachiRouter": [
+        {
+            "text": "I've yet to find the limitation for this Hitachi (my only Hitachi tool, by the way) and quite frankly, I don't know that I have the muscle to push this machine any harder.",
+            "aspects": "Hitachi",
+            "labels": "positive"
+        },
+        {
+            "text": "Bottom line is that at $160, this is an absolute steal.",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": "I've got a buddy who's trying to offload his almost new $300 Speedmatic because he saw what this router can do.",
+            "aspects": "router",
+            "labels": "positive"
+        },
+        {
+            "text": "It is without even a slight doubt, my new favorite.",
+            "aspects": "router",
+            "labels": "positive"
+        },
+        {
+            "text": "The Hitachi M12V is a dream to work with, smooth starts, adjustable speeds, micro-adjustable depth, and plenty of power to spare.",
+            "aspects": "depth",
+            "labels": "positive"
+        },
+        {
+            "text": "The Hitachi M12V is a dream to work with, smooth starts, adjustable speeds, micro-adjustable depth, and plenty of power to spare.",
+            "aspects": "starts",
+            "labels": "positive"
+        },
+        {
+            "text": "The Hitachi M12V is a dream to work with, smooth starts, adjustable speeds, micro-adjustable depth, and plenty of power to spare.",
+            "aspects": "speeds",
+            "labels": "positive"
+        },
+        {
+            "text": "The Hitachi M12V is a dream to work with, smooth starts, adjustable speeds, micro-adjustable depth, and plenty of power to spare.",
+            "aspects": "power",
+            "labels": "positive"
+        },
+        {
+            "text": "I couldn't believe what I had been missing.",
+            "aspects": "router",
+            "labels": "positive"
+        },
+        {
+            "text": "If you're looking for a 3hp plunge router, the Hitachi M12V is your best bet to stretch your equipment budget.",
+            "aspects": "router",
+            "labels": "positive"
+        },
+        {
+            "text": "I'll be getting a second one for my router table!",
+            "aspects": "router",
+            "labels": "positive"
+        },
+        {
+            "text": "I have been impressed with the power of the Hitachi M12V.",
+            "aspects": "power",
+            "labels": "positive"
+        },
+        {
+            "text": "It doesn't bog down under load.",
+            "aspects": "bog",
+            "labels": "positive"
+        },
+        {
+            "text": "Cuts are easy and smooth.",
+            "aspects": "Cuts",
+            "labels": "positive"
+        },
+        {
+            "text": "I use it on a router table, and it is works well.",
+            "aspects": "works",
+            "labels": "positive"
+        },
+        {
+            "text": "The major reasons I didn't give it a five are:  One, I didn't think the fine adjustment worked well.",
+            "aspects": "adjustment",
+            "labels": "negative"
+        },
+        {
+            "text": "I replaced it with a Router Raizer and it works much better.",
+            "aspects": "adjustment",
+            "labels": "negative"
+        },
+        {
+            "text": "Two, the single wrench just doesn't work well.",
+            "aspects": "wrench",
+            "labels": "negative"
+        },
+        {
+            "text": "The sliding latch is does not stay in place.",
+            "aspects": "latch",
+            "labels": "negative"
+        },
+        {
+            "text": "Other than this, I am very pleased with the router and would buy it again.",
+            "aspects": "router",
+            "labels": "positive"
+        },
+        {
+            "text": "I really liked the price...",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": "I like the speed control.",
+            "aspects": "control",
+            "labels": "positive"
+        },
+        {
+            "text": "It has plenty of power.",
+            "aspects": "power",
+            "labels": "positive"
+        },
+        {
+            "text": "The fine adustment knob which came with the router was very difficult to use on a router table.",
+            "aspects": "adustment knob",
+            "labels": "negative"
+        },
+        {
+            "text": "Finally, I gave up and I purchased a Router Razier.",
+            "aspects": "Router Razier",
+            "labels": "negative"
+        },
+        {
+            "text": "I am seriously considering purchasing another wrench and just not using the \"sliding wrench\" which comes on the router.",
+            "aspects": "wrench",
+            "labels": "negative"
+        }
+    ],
+    "ipod": [
+        {
+            "text": "  If, like me you simply want an iPod to play your mp3's, buy this one. ",
+            "aspects": "iPod",
+            "labels": "positive"
+        },
+        {
+            "text": "So reliability is the winner here for the iPod.",
+            "aspects": "reliability",
+            "labels": "positive"
+        },
+        {
+            "text": "For looks, well iPod is head and shoulders better, both the iRiver and Creative Zen look positively ugly when next to a gleaming iPod. ",
+            "aspects": "looks",
+            "labels": "positive"
+        },
+        {
+            "text": " The iPod package comes with everything you need, the AC adaptor, firewire cable (quicker than USB, but slower than USB 2 which it also gives), those snazzy and powerfull headphones, and of course the player. ",
+            "aspects": "package",
+            "labels": "positive"
+        },
+        {
+            "text": " Maybe this new design is more durable than the last, but I kind of doubt it.  ",
+            "aspects": "design",
+            "labels": "negative"
+        },
+        {
+            "text": " We can start by losing the shiny miracle-material cover that you can literally scratch just by looking at it wrong, and thus eliminate the need for third-party \"iSkin\" protective covers for an extra thirty bucks.",
+            "aspects": "scratch",
+            "labels": "negative"
+        },
+        {
+            "text": "First of all, I've never been big on earbuds - they're just not that comfortable.",
+            "aspects": "earbuds",
+            "labels": "negative"
+        },
+        {
+            "text": " These issues aside, the iPod is kind of like the cell phone in that once you have one, you can't be without one.",
+            "aspects": "iPod",
+            "labels": "positive"
+        },
+        {
+            "text": "  And if you're a Mac user like me, they've naturally made sure you have no viable alternative.  ",
+            "aspects": "alternative",
+            "labels": "negative"
+        },
+        {
+            "text": "Also, you have to use it with iTunes - or they'll sue, dammit!  But iTunes is about as good as anything. ",
+            "aspects": "iTunes",
+            "labels": "positive"
+        },
+        {
+            "text": " The player is great. ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": " However, the battery life isn't as good as I would like. ",
+            "aspects": "battery ",
+            "labels": "negative"
+        },
+        {
+            "text": " Overall, this product is AWESOME. ",
+            "aspects": "product",
+            "labels": "positive"
+        },
+        {
+            "text": " All the \"cool\" features of the mini, but with 20GB instead of 5.  ",
+            "aspects": "features",
+            "labels": "positive"
+        },
+        {
+            "text": " Really easy to use.",
+            "aspects": "use",
+            "labels": "positive"
+        },
+        {
+            "text": " Has the click wheel and the ability to scan through thousnds of songs and organizes them great.",
+            "aspects": "click wheel",
+            "labels": "positive"
+        },
+        {
+            "text": " Has a great helpline.",
+            "aspects": "helpline",
+            "labels": "positive"
+        },
+        {
+            "text": " They fix the problem and help you with whatever your I-Pod needs Comes with two USB ports and a charger.",
+            "aspects": "charger",
+            "labels": "positive"
+        },
+        {
+            "text": " They fix the problem and help you with whatever your I-Pod needs Comes with two USB ports and a charger.",
+            "aspects": "USB",
+            "labels": "positive"
+        }
+    ],
+    "LinksysRouter": [
+        {
+            "text": " Cons. 1. Configuration is not easy as it made out to be 2.Lousy Initial Software 3. Does not work with BitSpirit with UPnP, Besides that its an excellent choice , If you know your way around network configuration go for it.",
+            "aspects": "Configuration",
+            "labels": "negative"
+        },
+        {
+            "text": " Cons. 1. Configuration is not easy as it made out to be 2.Lousy Initial Software 3. Does not work with BitSpirit with UPnP, Besides that its an excellent choice , If you know your way around network configuration go for it.",
+            "aspects": "UPnP",
+            "labels": "negative"
+        },
+        {
+            "text": " Cons. 1. Configuration is not easy as it made out to be 2.Lousy Initial Software 3. Does not work with BitSpirit with UPnP, Besides that its an excellent choice , If you know your way around network configuration go for it.",
+            "aspects": "Software",
+            "labels": "negative"
+        },
+        {
+            "text": "Both of them keep disconnecting on me and interruptions are 3 or 4 times per day at best. ",
+            "aspects": "disconnecting",
+            "labels": "negative"
+        },
+        {
+            "text": "Stay away from this junk. ",
+            "aspects": "junk",
+            "labels": "negative"
+        },
+        {
+            "text": "Purchased this router a few months back, NO PROBLEMS whatsoever.  ",
+            "aspects": "router",
+            "labels": "positive"
+        },
+        {
+            "text": "In fact, it supports the new WPA encryption standard, which is WAY better than WEP.  ",
+            "aspects": "WPA encryption",
+            "labels": "positive"
+        },
+        {
+            "text": "Works perfectly with my netgear wireless PCMCIA. ",
+            "aspects": "Works",
+            "labels": "positive"
+        },
+        {
+            "text": "Feature wise, its a lot better than the dlink and netgear routers out there.     ",
+            "aspects": "Feature",
+            "labels": "positive"
+        },
+        {
+            "text": "Was a bit wary because the software is Windows only and I have an iMac. ",
+            "aspects": "software",
+            "labels": "negative"
+        },
+        {
+            "text": "Reset the network, tried the connection, and it's working like a charm. ",
+            "aspects": "working",
+            "labels": "positive"
+        },
+        {
+            "text": "The downside being that the Tivo can only connect at 802.11b speeds and not 802.11g. ",
+            "aspects": "Tivo",
+            "labels": "negative"
+        },
+        {
+            "text": "However since this Router is backward compatible, that doesn't pose a problem at all.  ",
+            "aspects": "backward compatible",
+            "labels": "positive"
+        },
+        {
+            "text": "Overall, it'll make my move that much easier knowing I don't have to worry about connectivity.     ",
+            "aspects": "connectivity",
+            "labels": "positive"
+        },
+        {
+            "text": "(...)  Like most SOHO routers, it has nearly non-existant logging. ",
+            "aspects": "logging",
+            "labels": "negative"
+        },
+        {
+            "text": "For more than a year, and it is totally reliable.  ",
+            "aspects": "reliable",
+            "labels": "positive"
+        },
+        {
+            "text": "No down time, great signal strength.  ",
+            "aspects": "signal",
+            "labels": "positive"
+        },
+        {
+            "text": "There is an open-source firmware on the net which has tons of extra features.  ",
+            "aspects": "features",
+            "labels": "positive"
+        },
+        {
+            "text": "Setup is totally breeze and Linksys's web site is pretty easy to navigate.  ",
+            "aspects": "Setup",
+            "labels": "positive"
+        },
+        {
+            "text": "Setup is totally breeze and Linksys's web site is pretty easy to navigate.  ",
+            "aspects": " web site",
+            "labels": "positive"
+        },
+        {
+            "text": "Now this router is not the cheapest on the market.  ",
+            "aspects": "cheapest",
+            "labels": "negative"
+        },
+        {
+            "text": "The fact that has an open-source firmware makes it a great option in my opinion. ",
+            "aspects": "firmware",
+            "labels": "positive"
+        }
+    ],
+    "MicroMP3": [
+        {
+            "text": "It seems like you need to park yourself right next to a radio tower for the Micro to pull in a strong sound.  ",
+            "aspects": "FM reception",
+            "labels": "negative"
+        },
+        {
+            "text": "The battery, as others have said, also seems weaker than Creative suggests.  ",
+            "aspects": "battery life",
+            "labels": "negative"
+        },
+        {
+            "text": "Still, that's enough time that I'm still satisfied, if a bit grouchy with Creative's overhyped promises.    ",
+            "aspects": "creative",
+            "labels": "negative"
+        },
+        {
+            "text": "Have not had any issues with the headphones or fragility.  ",
+            "aspects": "headphones",
+            "labels": "positive"
+        },
+        {
+            "text": "eball metaphor: I was hoping Creative hit a home run here, and I think the Zen Micro is more like a stand-up double.  ",
+            "aspects": "Zen micro",
+            "labels": "positive"
+        },
+        {
+            "text": "Respectable, solid, but not awe-inspiring.          ",
+            "aspects": "player",
+            "labels": "negative"
+        },
+        {
+            "text": "Actually, the Creative Zen Micro solves all that.  ",
+            "aspects": " construction",
+            "labels": "positive"
+        },
+        {
+            "text": "Actually, the Creative Zen Micro solves all that.  ",
+            "aspects": " battery life",
+            "labels": "positive"
+        },
+        {
+            "text": "Actually, the Creative Zen Micro solves all that.  ",
+            "aspects": " price",
+            "labels": "positive"
+        },
+        {
+            "text": "Actually, the Creative Zen Micro solves all that.  ",
+            "aspects": " look",
+            "labels": "positive"
+        },
+        {
+            "text": "Actually, the Creative Zen Micro solves all that.  ",
+            "aspects": " compatibility",
+            "labels": "positive"
+        },
+        {
+            "text": "Actually, the Creative Zen Micro solves all that.  ",
+            "aspects": "sound quality",
+            "labels": "positive"
+        },
+        {
+            "text": "Actually, the Creative Zen Micro solves all that.  ",
+            "aspects": " capacity",
+            "labels": "positive"
+        },
+        {
+            "text": "Sound quality? Phenomenal. ",
+            "aspects": "sound quality",
+            "labels": "positive"
+        },
+        {
+            "text": "unarguably better than Apple's, and nice earbuds to boot.  ",
+            "aspects": " earbuds",
+            "labels": "positive"
+        },
+        {
+            "text": "unarguably better than Apple's, and nice earbuds to boot.  ",
+            "aspects": "sound quality",
+            "labels": "positive"
+        },
+        {
+            "text": "Your choice of ten colors in a beatiful package.  ",
+            "aspects": "variety of colors",
+            "labels": "positive"
+        },
+        {
+            "text": "Five gigabytes is plenty for my great albums. ",
+            "aspects": "storage",
+            "labels": "positive"
+        },
+        {
+            "text": "Tough as nails. ",
+            "aspects": "construction",
+            "labels": "positive"
+        },
+        {
+            "text": "No skips, and it hasn't faltered once (despite your inevitable drop or two.",
+            "aspects": "construction",
+            "labels": "positive"
+        },
+        {
+            "text": "Flawless. ",
+            "aspects": "compatibility",
+            "labels": "positive"
+        },
+        {
+            "text": ") No locked-in proprietary business like Apple; this baby plays WMAs too.  ",
+            "aspects": "play WMA",
+            "labels": "positive"
+        },
+        {
+            "text": "The voice recorder is a beautiful add-on; not even necessary, but just an example of why Apple just wants your money and Creative Labs wants to make a better player. ",
+            "aspects": " player",
+            "labels": "positive"
+        },
+        {
+            "text": "The voice recorder is a beautiful add-on; not even necessary, but just an example of why Apple just wants your money and Creative Labs wants to make a better player. ",
+            "aspects": "voice record",
+            "labels": "positive"
+        },
+        {
+            "text": "Gets nice sound too. ",
+            "aspects": "sound",
+            "labels": "positive"
+        },
+        {
+            "text": "The FM tuner is just a little spare icing on the cake.  ",
+            "aspects": "FM tuner",
+            "labels": "positive"
+        },
+        {
+            "text": "In conclusion, this player is beautiful. ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "Power for the tech-savvy, ease of use for the less fortunate. ",
+            "aspects": " power",
+            "labels": "positive"
+        },
+        {
+            "text": "Power for the tech-savvy, ease of use for the less fortunate. ",
+            "aspects": "ease of use",
+            "labels": "positive"
+        },
+        {
+            "text": "But it; you won't regret it.     ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "This player is absolutely phenomenal, I haven't had any problems, and if you're worried you will have problems, I suggest buying it at a retail store that has a good return policy but anyways... I find the touch pad very easy to use, and I'm surprised so many people have had problems.  ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "This player is absolutely phenomenal, I haven't had any problems, and if you're worried you will have problems, I suggest buying it at a retail store that has a good return policy but anyways... I find the touch pad very easy to use, and I'm surprised so many people have had problems.  ",
+            "aspects": " functioning",
+            "labels": "positive"
+        },
+        {
+            "text": "This player is absolutely phenomenal, I haven't had any problems, and if you're worried you will have problems, I suggest buying it at a retail store that has a good return policy but anyways... I find the touch pad very easy to use, and I'm surprised so many people have had problems.  ",
+            "aspects": " touchpad",
+            "labels": "positive"
+        },
+        {
+            "text": "The sound quality is superb, much better than that of an iPod, in my opinion.  ",
+            "aspects": "sound quality",
+            "labels": "positive"
+        },
+        {
+            "text": "The radio works excellent in my area, I'm not sure everywhere else.  ",
+            "aspects": "radio",
+            "labels": "positive"
+        },
+        {
+            "text": "The software is very easy to use, and the transfer is super fast!  ",
+            "aspects": "software",
+            "labels": "positive"
+        },
+        {
+            "text": "The software is very easy to use, and the transfer is super fast!  ",
+            "aspects": " file transfer speed",
+            "labels": "positive"
+        },
+        {
+            "text": "I'm not gonna go into the features cause if you're reading this review, you've probably already looked at them, but I must say the DJ feature if Very cool and the removable battery is also a bonus!  ",
+            "aspects": " features",
+            "labels": "positive"
+        },
+        {
+            "text": "I'm not gonna go into the features cause if you're reading this review, you've probably already looked at them, but I must say the DJ feature if Very cool and the removable battery is also a bonus!  ",
+            "aspects": " DJ",
+            "labels": "positive"
+        },
+        {
+            "text": "I'm not gonna go into the features cause if you're reading this review, you've probably already looked at them, but I must say the DJ feature if Very cool and the removable battery is also a bonus!  ",
+            "aspects": "battery",
+            "labels": "positive"
+        },
+        {
+            "text": "The blue light also makes this player one of the most fashionable in the market also.  ",
+            "aspects": "look",
+            "labels": "positive"
+        },
+        {
+            "text": "t simply the best player on the market for a really low price, so why look anywhere else?      ",
+            "aspects": " player",
+            "labels": "positive"
+        },
+        {
+            "text": "t simply the best player on the market for a really low price, so why look anywhere else?      ",
+            "aspects": "price",
+            "labels": "positive"
+        },
+        {
+            "text": "I've had it for about a week now and have to say it's one of the best purchases I've ever made.  ",
+            "aspects": "player",
+            "labels": "positive"
+        },
+        {
+            "text": "it's a great looking, easy-to-use device but it's the sound quality which is truly amazing -- far better than my Sony mini-disc player.  ",
+            "aspects": "look",
+            "labels": "positive"
+        },
+        {
+            "text": "it's a great looking, easy-to-use device but it's the sound quality which is truly amazing -- far better than my Sony mini-disc player.  ",
+            "aspects": " sound quality",
+            "labels": "positive"
+        },
+        {
+            "text": "it's a great looking, easy-to-use device but it's the sound quality which is truly amazing -- far better than my Sony mini-disc player.  ",
+            "aspects": " ease of use",
+            "labels": "positive"
+        },
+        {
+            "text": "I have no problems with the touch pad (once the sensitivity is set to low) and the interface is a breeze to use without even looking at the PDF manual.  ",
+            "aspects": "interface",
+            "labels": "positive"
+        },
+        {
+            "text": "I have no problems with the touch pad (once the sensitivity is set to low) and the interface is a breeze to use without even looking at the PDF manual.  ",
+            "aspects": " touchpad",
+            "labels": "positive"
+        },
+        {
+            "text": "Why bother when it works perfectly with Media Player 10?  ",
+            "aspects": "Media player compatibility",
+            "labels": "positive"
+        },
+        {
+            "text": "where close to 12 hours but at least it is replaceable (and they included a second one free).  ",
+            "aspects": "battery life",
+            "labels": "negative"
+        },
+        {
+            "text": "I would give it about 6 or 7 hours, although it will probably get better after a few charge cycles.  ",
+            "aspects": "battery life",
+            "labels": "negative"
+        },
+        {
+            "text": "The extra Gb is just a bonus.  ",
+            "aspects": "storage",
+            "labels": "positive"
+        },
+        {
+            "text": "The headphones which came with it are mediocre at best but what can you expect from a set of \"ear buds\".  ",
+            "aspects": "headphones",
+            "labels": "negative"
+        },
+        {
+            "text": "If your looking for a great sounding mini player, you can't go wrong with the Zen Micro.     ",
+            "aspects": "sound",
+            "labels": "positive"
+        },
+        {
+            "text": "Unfortunately I was wrong.  ",
+            "aspects": "player",
+            "labels": "negative"
+        },
+        {
+            "text": "Within one month, my player completely died. ",
+            "aspects": "player",
+            "labels": "negative"
+        },
+        {
+            "text": "(It had locked up multiple times previously, but always managed to work afterwards) This time, the touch screen wouldn't respond to me and none of the buttons worked. ",
+            "aspects": "touchpad",
+            "labels": "negative"
+        },
+        {
+            "text": "(It had locked up multiple times previously, but always managed to work afterwards) This time, the touch screen wouldn't respond to me and none of the buttons worked. ",
+            "aspects": " buttons",
+            "labels": "negative"
+        },
+        {
+            "text": "So I took out the battery and put it back in again, only to find that it would not work.  ",
+            "aspects": "working",
+            "labels": "negative"
+        },
+        {
+            "text": "I had the second one for less than two weeks when I noticed a rattling/humming/buzzing sound while music was played.  ",
+            "aspects": "sound",
+            "labels": "negative"
+        }
+    ],
+    "Nokia6600": [
+        {
+            "text": "Their customer service agents are always prompt and polite and my service is terrific.",
+            "aspects": "service",
+            "labels": "positive"
+        },
+        {
+            "text": "Their customer service agents are always prompt and polite and my service is terrific.",
+            "aspects": "customer service agents",
+            "labels": "positive"
+        },
+        {
+            "text": "I never get dropped calls.",
+            "aspects": "calls",
+            "labels": "positive"
+        },
+        {
+            "text": "It seems to be a much more user friendly company than Verizon and a thousand percent better than the horrible Quest Wireless.",
+            "aspects": "Verizon",
+            "labels": "negative"
+        },
+        {
+            "text": "It seems to be a much more user friendly company than Verizon and a thousand percent better than the horrible Quest Wireless.",
+            "aspects": "T-Mobile",
+            "labels": "positive"
+        },
+        {
+            "text": "It seems to be a much more user friendly company than Verizon and a thousand percent better than the horrible Quest Wireless.",
+            "aspects": "Quest Wireless",
+            "labels": "negative"
+        },
+        {
+            "text": "I recommend T-Mobile and the Nokia 6600 without reservation.",
+            "aspects": "T-Mobile",
+            "labels": "positive"
+        },
+        {
+            "text": "I recommend T-Mobile and the Nokia 6600 without reservation.",
+            "aspects": "6600",
+            "labels": "positive"
+        },
+        {
+            "text": "The Nokia 6600 is really just a glorified 3650: you know the 3650, those bulbous, formless, big phones a few unfortunate ATT customers are carrying around.",
+            "aspects": "3650",
+            "labels": "negative"
+        },
+        {
+            "text": "The Nokia 6600 is really just a glorified 3650: you know the 3650, those bulbous, formless, big phones a few unfortunate ATT customers are carrying around.",
+            "aspects": "6600",
+            "labels": "positive"
+        },
+        {
+            "text": "The Nokia 660 runs the Symbian OS, which works pretty well for most standard phone fare, most of the stuff is not that intuitive, but if you actually learn how to use it all, there's plenty of neat tie-ins.",
+            "aspects": "OS",
+            "labels": "positive"
+        },
+        {
+            "text": "I've had this phone for almost a year now and it has been nothing but great to use.",
+            "aspects": "use",
+            "labels": "positive"
+        },
+        {
+            "text": "I've had this phone for almost a year now and it has been nothing but great to use.",
+            "aspects": "phone",
+            "labels": "positive"
+        },
+        {
+            "text": "I can connect to my computer via bluetooth to transfer images, calender events, contacts and anything else.",
+            "aspects": "bluetooth",
+            "labels": "positive"
+        },
+        {
+            "text": "Another great feature for me anyway is the ability to load .wav sounds as ringers.",
+            "aspects": "ringers",
+            "labels": "positive"
+        },
+        {
+            "text": "This way I never have to be ripped off by the carrier for stupid ringtones, I can get whatever I want.",
+            "aspects": "ringtones",
+            "labels": "positive"
+        },
+        {
+            "text": "The only downside I have found with this phone is that it is a bit slow to react, meaning when I push the contacts button, it takes a while to load, this is true for almost all the menus and programs on the phone.",
+            "aspects": "slow",
+            "labels": "negative"
+        },
+        {
+            "text": "Other than that, the simbian series 60 OS is great and offers lots of proprietary software that will work on your phone if you're willing to hunt for it.",
+            "aspects": "OS",
+            "labels": "positive"
+        },
+        {
+            "text": "Hand set is good, but be aware of this T-MOBILE rebate.",
+            "aspects": "Hand set",
+            "labels": "positive"
+        },
+        {
+            "text": "Hand set is good, but be aware of this T-MOBILE rebate.",
+            "aspects": "rebate",
+            "labels": "negative"
+        },
+        {
+            "text": "These people takes lest effort to process rebate forms.",
+            "aspects": "rebate",
+            "labels": "negative"
+        },
+        {
+            "text": "For last one month my Rebate status showing me that my rebate is apporved and check is delivered but still I am waiting for Check.",
+            "aspects": "rebate",
+            "labels": "negative"
+        },
+        {
+            "text": "There is no way you can talk with customer care about this.",
+            "aspects": "customer care",
+            "labels": "negative"
+        },
+        {
+            "text": "Dont rely on T-Mobile rebates.",
+            "aspects": "rebates",
+            "labels": "negative"
+        },
+        {
+            "text": "Initially these phones were fun to play with some of the cool features like the speaker phone, web browser and ofcourse the built in camera.",
+            "aspects": "web browser",
+            "labels": "positive"
+        },
+        {
+            "text": "Initially these phones were fun to play with some of the cool features like the speaker phone, web browser and ofcourse the built in camera.",
+            "aspects": "speaker phone",
+            "labels": "positive"
+        },
+        {
+            "text": "Initially these phones were fun to play with some of the cool features like the speaker phone, web browser and ofcourse the built in camera.",
+            "aspects": "features",
+            "labels": "positive"
+        },
+        {
+            "text": "Initially these phones were fun to play with some of the cool features like the speaker phone, web browser and ofcourse the built in camera.",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "The good:  1) Large LCD screen, colorful display, good resolution.",
+            "aspects": "display",
+            "labels": "positive"
+        },
+        {
+            "text": "The good:  1) Large LCD screen, colorful display, good resolution.",
+            "aspects": "screen",
+            "labels": "positive"
+        },
+        {
+            "text": "2) Nice features, like web browser, camera, video recorder, speaker phone (very usefully), clear voice reception.",
+            "aspects": "reception",
+            "labels": "positive"
+        },
+        {
+            "text": "2) Nice features, like web browser, camera, video recorder, speaker phone (very usefully), clear voice reception.",
+            "aspects": "features",
+            "labels": "positive"
+        },
+        {
+            "text": "2) Nice features, like web browser, camera, video recorder, speaker phone (very usefully), clear voice reception.",
+            "aspects": "web browser",
+            "labels": "positive"
+        },
+        {
+            "text": "2) Nice features, like web browser, camera, video recorder, speaker phone (very usefully), clear voice reception.",
+            "aspects": "video recorder",
+            "labels": "positive"
+        },
+        {
+            "text": "2) Nice features, like web browser, camera, video recorder, speaker phone (very usefully), clear voice reception.",
+            "aspects": " speaker phone",
+            "labels": "positive"
+        },
+        {
+            "text": "2) Nice features, like web browser, camera, video recorder, speaker phone (very usefully), clear voice reception.",
+            "aspects": "camera",
+            "labels": "positive"
+        },
+        {
+            "text": "3) Joy stick for eazy navigation, 35Mb memory card to store the pictures and stuff.",
+            "aspects": "Joy stick",
+            "labels": "positive"
+        },
+        {
+            "text": "3) Joy stick for eazy navigation, 35Mb memory card to store the pictures and stuff.",
+            "aspects": "memory card",
+            "labels": "positive"
+        },
+        {
+            "text": "Now the bad:  1) As usual, battery power not sufficient for daily usuage.",
+            "aspects": "battery",
+            "labels": "negative"
+        },
+        {
+            "text": "3) Joy stick for eazy navigation, 35Mb memory card to store the pictures and stuff.",
+            "aspects": "Joy stick",
+            "labels": "positive"
+        },
+        {
+            "text": "3) Joy stick for eazy navigation, 35Mb memory card to store the pictures and stuff.",
+            "aspects": "memory card",
+            "labels": "positive"
+        },
+        {
+            "text": "The battery power discharges rapidly especially on using the web browser.",
+            "aspects": "battery",
+            "labels": "negative"
+        },
+        {
+            "text": "2) Phone is awfully slow.",
+            "aspects": "slow",
+            "labels": "negative"
+        },
+        {
+            "text": "Sometimes when you press buttons, the menu appears after a second or two.",
+            "aspects": "menu",
+            "labels": "negative"
+        },
+        {
+            "text": "3) Phone is kinda heavy, but small in size.",
+            "aspects": "size",
+            "labels": "positive"
+        }
+    ],
+    "Norton": [
+        {
+            "text": "However, Symantec has taken a significant turn for the worse with this release.",
+            "aspects": "Symantec",
+            "labels": "negative"
+        },
+        {
+            "text": "While it has a rather effective firewall, and comes with Norton Antivirus (which I'm actually rather fond of), the Security Suite has significantly slowed down my system.",
+            "aspects": "firewall",
+            "labels": "positive"
+        },
+        {
+            "text": "While it has a rather effective firewall, and comes with Norton Antivirus (which I'm actually rather fond of), the Security Suite has significantly slowed down my system.",
+            "aspects": " security suite",
+            "labels": "negative"
+        },
+        {
+            "text": "I'm currently using a Sony Vaio S-150 (which I bought at the end of this past August), and it takes about five minutes just to boot the system - in fact, I've taken to just hibernating, rather than shutting down completely.",
+            "aspects": "boot",
+            "labels": "negative"
+        },
+        {
+            "text": "The Antivirus is good, but \"Internet Security\" just isn't worth it.",
+            "aspects": " internet security",
+            "labels": "negative"
+        },
+        {
+            "text": "The Antivirus is good, but \"Internet Security\" just isn't worth it.",
+            "aspects": "antivirus",
+            "labels": "positive"
+        },
+        {
+            "text": "I've owned many Norton products in my time, and for the most part, I've been pleased with their performance.",
+            "aspects": "performance",
+            "labels": "positive"
+        },
+        {
+            "text": "This is also the case with NIS 2004.",
+            "aspects": "NIS 2004",
+            "labels": "positive"
+        },
+        {
+            "text": "I upgraded from NIS 2003, and the change in performance has not been noticeable.",
+            "aspects": "upgrade",
+            "labels": "positive"
+        },
+        {
+            "text": "On the contrary, I'm quite pleased with my upgrade.",
+            "aspects": "upgrade",
+            "labels": "positive"
+        },
+        {
+            "text": "It works better and has more useful features than NIS 2003.",
+            "aspects": " features",
+            "labels": "positive"
+        },
+        {
+            "text": "It works better and has more useful features than NIS 2003.",
+            "aspects": "performance",
+            "labels": "positive"
+        },
+        {
+            "text": "The program is fully featured, with much of what you'd want from a security program --",
+            "aspects": "program",
+            "labels": "positive"
+        },
+        {
+            "text": "The installation, set-up, and operating interfaces are well organized and intuitive and the email spam component works well.",
+            "aspects": " email spam",
+            "labels": "positive"
+        },
+        {
+            "text": "The installation, set-up, and operating interfaces are well organized and intuitive and the email spam component works well.",
+            "aspects": " set-up",
+            "labels": "positive"
+        },
+        {
+            "text": "The installation, set-up, and operating interfaces are well organized and intuitive and the email spam component works well.",
+            "aspects": " operation interfaces",
+            "labels": "positive"
+        },
+        {
+            "text": "The installation, set-up, and operating interfaces are well organized and intuitive and the email spam component works well.",
+            "aspects": "installation",
+            "labels": "positive"
+        },
+        {
+            "text": "HOWEVER, I AM VERY DISAPPOINTED WITH THIS PRODUCT AND WITH SYMANTEC.",
+            "aspects": "symantec",
+            "labels": "negative"
+        },
+        {
+            "text": "It feels like I'm back to the days of 56k dial-up internet service, even though I'm running a Dell 2GHz Pentium 4 with 256MB memory and have had excellent broadband service for the past year.",
+            "aspects": "performance",
+            "labels": "negative"
+        },
+        {
+            "text": "I tried disabling the various components provided with this product, paring it all the way back to anti-virus only service... and saw no improvement.",
+            "aspects": "performance",
+            "labels": "negative"
+        },
+        {
+            "text": "There is absolutely nothing useful at the Symantec/Norton site.",
+            "aspects": "symantec/Norton site",
+            "labels": "negative"
+        },
+        {
+            "text": "However, I suspect that many people are having a bad experience -- DO NOT PURCHASE THIS PRODUCT.",
+            "aspects": "PRODUCT",
+            "labels": "negative"
+        },
+        {
+            "text": "PIII 1Ghz 512MB RDRAM Windows XP Pro 80GB HD  I was able to Uninstall NIS 2003 and Install NIS 2004 with no trouble.",
+            "aspects": "Uninstall",
+            "labels": "positive"
+        },
+        {
+            "text": "PIII 1Ghz 512MB RDRAM Windows XP Pro 80GB HD  I was able to Uninstall NIS 2003 and Install NIS 2004 with no trouble.",
+            "aspects": " Install",
+            "labels": "positive"
+        }
+    ]
+}
