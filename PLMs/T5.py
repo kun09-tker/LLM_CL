@@ -9,19 +9,20 @@ from transformers import (
 )
 
 class T5Generator:
-    def __init__(self, model_checkpoint='VietAI/vit5-base'):
+    def __init__(self, model_checkpoint, device):
         self.tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(model_checkpoint)
         self.data_collator = DataCollatorForSeq2Seq(self.tokenizer)
-        self.device = self.get_device()
+        self.device = device
+        self.model.to(device)
 
-    def get_device(self):
-        if torch.cuda.is_available():
-            return 'cuda'
-        elif getattr(torch.backends, "mps", None) and torch.backends.mps.is_available():
-            return 'mps'
-        else:
-            return 'cpu'
+    # def get_device(self):
+    #     if torch.cuda.is_available():
+    #         return 'cuda'
+    #     elif getattr(torch.backends, "mps", None) and torch.backends.mps.is_available():
+    #         return 'mps'
+    #     else:
+    #         return 'cpu'
 
     def tokenize_function_inputs(self, sample):
         model_inputs = self.tokenizer(sample['text'], max_length=512, truncation=True)
