@@ -1,448 +1,177 @@
-import numpy as np
-from copy import deepcopy
-import torch
-from tqdm import tqdm
-import time
-
-########################################################################################################################
-
-def print_model_report(model):
-    print('-'*100)
-    print(model)
-    print('Dimensions =',end=' ')
-    count=0
-    for p in model.parameters():
-        print(p.size(),end=' ')
-        count+=np.prod(p.size())
-    print()
-    print('Num parameters = %s'%(human_format(count)))
-    print('-'*100)
-    return count
-
-def human_format(num):
-    magnitude=0
-    while abs(num)>=1000:
-        magnitude+=1
-        num/=1000.0
-    return '%.1f%s'%(num,['','K','M','G','T','P'][magnitude])
-
-def print_optimizer_config(optim):
-    if optim is None:
-        print(optim)
-    else:
-        print(optim,'=',end=' ')
-        opt=optim.param_groups[0]
-        for n in opt.keys():
-            if not n.startswith('param'):
-                print(n+':',opt[n],end=', ')
-        print()
-    return
-
-########################################################################################################################
-
-def get_model(model):
-    return deepcopy(model.state_dict())
-
-def set_model_(model,state_dict):
-    model.load_state_dict(deepcopy(state_dict))
-    return
-
-def freeze_model(model):
-    for param in model.parameters():
-        param.requires_grad = False
-    return
-
-########################################################################################################################
-
-def compute_conv_output_size(Lin,kernel_size,stride=1,padding=0,dilation=1):
-    return int(np.floor((Lin+2*padding-dilation*(kernel_size-1)-1)/float(stride)+1))
-
-########################################################################################################################
-
-def compute_mean_std_dataset(dataset):
-    # dataset already put ToTensor
-    mean=0
-    std=0
-    loader = torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False)
-    for image, _ in loader:
-        mean+=image.mean(3).mean(2)
-    mean /= len(dataset)
-
-    mean_expanded=mean.view(mean.size(0),mean.size(1),1,1).expand_as(image)
-    for image, _ in loader:
-        std+=(image-mean_expanded).pow(2).sum(3).sum(2)
-
-    std=(std/(len(dataset)*image.size(2)*image.size(3)-1)).sqrt()
-
-    return mean, std
-
-########################################################################################################################
-
-# for ACL
-def report_tr(res, e, sbatch, clock0, clock1):
-    # Training performance
-    print(
-        '| Epoch {:3d}, time={:5.1f}ms/{:5.1f}ms | Train losses={:.3f} | T: loss={:.3f}, acc={:5.2f}% | D: loss={:.3f}, acc={:5.1f}%, '
-        'Diff loss:{:.3f} |'.format(
-            e + 1,
-            1000 * sbatch * (clock1 - clock0) / res['size'],
-            1000 * sbatch * (time.time() - clock1) / res['size'], res['loss_tot'],
-            res['loss_t'], res['acc_t'], res['loss_a'], res['acc_d'], res['loss_d']), end='')
-
-def report_val(res):
-    # Validation performance
-    print(' Valid losses={:.3f} | T: loss={:.6f}, acc={:5.2f}%, | D: loss={:.3f}, acc={:5.2f}%, Diff loss={:.3f} |'.format(
-        res['loss_tot'], res['loss_t'], res['acc_t'], res['loss_a'], res['acc_d'], res['loss_d']), end='')
-
-########################################################################################################################
-
-
-
-def fisher_matrix_diag_bert_ner(t,train,device,model,criterion,sbatch=20):
-    # Init
-    fisher={}
-    for n,p in model.named_parameters():
-        fisher[n]=0*p.data
-    # Compute
-    model.train()
-
-    for i in tqdm(range(0,len(train),sbatch),desc='Fisher diagonal',ncols=100,ascii=True):
-        b=torch.LongTensor(np.arange(i,np.min([i+sbatch,len(train)]))).cuda()
-        batch=train[b]
-        batch = [
-            bat.to(device) if bat is not None else None for bat in batch]
-        input_ids, segment_ids, input_mask, targets,valid_ids,label_mask, _= batch
-
-        # Forward and backward
-        model.zero_grad()
-        outputs=model.forward(input_ids, segment_ids, input_mask,valid_ids,label_mask)
-
-        loss=criterion(t,outputs[t],targets,label_mask)
-        loss.backward()
-        # Get gradients
-        for n,p in model.named_parameters():
-            if p.grad is not None:
-                fisher[n]+=sbatch*p.grad.data.pow(2)
-    # Mean
-    for n,_ in model.named_parameters():
-        fisher[n]=fisher[n]/len(train)
-        fisher[n]=torch.autograd.Variable(fisher[n],requires_grad=False)
-    return fisher
-
-
-def fisher_matrix_diag_ner_w2v(t,train,device,model,criterion,sbatch=20):
-    # Init
-    fisher={}
-    for n,p in model.named_parameters():
-        fisher[n]=0*p.data
-    # Compute
-    model.train()
-
-    for i in tqdm(range(0,len(train),sbatch),desc='Fisher diagonal',ncols=100,ascii=True):
-        b=torch.LongTensor(np.arange(i,np.min([i+sbatch,len(train)]))).cuda()
-        batch=train[b]
-        batch = [
-            bat.to(device) if bat is not None else None for bat in batch]
-        tokens_sentence_ids, targets,label_mask = batch
-
-        # Forward and backward
-        model.zero_grad()
-        outputs=model.forward(tokens_sentence_ids,label_mask)
-
-        loss=criterion(t,outputs[t],targets)
-        loss.backward()
-        # Get gradients
-        for n,p in model.named_parameters():
-            if p.grad is not None:
-                fisher[n]+=sbatch*p.grad.data.pow(2)
-    # Mean
-    for n,_ in model.named_parameters():
-        fisher[n]=fisher[n]/len(train)
-        fisher[n]=torch.autograd.Variable(fisher[n],requires_grad=False)
-    return fisher
-
-
-
-def fisher_matrix_diag_bert(t,train,device,model,criterion,sbatch=20):
-    # Init
-    fisher={}
-    for n,p in model.named_parameters():
-        fisher[n]=0*p.data
-    # Compute
-    model.train()
-
-    for i in tqdm(range(0,len(train),sbatch),desc='Fisher diagonal',ncols=100,ascii=True):
-        b=torch.LongTensor(np.arange(i,np.min([i+sbatch,len(train)]))).cuda()
-        batch=train[b]
-        batch = [
-            bat.to(device) if bat is not None else None for bat in batch]
-        input_ids, segment_ids, input_mask, targets,_= batch
-
-        # Forward and backward
-        model.zero_grad()
-        output_dict=model.forward(input_ids, segment_ids, input_mask)
-        outputs = output_dict['y']
-
-        loss=criterion(t,outputs[t],targets)
-        loss.backward()
-        # Get gradients
-        for n,p in model.named_parameters():
-            if p.grad is not None:
-                fisher[n]+=sbatch*p.grad.data.pow(2)
-    # Mean
-    for n,_ in model.named_parameters():
-        fisher[n]=fisher[n]/len(train)
-        fisher[n]=torch.autograd.Variable(fisher[n],requires_grad=False)
-    return fisher
-
-
-
-def fisher_matrix_diag_bert_dil(t,train,device,model,criterion,sbatch=20):
-    # Init
-    fisher={}
-    for n,p in model.named_parameters():
-        fisher[n]=0*p.data
-    # Compute
-    model.train()
-
-    for i in tqdm(range(0,len(train),sbatch),desc='Fisher diagonal',ncols=100,ascii=True):
-        b=torch.LongTensor(np.arange(i,np.min([i+sbatch,len(train)]))).cuda()
-        batch=train[b]
-        batch = [
-            bat.to(device) if bat is not None else None for bat in batch]
-        input_ids, segment_ids, input_mask, targets,_= batch
-
-        # Forward and backward
-        model.zero_grad()
-        output_dict=model.forward(input_ids, segment_ids, input_mask)
-        output = output_dict['y']
-
-        loss=criterion(t,output,targets)
-        loss.backward()
-        # Get gradients
-        for n,p in model.named_parameters():
-            if p.grad is not None:
-                fisher[n]+=sbatch*p.grad.data.pow(2)
-    # Mean
-    for n,_ in model.named_parameters():
-        fisher[n]=fisher[n]/len(train)
-        fisher[n]=torch.autograd.Variable(fisher[n],requires_grad=False)
-    return fisher
-
-def fisher_matrix_diag_cnn(t,train,device,model,criterion,args,sbatch=20):
-    # Init
-    fisher={}
-    for n,p in model.named_parameters():
-        fisher[n]=0*p.data
-    # Compute
-    model.train()
-
-    for i in tqdm(range(0,len(train),sbatch),desc='Fisher diagonal',ncols=100,ascii=True):
-        b=torch.LongTensor(np.arange(i,np.min([i+sbatch,len(train)]))).cuda()
-        batch=train[b]
-        batch = [
-            bat.to(device) if bat is not None else None for bat in batch]
-        images,targets= batch
-
-        # Forward and backward
-        model.zero_grad()
-        output_dict=model.forward(images)
-        if 'dil' in args.scenario:
-            output = output_dict['y']
-        elif 'til' in args.scenario:
-            outputs = output_dict['y']
-            output = outputs[t]
-
-        loss=criterion(t,output,targets)
-        loss.backward()
-        # Get gradients
-        for n,p in model.named_parameters():
-            if p.grad is not None:
-                fisher[n]+=sbatch*p.grad.data.pow(2)
-    # Mean
-    for n,_ in model.named_parameters():
-        fisher[n]=fisher[n]/len(train)
-        fisher[n]=torch.autograd.Variable(fisher[n],requires_grad=False)
-    return fisher
-
-
-def fisher_matrix_diag_adapter_head(t,train,device,model,criterion,sbatch=20,
-                                ce=None,lamb=None,mask_pre=None,args=None,ewc_lamb=None,model_old=None):
-    # Init
-    fisher={}
-    for n,p in model.last.named_parameters():
-        fisher[n]=0*p.data
-    # Compute
-    model.train()
-
-    for i in tqdm(range(0,len(train),sbatch),desc='Fisher diagonal',ncols=100,ascii=True):
-        b=torch.LongTensor(np.arange(i,np.min([i+sbatch,len(train)]))).cuda()
-        batch=train[b]
-        batch = [
-            bat.to(device) if bat is not None else None for bat in batch]
-        input_ids, segment_ids, input_mask, targets, _= batch
-
-        # Forward and backward
-        model.zero_grad()
-        output_dict=model.forward(t,input_ids, segment_ids, input_mask,s=args.smax)
-        output = output_dict['y']
-        masks = output_dict['masks']
-        loss,reg=criterion(ce,lamb,mask_pre,output,targets,masks,
-                            t=t,args=args,ewc_lamb=ewc_lamb,fisher=fisher,
-                            model=model,model_old=model_old)
-
-        loss.backward()
-        # Get gradients
-        for n,p in model.last.named_parameters():
-            if p.grad is not None:
-                fisher[n]+=sbatch*p.grad.data.pow(2)
-    # Mean
-    for n,_ in model.last.named_parameters():
-        fisher[n]=fisher[n]/len(train)
-        fisher[n]=torch.autograd.Variable(fisher[n],requires_grad=False)
-    return fisher
-
-
-def fisher_matrix_diag_cnn_head(t,train,device,model,criterion,sbatch=20,
-                                ce=None,lamb=None,mask_pre=None,args=None,ewc_lamb=None,model_old=None):
-    # Init
-    fisher={}
-    for n,p in model.last.named_parameters():
-        fisher[n]=0*p.data
-    # Compute
-    model.train()
-
-    for i in tqdm(range(0,len(train),sbatch),desc='Fisher diagonal',ncols=100,ascii=True):
-        b=torch.LongTensor(np.arange(i,np.min([i+sbatch,len(train)]))).cuda()
-        batch=train[b]
-        batch = [
-            bat.to(device) if bat is not None else None for bat in batch]
-        images,targets= batch
-
-        # Forward and backward
-        model.zero_grad()
-        task = torch.LongTensor([t]).cuda()
-        output_dict=model.forward(task,images,s=args.smax)
-        output = output_dict['y']
-        masks = output_dict['masks']
-        loss,reg=criterion(ce,lamb,mask_pre,output,targets,masks,
-                            t=t,args=args,ewc_lamb=ewc_lamb,fisher=fisher,
-                            model=model,model_old=model_old)
-
-        loss.backward()
-        # Get gradients
-        for n,p in model.last.named_parameters():
-            if p.grad is not None:
-                fisher[n]+=sbatch*p.grad.data.pow(2)
-    # Mean
-    for n,_ in model.last.named_parameters():
-        fisher[n]=fisher[n]/len(train)
-        fisher[n]=torch.autograd.Variable(fisher[n],requires_grad=False)
-    return fisher
-
-def fisher_matrix_diag_w2v(t,train,device,model,criterion,args,sbatch=20):
-    # Init
-    fisher={}
-    for n,p in model.named_parameters():
-        fisher[n]=0*p.data
-    # Compute
-    model.train()
-
-    for i in tqdm(range(0,len(train),sbatch),desc='Fisher diagonal',ncols=100,ascii=True):
-        b=torch.LongTensor(np.arange(i,np.min([i+sbatch,len(train)]))).cuda()
-        batch=train[b]
-        batch = [
-            bat.to(device) if bat is not None else None for bat in batch]
-        tokens_term_ids, tokens_sentence_ids, targets= batch
-
-        # Forward and backward
-        model.zero_grad()
-        output_dict=model.forward(tokens_term_ids, tokens_sentence_ids)
-        output = output_dict['y']
-        if 'dil' in args.scenario:
-            output = output_dict['y']
-        elif 'til' in args.scenario:
-            outputs = output_dict['y']
-            output = outputs[t]
-        loss=criterion(t,output,targets)
-        loss.backward()
-        # Get gradients
-        for n,p in model.named_parameters():
-            if p.grad is not None:
-                fisher[n]+=sbatch*p.grad.data.pow(2)
-    # Mean
-    for n,_ in model.named_parameters():
-        fisher[n]=fisher[n]/len(train)
-        fisher[n]=torch.autograd.Variable(fisher[n],requires_grad=False)
-    return fisher
-
-def fisher_matrix_diag(t,x,y,model,criterion,sbatch=20):
-    # Init
-    fisher={}
-    for n,p in model.named_parameters():
-        fisher[n]=0*p.data
-    # Compute
-    model.train()
-    for i in tqdm(range(0,x.size(0),sbatch),desc='Fisher diagonal',ncols=100,ascii=True):
-        b=torch.LongTensor(np.arange(i,np.min([i+sbatch,x.size(0)]))).cuda()
-        images=torch.autograd.Variable(x[b],volatile=False)
-        target=torch.autograd.Variable(y[b],volatile=False)
-        # Forward and backward
-        model.zero_grad()
-        outputs=model.forward(images)
-        loss=criterion(t,outputs[t],target)
-        loss.backward()
-        # Get gradients
-        for n,p in model.named_parameters():
-            if p.grad is not None:
-                fisher[n]+=sbatch*p.grad.data.pow(2)
-    # Mean
-    for n,_ in model.named_parameters():
-        fisher[n]=fisher[n]/x.size(0)
-        fisher[n]=torch.autograd.Variable(fisher[n],requires_grad=False)
-    return fisher
-
-########################################################################################################################
-
-def cross_entropy(outputs,targets,exp=1,size_average=True,eps=1e-5):
-    out=torch.nn.functional.softmax(outputs)
-    tar=torch.nn.functional.softmax(targets)
-    if exp!=1:
-        out=out.pow(exp)
-        out=out/out.sum(1).view(-1,1).expand_as(out)
-        tar=tar.pow(exp)
-        tar=tar/tar.sum(1).view(-1,1).expand_as(tar)
-    out=out+eps/out.size(1)
-    out=out/out.sum(1).view(-1,1).expand_as(out)
-    ce=-(tar*out.log()).sum(1)
-    if size_average:
-        ce=ce.mean()
-    return ce
-
-########################################################################################################################
-
-def set_req_grad(layer,req_grad):
-    if hasattr(layer,'weight'):
-        layer.weight.requires_grad=req_grad
-    if hasattr(layer,'bias'):
-        layer.bias.requires_grad=req_grad
-    return
-
-########################################################################################################################
-
-def is_number(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        pass
-
-    try:
-        import unicodedata
-        unicodedata.numeric(s)
-        return True
-    except (TypeError, ValueError):
-        pass
-
-    return False
-########################################################################################################################
+class SimpleDatasetLoader:
+    def __init__(self, train_df: pd.DataFrame = None,
+                 test_df: pd.DataFrame = None,
+                 val_df: pd.DataFrame = None,
+                 sample_size: float = 1.0):
+        if train_df is not None and sample_size < 1.0 and sample_size > 0:
+            print(f"Sampling {sample_size * 100:.2f}% of the training data.")
+            self.train_df = train_df.sample(frac=sample_size, random_state=1999)
+        else:
+            self.train_df = train_df
+
+        self.test_df = test_df
+        self.val_df = val_df
+
+        if self.train_df is not None:
+             print(f"Initialized with {len(self.train_df)} training records.")
+        if self.test_df is not None:
+             print(f"Initialized with {len(self.test_df)} test records.")
+        if self.val_df is not None:
+             print(f"Initialized with {len(self.val_df)} validation records.")
+
+    @staticmethod
+    def load_from_json(train_path: str = None,
+                       test_path: str = None,
+                       val_path: str = None,
+                       domain_name: str = "",
+                       sample_size: float = 1.0) -> 'SimpleDatasetLoader':
+        train_df, test_df, val_df = None, None, None
+
+        def _read_json_to_df(path, file_type):
+            if path and os.path.exists(path):
+                print(f"Loading {file_type} data from: {path}")
+                try:
+                    with open(path, 'r', encoding='utf-8') as f:
+                        data_all_domains = json.load(f)
+                        data = data_all_domains.get(domain_name, [])
+
+                    if not isinstance(data, list):
+                        raise ValueError(f"JSON content in {path} is not a list as expected.")
+
+                    df = pd.DataFrame(data)
+                    print(f"Successfully loaded {len(df)} records from {file_type} file.")
+                    return df
+
+                except json.JSONDecodeError as e:
+                    print(f"Error decoding JSON from {path}. Check file format and encoding. Details: {e}")
+                    raise
+                except ValueError as e:
+                    print(f"Error processing JSON data from {path}: {e}")
+                    raise
+                except Exception as e:
+                    print(f"An unexpected error occurred while reading {path}: {e}")
+                    raise
+            elif path:
+                raise FileNotFoundError(f"{file_type.capitalize()} file not found at: {path}")
+            return None
+
+        try:
+            train_df = _read_json_to_df(train_path, "training")
+            test_df = _read_json_to_df(test_path, "test")
+            val_df = _read_json_to_df(val_path, "validation")
+        except (FileNotFoundError, json.JSONDecodeError, ValueError, Exception) as e:
+             print(f"Halting execution due to data loading error: {e}")
+             return None
+
+        return SimpleDatasetLoader(train_df=train_df, test_df=test_df, val_df=val_df, sample_size=sample_size)
+
+    def create_data_in_category_sentiment_format(self,
+                                                df: pd.DataFrame,
+                                                text_col: str = 'text',
+                                                aspect_col: str = 'aspects',
+                                                bos_instruction: str = '',
+                                                eos_instruction: str = '',
+                                                number_of_sample: int = -1) -> pd.DataFrame:
+        if df is None:
+             raise ValueError("Input DataFrame cannot be None for formatting")
+
+        if df.empty:
+            print(f"Warning: Input DataFrame for formatting is empty. Returning it as is.")
+            if 'text' not in df.columns: df['text'] = None
+            if 'labels' not in df.columns: df['labels'] = None
+            return df
+
+        valid_aspect_rows = df[df[aspect_col].apply(lambda x: isinstance(x, list) and len(x) > 0)]
+
+        if not valid_aspect_rows.empty:
+            first_valid_aspect_row = valid_aspect_rows.iloc[0]
+            first_aspect_list = first_valid_aspect_row[aspect_col]
+
+            if not isinstance(first_aspect_list, list):
+                 raise TypeError(f"Column '{aspect_col}' should contain lists, but found {type(first_aspect_list)} in the first valid row.")
+            if first_aspect_list and isinstance(first_aspect_list[0], dict):
+                 first_aspect_dict = first_aspect_list[0]
+                 if 'category' not in first_aspect_dict or 'polarity' not in first_aspect_dict:
+                     raise KeyError(f"Dictionaries in '{aspect_col}' must contain 'category' and 'polarity' keys. Found keys: {list(first_aspect_dict.keys())}")
+            elif first_aspect_list and not isinstance(first_aspect_list[0], dict):
+                 raise TypeError(f"Elements within the list in '{aspect_col}' should be dictionaries, but found {type(first_aspect_list[0])}.")
+
+        def format_labels(aspect_list):
+            if not isinstance(aspect_list, list):
+                return ""
+
+            pairs = []
+            for aspect in aspect_list:
+                if isinstance(aspect, dict):
+                    category = aspect.get('category')
+                    polarity = aspect.get('polarity')
+                    if category and polarity:
+                         pairs.append(f"{category}:{polarity}")
+            return ', '.join(pairs)
+
+        df['labels'] = df[aspect_col].apply(format_labels)
+
+        df['text'] = df[text_col].apply(lambda x: bos_instruction + str(x) + eos_instruction if pd.notna(x) else bos_instruction + eos_instruction)
+
+        if number_of_sample != -1:
+          return df[:number_of_sample]
+        else:
+          return df
+
+    def set_data_for_training(self, tokenize_function) -> tuple:
+        dataset_dict = {}
+        prepared = True
+
+        for split_name, df in [('train', self.train_df), ('test', self.test_df), ('validation', self.val_df)]:
+            if df is not None:
+                 if 'labels' not in df.columns or 'text' not in df.columns:
+                     print(f"Warning: {split_name.capitalize()} data is not formatted yet (missing 'text' or 'labels' column).")
+                     prepared = False
+                 else:
+                     dataset_dict[split_name] = Dataset.from_pandas(df)
+
+        raw_dataset_dict = None
+        tokenized_dataset_dict = None
+
+        if dataset_dict and prepared:
+            raw_dataset_dict = DatasetDict(dataset_dict)
+            print("Applying tokenization...")
+            try:
+                example_split_name = next(iter(raw_dataset_dict))
+                cols_to_keep = ['input_ids', 'attention_mask', 'labels']
+                cols_to_remove = [col for col in raw_dataset_dict[example_split_name].column_names if col not in cols_to_keep]
+
+                tokenized_dataset_dict = raw_dataset_dict.map(
+                    tokenize_function,
+                    batched=True,
+                    remove_columns=cols_to_remove
+                )
+                print("Tokenization complete.")
+            except Exception as e:
+                 print(f"Error during tokenization: {e}")
+                 print("Please check your tokenize_function and the data structure.")
+                 tokenized_dataset_dict = None
+
+        elif not prepared and dataset_dict:
+             print("Skipping tokenization because data was not formatted correctly.")
+             raw_dataset_dict = DatasetDict(dataset_dict)
+             tokenized_dataset_dict = DatasetDict()
+        else:
+            print("Warning: No valid data splits available or prepared for tokenization.")
+            raw_dataset_dict = DatasetDict()
+            tokenized_dataset_dict = DatasetDict()
+
+        return raw_dataset_dict, tokenized_dataset_dict
+
+class InstructionsHandler:
+    def __init__(self):
+        self.aspe = {}
+
+    def load_instruction_set1(self):
+        self.aspe['bos_instruct1'] = """Given a Sentence, you should extract all aspect terms and give a corresponding polarity. The format is "terms1: polarity1; terms2: polarity2".
+        Example:
+        The sentence: I used this monitor for 2 years and now it shows a mixture of various colors and defocused text.
+        The output: colors: negative; monitor: negative
+        Now, you help me with the following sentence:
+        The sentence: """
+        self.aspe['eos_instruct'] = ' \nThe output: '
