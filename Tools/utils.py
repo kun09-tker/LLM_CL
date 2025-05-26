@@ -1,3 +1,5 @@
+import pandas as pd
+
 class SimpleDatasetLoader:
     def __init__(self, train_df: pd.DataFrame = None,
                  test_df: pd.DataFrame = None,
