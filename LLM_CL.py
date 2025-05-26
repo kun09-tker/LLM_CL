@@ -57,7 +57,7 @@ from Adapters.Linear import LinearWrapper
 from peft import LoraConfig, get_peft_model
 
 class LLM_CL(nn.Module):
-    def __init__(self, model, tokenizer, domain_names, out_features=3, rank=8, lora_alpha=16):
+    def __init__(self, model, tokenizer, domain_names, rank=8, lora_alpha=16):
         super(LLM_CL, self).__init__()
         self.model = model
         self.tokenizer = tokenizer
@@ -90,15 +90,15 @@ class LLM_CL(nn.Module):
 
         # self.attention = nn.MultiheadAttention(embed_dim=768, num_heads=4, dropout=0.1)
 
-        self.classifier = nn.Sequential(
-            nn.Linear(768, 256),
-            nn.ReLU(),
-            nn.Dropout(0.3),
-            nn.Linear(256, 64),
-            nn.Tanh(),
-            nn.Dropout(0.3),
-            nn.Linear(64, out_features)
-        ).to(self.model.device)
+        # self.classifier = nn.Sequential(
+        #     nn.Linear(768, 256),
+        #     nn.ReLU(),
+        #     nn.Dropout(0.3),
+        #     nn.Linear(256, 64),
+        #     nn.Tanh(),
+        #     nn.Dropout(0.3),
+        #     nn.Linear(64, out_features)
+        # ).to(self.model.device)
 
         # self.decoupler = DomainKnowledgeDecoupler(tokenizer, self.attention, self.classifier)
         # self.warmup = DomainKnowledgeWarmup(tokenizer, self.attention, self.classifier)

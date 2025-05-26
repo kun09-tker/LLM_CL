@@ -24,34 +24,34 @@ class T5Generator:
     #     else:
     #         return 'cpu'
 
-    def tokenize_function_inputs(self, sample):
-        model_inputs = self.tokenizer(sample['text'], max_length=512, truncation=True)
-        labels = self.tokenizer(sample["labels"], max_length=64, truncation=True)
-        model_inputs["labels"] = labels["input_ids"]
-        return model_inputs
+    # def tokenize_function_inputs(self, sample):
+    #     model_inputs = self.tokenizer(sample['text'], max_length=512, truncation=True)
+    #     labels = self.tokenizer(sample["labels"], max_length=64, truncation=True)
+    #     model_inputs["labels"] = labels["input_ids"]
+    #     return model_inputs
 
-    def train(self, tokenized_datasets, **kwargs):
-        args = Seq2SeqTrainingArguments(
-            report_to=[],
-            **kwargs
-        )
+    # def train(self, tokenized_datasets, **kwargs):
+    #     args = Seq2SeqTrainingArguments(
+    #         report_to=[],
+    #         **kwargs
+    #     )
 
-        trainer = Seq2SeqTrainer(
-            self.model,
-            args,
-            train_dataset=tokenized_datasets["train"],
-            eval_dataset=tokenized_datasets.get("validation"),
-            tokenizer=self.tokenizer,
-            data_collator=self.data_collator,
-        )
-        print("Trainer device:", trainer.args.device)
+    #     trainer = Seq2SeqTrainer(
+    #         self.model,
+    #         args,
+    #         train_dataset=tokenized_datasets["train"],
+    #         eval_dataset=tokenized_datasets.get("validation"),
+    #         tokenizer=self.tokenizer,
+    #         data_collator=self.data_collator,
+    #     )
+    #     print("Trainer device:", trainer.args.device)
 
-        torch.cuda.empty_cache()
-        print('\nModel training started ....')
-        trainer.train()
+    #     torch.cuda.empty_cache()
+    #     print('\nModel training started ....')
+    #     trainer.train()
 
-        trainer.save_model()
-        return trainer
+    #     trainer.save_model()
+    #     return trainer
 
     def get_labels(self, tokenized_dataset, batch_size=4, max_length=128, sample_set='train'):
         def collate_fn(batch):

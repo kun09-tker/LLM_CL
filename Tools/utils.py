@@ -1,8 +1,8 @@
 import os
 import json
 import pandas as pd
-from datasets import Dataset
-from datasets.dataset_dict import DatasetDict
+# from datasets import Dataset
+# from datasets.dataset_dict import DatasetDict
 
 class SimpleDatasetLoader:
     def __init__(self, train_df: pd.DataFrame = None,
@@ -124,60 +124,60 @@ class SimpleDatasetLoader:
         else:
           return df
 
-    def set_data_for_training(self, tokenize_function) -> tuple:
-        dataset_dict = {}
-        prepared = True
+    # def set_data_for_training(self, tokenize_function) -> tuple:
+    #     dataset_dict = {}
+    #     prepared = True
 
-        for split_name, df in [('train', self.train_df), ('test', self.test_df), ('validation', self.val_df)]:
-            if df is not None:
-                 if 'labels' not in df.columns or 'text' not in df.columns:
-                     print(f"Warning: {split_name.capitalize()} data is not formatted yet (missing 'text' or 'labels' column).")
-                     prepared = False
-                 else:
-                     dataset_dict[split_name] = Dataset.from_pandas(df)
+    #     for split_name, df in [('train', self.train_df), ('test', self.test_df), ('validation', self.val_df)]:
+    #         if df is not None:
+    #              if 'labels' not in df.columns or 'text' not in df.columns:
+    #                  print(f"Warning: {split_name.capitalize()} data is not formatted yet (missing 'text' or 'labels' column).")
+    #                  prepared = False
+    #              else:
+    #                  dataset_dict[split_name] = Dataset.from_pandas(df)
 
-        raw_dataset_dict = None
-        tokenized_dataset_dict = None
+    #     raw_dataset_dict = None
+    #     tokenized_dataset_dict = None
 
-        if dataset_dict and prepared:
-            raw_dataset_dict = DatasetDict(dataset_dict)
-            print("Applying tokenization...")
-            try:
-                example_split_name = next(iter(raw_dataset_dict))
-                cols_to_keep = ['input_ids', 'attention_mask', 'labels']
-                cols_to_remove = [col for col in raw_dataset_dict[example_split_name].column_names if col not in cols_to_keep]
+    #     if dataset_dict and prepared:
+    #         raw_dataset_dict = DatasetDict(dataset_dict)
+    #         print("Applying tokenization...")
+    #         try:
+    #             example_split_name = next(iter(raw_dataset_dict))
+    #             cols_to_keep = ['input_ids', 'attention_mask', 'labels']
+    #             cols_to_remove = [col for col in raw_dataset_dict[example_split_name].column_names if col not in cols_to_keep]
 
-                tokenized_dataset_dict = raw_dataset_dict.map(
-                    tokenize_function,
-                    batched=True,
-                    remove_columns=cols_to_remove
-                )
-                print("Tokenization complete.")
-            except Exception as e:
-                 print(f"Error during tokenization: {e}")
-                 print("Please check your tokenize_function and the data structure.")
-                 tokenized_dataset_dict = None
+    #             tokenized_dataset_dict = raw_dataset_dict.map(
+    #                 tokenize_function,
+    #                 batched=True,
+    #                 remove_columns=cols_to_remove
+    #             )
+    #             print("Tokenization complete.")
+    #         except Exception as e:
+    #              print(f"Error during tokenization: {e}")
+    #              print("Please check your tokenize_function and the data structure.")
+    #              tokenized_dataset_dict = None
 
-        elif not prepared and dataset_dict:
-             print("Skipping tokenization because data was not formatted correctly.")
-             raw_dataset_dict = DatasetDict(dataset_dict)
-             tokenized_dataset_dict = DatasetDict()
-        else:
-            print("Warning: No valid data splits available or prepared for tokenization.")
-            raw_dataset_dict = DatasetDict()
-            tokenized_dataset_dict = DatasetDict()
+    #     elif not prepared and dataset_dict:
+    #          print("Skipping tokenization because data was not formatted correctly.")
+    #          raw_dataset_dict = DatasetDict(dataset_dict)
+    #          tokenized_dataset_dict = DatasetDict()
+    #     else:
+    #         print("Warning: No valid data splits available or prepared for tokenization.")
+    #         raw_dataset_dict = DatasetDict()
+    #         tokenized_dataset_dict = DatasetDict()
 
-        return raw_dataset_dict, tokenized_dataset_dict
+    #     return raw_dataset_dict, tokenized_dataset_dict
 
 class InstructionsHandler:
     def __init__(self):
         self.aspe = {}
 
     def load_instruction_set1(self):
-        self.aspe['bos_instruct1'] = """Given a Sentence, you should extract all aspect terms and give a corresponding polarity. The format is "terms1: polarity1; terms2: polarity2".
-        Example:
-        The sentence: I used this monitor for 2 years and now it shows a mixture of various colors and defocused text.
-        The output: colors: negative; monitor: negative
-        Now, you help me with the following sentence:
+        self.aspe['bos_instruct1'] = """Given a Sentence, you should extract all aspect terms and give a corresponding polarity. The format is "terms1: polarity1; terms2: polarity2".\n
+        Example:\n
+        The sentence: I used this monitor for 2 years and now it shows a mixture of various colors and defocused text.\n
+        The output: colors: negative; monitor: negative.\n
+        Now, you help me with the following sentence:\n
         The sentence: """
         self.aspe['eos_instruct'] = ' \nThe output: '
