@@ -75,7 +75,7 @@ class LLM_CL(nn.Module):
         self.shared_adapter = get_peft_model(
             model,
             lora_share_config
-        )
+        ).to(model.device)
 
         self.domain_adapters = {}
         for domain_name in domain_names:
@@ -87,7 +87,7 @@ class LLM_CL(nn.Module):
                 bias="none",
                 task_type="SEQ_2_SEQ_LM"
             )
-            self.domain_adapters[domain_name] = get_peft_model(model, lora_config)
+            self.domain_adapters[domain_name] = get_peft_model(model, lora_config).to(model.device)
 
         self.decoupler = DomainKnowledgeDecoupler(tokenizer)
         self.warmup = DomainKnowledgeWarmup(tokenizer)
