@@ -63,6 +63,9 @@ class LLM_CL(nn.Module):
         self.model = model
         self.tokenizer = tokenizer
 
+        for param in self.model.parameters():
+            param.requires_grad = False
+
         lora_share_config = LoraConfig(
             r=rank,
             lora_alpha=lora_alpha,
@@ -93,8 +96,6 @@ class LLM_CL(nn.Module):
         self.warmup = DomainKnowledgeWarmup(tokenizer)
         self.positioning = DomainPositioning(tokenizer)
 
-        for param in self.model.parameters():
-            param.requires_grad = False
 
     def domain_variant_hidden(self, x, domain_name):
         hidden = self.decoupler(x, self.domain_adapters[domain_name])
