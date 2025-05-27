@@ -63,7 +63,7 @@ class LLM_CL(nn.Module):
         self.model = model
         self.tokenizer = tokenizer
 
-        lora_config = LoraConfig(
+        lora_share_config = LoraConfig(
             r=rank,
             lora_alpha=lora_alpha,
             target_modules=["lm_head"],
@@ -74,15 +74,20 @@ class LLM_CL(nn.Module):
 
         self.shared_adapter = get_peft_model(
             model,
-            lora_config
+            lora_share_config
         )
 
-        self.domain_adapters = {
-            domain_name: get_peft_model(
-                model,
-                lora_config
-            ) for domain_name in domain_names
-        }
+        self.domain_adapters = {}
+        for domain_name in domain_names:
+            lora_config = LoraConfig(
+                r=rank,
+                lora_alpha=lora_alpha,
+                target_modules=["lm_head"],
+                lora_dropout=0.1,
+                bias="none",
+                task_type="SEQ_2_SEQ_LM"
+            )
+            self.domain_adapters[domain_name] = get_peft_model(model, lora_config)
 
         self.decoupler = DomainKnowledgeDecoupler(tokenizer)
         self.warmup = DomainKnowledgeWarmup(tokenizer)
