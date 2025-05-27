@@ -167,7 +167,7 @@ class DomainPositioning:
         reps = []
         for domain_name, samples in domain_data.items():
             embeddings = []
-            for x, y in tqdm(samples, desc=f"Prepare finding for {domain_name}"):
+            for x in tqdm(samples, desc=f"Prepare finding for {domain_name}"):
                 tokenized_input = self.tokenizer(x['text'], max_length=512, return_tensors='pt', \
                                                 truncation=True, padding=True).to(shared_adapter.device)
                 labels = self.tokenizer(x["labels"], max_length=64, return_tensors='pt', \
