@@ -175,7 +175,7 @@ class DomainPositioning:
                 tokenized_input["labels"] = labels["input_ids"]
                 hidden_states = self.get_hidden(tokenized_input, shared_adapter)
                 hidden_states = hidden_states[-1][:, 0, :]
-                embeddings.append(hidden_states.detach().numpy())
+                embeddings.append(hidden_states.cpu().numpy())
 
             mean = np.mean(np.concatenate(embeddings, axis=0), axis=0)
             self.domain_prototypes[domain_name] = mean
