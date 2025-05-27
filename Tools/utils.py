@@ -174,10 +174,5 @@ class InstructionsHandler:
         self.aspe = {}
 
     def load_instruction_set1(self):
-        self.aspe['bos_instruct1'] = """Given a Sentence, you should extract all aspect terms and give a corresponding polarity. The format is "terms1: polarity1; terms2: polarity2".\n
-        Example:\n
-        The sentence: I used this monitor for 2 years and now it shows a mixture of various colors and defocused text.\n
-        The output: colors: negative; monitor: negative.\n
-        Now, you help me with the following sentence:\n
-        The sentence: """
-        self.aspe['eos_instruct'] = ' \nThe output: '
+        self.aspe['bos_instruct1'] = "Given a Sentence, you should extract all aspect terms and give a corresponding polarity. The format is \"terms1: polarity1; terms2: polarity2\". Sentence: "
+        self.aspe['eos_instruct'] = ''
