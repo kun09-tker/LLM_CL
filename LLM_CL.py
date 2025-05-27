@@ -55,7 +55,7 @@ import numpy as np
 import torch.nn as nn
 from tqdm import tqdm
 from peft import LoraConfig, get_peft_model
-from Tools.distance import mahalanobis_distance
+from .Tools.distance import mahalanobis_distance
 
 class LLM_CL(nn.Module):
     def __init__(self, model, tokenizer, domain_names, rank=8, lora_alpha=16):
