@@ -54,68 +54,42 @@ import random
 import numpy as np
 import torch.nn as nn
 from tqdm import tqdm
-from peft import LoraConfig, get_peft_model
-# from Tools.distance import mahalanobis_distance
-
-def mahalanobis_distance(x, mean, cov_inv):
-    diff = x - mean
-    return np.sqrt(diff.T @ cov_inv @ diff)
+from transformers import DebertaV2Tokenizer
+from .PLMs.DebertaV2 import MyDebertaV2Model
+from .Utils.distances import mahalanobis_distance
+from .Utils.processors import AscProcessor as ASC
 
 class LLM_CL(nn.Module):
-    def __init__(self, model, tokenizer, domain_names, rank=8, lora_alpha=16):
+    def __init__(self, domain_names, rank=8, alpha=16,
+                 model_name = "yangheng/deberta-v3-base-absa-v1.1"):
         super(LLM_CL, self).__init__()
-        self.model = model
-        self.tokenizer = tokenizer
-
-        for param in self.model.parameters():
-            param.requires_grad = False
-
-        lora_share_config = LoraConfig(
-            r=rank,
-            lora_alpha=lora_alpha,
-            target_modules=["lm_head"],
-            lora_dropout=0.1,
-            bias="none",
-            task_type="SEQ_2_SEQ_LM"
-        )
-
-        self.shared_adapter = get_peft_model(
-            model,
-            lora_share_config
-        ).to(model.device)
-
-        self.domain_adapters = {}
-        for domain_name in domain_names:
-            lora_config = LoraConfig(
-                r=rank,
-                lora_alpha=lora_alpha,
-                target_modules=["lm_head"],
-                lora_dropout=0.1,
-                bias="none",
-                task_type="SEQ_2_SEQ_LM"
+        self.model = MyDebertaV2Model.from_pretrained(
+                model_name,
+                domain_names = domain_names,
+                rank=rank, alpha=alpha
             )
-            self.domain_adapters[domain_name] = get_peft_model(model, lora_config).to(model.device)
+        self.tokenizer = DebertaV2Tokenizer.from_pretrained(model_name)
 
-        self.decoupler = DomainKnowledgeDecoupler(tokenizer)
-        self.warmup = DomainKnowledgeWarmup(tokenizer)
-        self.positioning = DomainPositioning(tokenizer)
+        self.decoupler = DomainKnowledgeDecoupler(self.tokenizer)
+        self.warmup = DomainKnowledgeWarmup(self.tokenizer)
+        self.positioning = DomainPositioning(self.tokenizer)
 
 
     def domain_variant_hidden(self, x, domain_name):
-        hidden = self.decoupler(x, self.domain_adapters[domain_name])
+        hidden = self.decoupler(x, self.model, domain_name)
         return hidden
     def domain_invariant_hidden(self, x_replay):
-        hidden = self.decoupler(x_replay, self.shared_adapter)
+        hidden = self.decoupler(x_replay, self.model)
         return hidden
 
-    def warmup_knowledge(self, x_replay, domain_name):
-        hidden = self.warmup(x_replay,
-                             self.shared_adapter,
-                             self.domain_adapters[domain_name])
+    def prepare_warmup(self):
+        self.warmup.prepare_warmup(self.model)
+    def warmup_knowledge(self, x_replay):
+        hidden = self.warmup(x_replay, self.model)
         return hidden
 
     def prepare_finding(self, domain_data):
-        return self.positioning.compute_prototypes(domain_data, self.shared_adapter)
+        return self.positioning.compute_prototypes(domain_data, self.model)
 
     def find_best_domain_name(self, test_input):
         return self.positioning.find_best_domain(test_input, self.shared_adapter)
@@ -124,42 +98,46 @@ class DomainKnowledgeDecoupler:
     def __init__(self, tokenizer):
         self.tokenizer = tokenizer
 
-    def __call__(self, x, adapter):
-        return self.forward(x, adapter)
+    def __call__(self, x, model):
+        return self.forward(x, model)
 
-    def forward(self, x, adapter):
-        # Tokenize the input
-        adapter.train()
-        tokenized_input = self.tokenizer(x['text'], max_length=512, return_tensors='pt', \
-                                         truncation=True, padding=True).to(adapter.device)
-        labels = self.tokenizer(x["labels"], max_length=64, return_tensors='pt', \
-                                truncation=True, padding=True).to(adapter.device)
-        tokenized_input["labels"] = labels["input_ids"]
-        return self.get_hidden(tokenized_input, adapter)
+    def forward(self, x, model, domain_name=None):
+        text = ASC.get_input_sep(x)
+        tokenized_input = self.tokenizer(text, max_length=512, return_tensors='pt', \
+                                         truncation=True, padding=True).to(model.device)
+        labels = torch.tensor([ASC.get_label_classifier(x)]).to(model.device)
+        tokenized_input["labels"] = labels
 
-    def get_hidden(self, tokenized_input, adapter):
-        return adapter(**tokenized_input), tokenized_input['input_ids']
+        return self.get_hidden(tokenized_input, model, domain_name)
+
+    def get_hidden(self, tokenized_input, model, domain_name):
+        return model(**tokenized_input, domain_name=domain_name)
 
 class DomainKnowledgeWarmup:
     def __init__(self, tokenizer):
         self.tokenizer = tokenizer
 
-    def __call__(self, x_replay, shared_adapter, domain_adapter):
-        return self.forward(x_replay, shared_adapter, domain_adapter)
+    def prepare_warmup(self, model):
+        for param in model.invariant_apdater.parameters():
+            param.requires_grad = True
+        for name in model.domain_names:
+          for param in model.variant_apdater[name].parameters():
+              param.requires_grad = False
 
-    def forward(self, x_replay, shared_adapter, domain_adapter):
-        # Tokenize the input
-        tokenized_input = self.tokenizer(x_replay['text'], max_length=512, return_tensors='pt', \
-                                         truncation=True, padding=True).to(shared_adapter.device)
-        labels = self.tokenizer(x_replay["labels"], max_length=64, return_tensors='pt', \
-                                truncation=True, padding=True).to(shared_adapter.device)
-        tokenized_input["labels"] = labels["input_ids"]
-        return self.get_hidden(tokenized_input, shared_adapter, domain_adapter)
+    def __call__(self, x_replay, model):
+        return self.forward(x_replay, model)
 
-    def get_hidden(self, tokenized_input, shared_adapter, domain_adapter):
-        shared_adapter.train()
-        domain_adapter.eval()
-        return shared_adapter(**tokenized_input), tokenized_input['input_ids']
+    def forward(self, x_replay, model):
+        text = ASC.get_input_sep(x_replay)
+        tokenized_input = self.tokenizer(text, max_length=512, return_tensors='pt', \
+                                         truncation=True, padding=True).to(model.device)
+        labels = torch.tensor([ASC.get_label_classifier(x_replay)]).to(model.device)
+        tokenized_input["labels"] = labels
+
+        return self.get_hidden(tokenized_input, model)
+
+    def get_hidden(self, tokenized_input, model):
+        return model(**tokenized_input)
 
 class DomainPositioning:
     def __init__(self, tokenizer):
@@ -167,17 +145,16 @@ class DomainPositioning:
         self.domain_prototypes = {}
         self.covariance = None
 
-    def compute_prototypes(self, domain_data, shared_adapter):
+    def compute_prototypes(self, domain_data, model):
         reps = []
         for domain_name, samples in domain_data.items():
             embeddings = []
             for x in tqdm(samples, desc=f"Prepare finding for {domain_name}"):
-                tokenized_input = self.tokenizer(x['text'], max_length=512, return_tensors='pt', \
-                                                truncation=True, padding=True).to(shared_adapter.device)
-                labels = self.tokenizer(x["labels"], max_length=64, return_tensors='pt', \
-                                        truncation=True, padding=True).to(shared_adapter.device)
-                tokenized_input["labels"] = labels["input_ids"]
-                hidden_states = self.get_hidden(tokenized_input, shared_adapter)
+                text = ASC.get_input_sep(x)
+                tokenized_input = self.tokenizer(text, max_length=512, return_tensors='pt', \
+                                                truncation=True, padding=True).to(model.device)
+
+                hidden_states = self.get_hidden(tokenized_input, model)
                 hidden_states = hidden_states[-1][:, 0, :]
                 embeddings.append(hidden_states.cpu().numpy())
 
@@ -190,14 +167,11 @@ class DomainPositioning:
         self.covariance = np.linalg.inv(covariance + 1e-6 * np.eye(covariance.shape[0]))
         return self.covariance, self.domain_prototypes
 
-    def find_best_domain(self, test_input, shared_adapter):
-        shared_adapter.eval()
-        tokenized_input = self.tokenizer(test_input['text'], max_length=512, return_tensors='pt', \
-                                        truncation=True, padding=True).to(shared_adapter.device)
-        labels = self.tokenizer(test_input["labels"], max_length=64, return_tensors='pt', \
-                                truncation=True, padding=True).to(shared_adapter.device)
-        tokenized_input["labels"] = labels["input_ids"]
-        test_embed = self.get_hidden(tokenized_input, shared_adapter)
+    def find_best_domain(self, test_input, model):
+        text = ASC.get_input_sep(test_input)
+        tokenized_input = self.tokenizer(text, max_length=512, return_tensors='pt', \
+                                        truncation=True, padding=True).to(model.device)
+        test_embed = self.get_hidden(tokenized_input, model)
         test_embed = test_embed[-1][0, 0, :].cpu().numpy()
 
         distances = {domain: mahalanobis_distance(test_embed, mean_i, self.covariance)
@@ -207,8 +181,8 @@ class DomainPositioning:
 
         return selected_domain
 
-    def get_hidden(self, input_ids, adapter):
-        return adapter(**input_ids)
+    def get_hidden(self, tokenized_input, model):
+        return model(**tokenized_input).hidden_states
 
 
 if __name__ == "__main__":

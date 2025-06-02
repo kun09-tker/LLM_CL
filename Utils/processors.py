@@ -48,6 +48,18 @@ class AscProcessor(DataProcessor):
         """See base class."""
         return ["positive", "negative", "neutral"]
 
+    def get_label_generater(self, sample):
+        return f"{sample['aspects'][0]['category']}:{sample['aspects'][0]['polarity']}"
+    def get_label_classifier(self, sample):
+        map = {"neutral": 0, "positive": 1, "neagative": 2}
+        return map[sample['aspects'][0]['polarity']]
+    def get_aspect(self, sample):
+        return sample['aspects'][0]['category']
+    def get_polarity(self, sample):
+        return sample['aspects'][0]['polarity']
+    def get_input_sep(self, sample):
+        return f"{sample['text']} [SEP] {self.get_aspect(sample)}"
+
     def _create_examples(self, lines, set_type):
         """Creates examples for the training and dev sets."""
         examples = []
@@ -59,14 +71,6 @@ class AscProcessor(DataProcessor):
             sentence = lines[ids]['sentence']
             label = lines[ids]['polarity']
 
-            # if label == "+":
-            #     label = "positive"
-            # elif label == "-":
-            #     label = "negative"
-            # else:
-            #     label = "neutral"
-
-            # print(f"{label}")
             if label == "positive" or label == "+":
                 count_p += 1
                 label = "positive"
@@ -84,15 +88,5 @@ class AscProcessor(DataProcessor):
                 }],
             })
 
-        print(count_p)
-        print(count_n)
         return examples
 
-# class InputExample(object):
-#     """A single training/test example for simple sequence classification."""
-
-#     def __init__(self, id=None, sentence=None, aspect=None, label=None):
-#         self.id = id
-#         self.sentence = sentence
-#         self.aspect = aspect
-#         self.label = label
