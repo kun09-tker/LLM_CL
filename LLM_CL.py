@@ -57,7 +57,9 @@ from tqdm import tqdm
 from transformers import DebertaV2Tokenizer
 from PLMs.DebertaV2 import MyDebertaV2Model
 from Utils.distances import mahalanobis_distance
-from Utils.processors import AscProcessor as ASC
+from Utils.processors import AscProcessor
+
+ASC = AscProcessor()
 
 class LLM_CL(nn.Module):
     def __init__(self, domain_names, rank=8, alpha=16,
