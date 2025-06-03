@@ -160,8 +160,8 @@ class DomainPositioning:
                                                 truncation=True, padding=True).to(model.device)
 
                 hidden_states = self.get_hidden(tokenized_input, model)
-                hidden_states = hidden_states[-1][:, 0, :]
-                embeddings.append(hidden_states.cpu().numpy())
+                hidden_states = hidden_states[:, 0, :].detach().numpy()
+                embeddings.append(hidden_states)
 
             mean = np.mean(np.concatenate(embeddings, axis=0), axis=0)
             self.domain_prototypes[domain_name] = mean
@@ -177,7 +177,7 @@ class DomainPositioning:
         tokenized_input = self.tokenizer(text, max_length=512, return_tensors='pt', \
                                         truncation=True, padding=True).to(model.device)
         test_embed = self.get_hidden(tokenized_input, model)
-        test_embed = test_embed[-1][0, 0, :].cpu().numpy()
+        test_embed = test_embed[0, 0, :].detach().numpy()
 
         distances = {domain: mahalanobis_distance(test_embed, mean_i, self.covariance)
                  for domain, mean_i in self.domain_prototypes.items()}
