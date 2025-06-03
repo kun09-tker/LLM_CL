@@ -1,5 +1,5 @@
 import torch
-from layers import get_lora_params
+import layers
 
 def orthogonal_loss(A, B):
     return torch.norm(A.T @ B) ** 2
@@ -9,8 +9,8 @@ def orthogonal_llm_cl_loss(variant_adapter,
                            domain_name="lm_head",
                            share_name="invariant"):
 
-    variant_params = get_lora_params(variant_adapter, domain_name)
-    invariant_params = get_lora_params(invariant_apdater, share_name)
+    variant_params = layers.get_lora_params(variant_adapter, domain_name)
+    invariant_params = layers.get_lora_params(invariant_apdater, share_name)
 
     print(invariant_params)
     print(variant_params)
