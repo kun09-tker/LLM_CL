@@ -13,8 +13,6 @@ def orthogonal_llm_cl_loss(variant_adapter,
     variant_params = get_lora_params(variant_adapter, domain_name)
     invariant_params = get_lora_params(invariant_apdater, share_name)
 
-    print(invariant_params)
-    print(variant_params)
     loss = 0
     for name in invariant_params:
         if "lora_A" in name:
