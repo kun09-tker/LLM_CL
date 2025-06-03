@@ -61,13 +61,15 @@ from Utils.processors import AscProcessor as ASC
 
 class LLM_CL(nn.Module):
     def __init__(self, domain_names, rank=8, alpha=16,
-                 model_name = "yangheng/deberta-v3-base-absa-v1.1"):
+                 model_name = "yangheng/deberta-v3-base-absa-v1.1",
+                 device='cpu'):
         super(LLM_CL, self).__init__()
         self.model = MyDebertaV2Model.from_pretrained(
                 model_name,
                 domain_names = domain_names,
                 rank=rank, alpha=alpha
             )
+        self.model.to(device)
         self.tokenizer = DebertaV2Tokenizer.from_pretrained(model_name)
 
         self.decoupler = DomainKnowledgeDecoupler(self.tokenizer)
