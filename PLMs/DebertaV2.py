@@ -97,8 +97,8 @@ class MyDebertaV2Model(DebertaV2Model):
             return SequenceClassifierOutput(
                 loss=loss,
                 logits=logits,
-                hidden_states=sequence_output if output_hidden_states else None,
-                attentions=encoder_outputs.attentions if output_attentions else None
+                hidden_states=encoder_outputs.last_hidden_state,
+                attentions=encoder_outputs.attentions
             )
         else:
             output = (logits,) + sequence_output[1:]

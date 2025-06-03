@@ -88,6 +88,7 @@ class LLM_CL(nn.Module):
 
     def prepare_warmup(self):
         self.warmup.prepare_warmup(self.model)
+
     def warmup_knowledge(self, x_replay):
         hidden = self.warmup(x_replay, self.model)
         return hidden
