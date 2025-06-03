@@ -1,8 +1,8 @@
 import torch.nn as nn
 
 from Layers.LoRA import LoRAApdater
-from transformers.modeling_outputs import BaseModelOutput, SequenceClassifierOutput
-from transformers import DebertaV2Model, DebertaV2ForSequenceClassification
+from transformers.modeling_outputs import SequenceClassifierOutput
+from transformers import DebertaV2Model
 
 class MyDebertaV2Model(DebertaV2Model):
     def __init__(self, config, domain_names, rank=8, alpha=16):
