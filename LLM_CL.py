@@ -55,7 +55,7 @@ import numpy as np
 import torch.nn as nn
 from tqdm import tqdm
 from transformers import DebertaV2Tokenizer
-from PLMs.DebertaV2 import MyDebertaV2Model
+from PLMs.DebertaV2 import MyDebertaV2ForSequenceClassification
 from Utils.distances import mahalanobis_distance
 from Utils.processors import AscProcessor
 
@@ -66,7 +66,7 @@ class LLM_CL(nn.Module):
                  model_name = "yangheng/deberta-v3-base-absa-v1.1",
                  device='cpu'):
         super(LLM_CL, self).__init__()
-        self.model = MyDebertaV2Model.from_pretrained(
+        self.model = MyDebertaV2ForSequenceClassification.from_pretrained(
                 model_name,
                 domain_names = domain_names,
                 rank=rank, alpha=alpha
