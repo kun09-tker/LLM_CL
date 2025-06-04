@@ -89,6 +89,8 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
     def __init__(self, config, domain_names, rank=8, alpha=16):
         super().__init__(config)
         self.deberta = MyDebertaV2Model(config, domain_names, rank, alpha)
+        self.invariant_apdater = self.deberta.invariant_apdater
+        self.variant_apdater = self.deberta.variant_apdater
         self.post_init()
 
         # Đóng băng tất cả các tham số
@@ -96,10 +98,10 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
             param.requires_grad = False
 
         # Mở khóa các tham số của LoRA
-        for param in self.deberta.invariant_apdater.parameters():
+        for param in self.invariant_apdater.parameters():
             param.requires_grad = True
         for name in domain_names:
-          for param in self.deberta.variant_apdater[name].parameters():
+          for param in self.variant_apdater[name].parameters():
               param.requires_grad = True
 
     def forward(self,
