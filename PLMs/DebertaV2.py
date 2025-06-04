@@ -89,6 +89,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
     def __init__(self, config, domain_names, rank=8, alpha=16):
         super().__init__(config)
         self.deberta = MyDebertaV2Model(config, domain_names, rank, alpha)
+        self.domain_names = self.deberta.domain_names
         self.invariant_apdater = self.deberta.invariant_apdater
         self.variant_apdater = self.deberta.variant_apdater
         self.post_init()
