@@ -6,11 +6,9 @@ from transformers.modeling_outputs import SequenceClassifierOutput, BaseModelOut
 from transformers import DebertaV2Model, DebertaV2ForSequenceClassification
 
 class MyDebertaV2Model(DebertaV2Model):
-    def __init__(self, deberta_model, domain_names, rank=8, alpha=16):
-        super().__init__(deberta_model.config)
-        self.config = deberta_model.config
-        self.embeddings = deberta_model.embeddings
-        self.encoder = deberta_model.encoder
+    def __init__(self, config, domain_names, rank=8, alpha=16):
+        super().__init__(config)
+        self.config = config
         self.domain_names = domain_names
         self.invariant_apdater = LoRAApdater("LoRA_share", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank, alpha=alpha)
         self.variant_apdater = nn.ModuleDict({
@@ -90,7 +88,7 @@ class MyDebertaV2Model(DebertaV2Model):
 class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
     def __init__(self, config, domain_names, rank=8, alpha=16):
         super().__init__(config)
-        self.deberta = MyDebertaV2Model(self.deberta, domain_names, rank, alpha)
+        self.deberta = MyDebertaV2Model(config, domain_names, rank, alpha)
         self.post_init()
 
         # Đóng băng tất cả các tham số
