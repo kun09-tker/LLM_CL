@@ -20,6 +20,7 @@ class MyDebertaV2Model(DebertaV2Model):
         self,
         domain_name=None,
         input_ids=None,
+        labels = None,
         attention_mask=None,
         token_type_ids=None,
         position_ids=None,
@@ -117,6 +118,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         outputs = self.deberta(
             domain_name=domain_name,
             input_ids=input_ids,
+            labels = labels,
             attention_mask=attention_mask,
             token_type_ids=token_type_ids,
             position_ids=position_ids,
