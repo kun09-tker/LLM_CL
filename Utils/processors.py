@@ -51,7 +51,7 @@ class AscProcessor(DataProcessor):
     def get_label_generater(self, sample):
         return f"{sample['aspects'][0]['category']}:{sample['aspects'][0]['polarity']}"
     def get_label_classifier(self, sample):
-        map = {"neutral": 0, "positive": 1, "negative": 2}
+        map = {"neutral": 1, "positive": 2, "negative": 0}
         return map[sample['aspects'][0]['polarity']]
     def get_aspect(self, sample):
         return sample['aspects'][0]['category']
