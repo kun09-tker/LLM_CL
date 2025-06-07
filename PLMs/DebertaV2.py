@@ -6,19 +6,13 @@ from transformers.modeling_outputs import SequenceClassifierOutput, BaseModelOut
 from transformers import DebertaV2Model, DebertaV2ForSequenceClassification
 
 class MyDebertaV2Model(DebertaV2Model):
-    def __init__(self, config, domain_names, rank=8, alpha=16):
+    def __init__(self, config):
         super().__init__(config)
         self.config = config
-        self.domain_names = domain_names
-        self.invariant_apdater = LoRAApdater("LoRA_share", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank, alpha=alpha)
-        self.variant_apdater = nn.ModuleDict({
-            name: LoRAApdater(f"LoRA_{name}", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank, alpha=alpha)
-                for name in domain_names})
         self.post_init()
 
     def forward(
         self,
-        domain_name=None,
         input_ids=None,
         attention_mask=None,
         token_type_ids=None,
@@ -57,15 +51,9 @@ class MyDebertaV2Model(DebertaV2Model):
             inputs_embeds=inputs_embeds
         )
 
-        # Apply LoRA
-        if domain_name is not None:
-            lora_output = self.variant_apdater[domain_name](embeddings_output)
-        else:
-            lora_output = self.invariant_apdater(embeddings_output)
-
         # Pass through encoder
         encoder_outputs = self.encoder(
-            lora_output,
+            embeddings_output,
             attention_mask=attention_mask,
             output_attentions=output_attentions,
             output_hidden_states=True,
@@ -88,10 +76,12 @@ class MyDebertaV2Model(DebertaV2Model):
 class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
     def __init__(self, config, domain_names, rank=8, alpha=16):
         super().__init__(config)
-        self.deberta = MyDebertaV2Model(config, domain_names, rank, alpha)
-        self.domain_names = self.deberta.domain_names
-        self.invariant_apdater = self.deberta.invariant_apdater
-        self.variant_apdater = self.deberta.variant_apdater
+        self.deberta = MyDebertaV2Model(config)
+        self.domain_names = domain_names
+        self.invariant_apdater = LoRAApdater("LoRA_share", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank, alpha=alpha)
+        self.variant_apdater = nn.ModuleDict({
+            name: LoRAApdater(f"LoRA_{name}", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank, alpha=alpha)
+                for name in domain_names})
         self.post_init()
 
         # Đóng băng tất cả các tham số
@@ -118,7 +108,6 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
                 return_dict=True):
 
         outputs = self.deberta(
-            domain_name=domain_name,
             input_ids=input_ids,
             attention_mask=attention_mask,
             token_type_ids=token_type_ids,
@@ -130,7 +119,14 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         )
         sequence_output = outputs.last_hidden_state if return_dict else outputs[0]
         # sequence_output = self.dropout(sequence_output)
-        pooled_output = self.pooler(sequence_output)
+
+        # Apply LoRA
+        if domain_name is not None:
+            lora_output = self.variant_apdater[domain_name](sequence_output)
+        else:
+            lora_output = self.invariant_apdater(sequence_output)
+
+        pooled_output = self.pooler(lora_output)
         logits = self.classifier(pooled_output)
 
         loss = None
