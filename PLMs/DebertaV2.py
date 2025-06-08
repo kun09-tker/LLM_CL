@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 
 from Layers.LoRA import LoRAApdater
+from transformers.activations import ACT2FN
 from transformers.modeling_outputs import SequenceClassifierOutput, BaseModelOutput
 from transformers import DebertaV2Model, DebertaV2ForSequenceClassification
 
@@ -119,15 +120,16 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         )
         sequence_output = outputs.last_hidden_state if return_dict else outputs[0]
         # sequence_output = self.dropout(sequence_output)
-
+        pooled_output = self.pooler(sequence_output)
         # Apply LoRA
         if domain_name is not None:
-            lora_output = self.variant_apdater[domain_name](sequence_output)
+            lora_output = self.variant_apdater[domain_name](pooled_output)
         else:
-            lora_output = self.invariant_apdater(sequence_output)
+            lora_output = self.invariant_apdater(pooled_output)
 
-        pooled_output = self.pooler(lora_output)
-        logits = self.classifier(pooled_output)
+        lora_output = ACT2FN[self.pooler.config.pooler_hidden_act](lora_output)
+        # lora_output = self.classifier(lora_output)
+        logits = self.classifier(lora_output)
 
         loss = None
         if labels is not None:
