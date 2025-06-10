@@ -62,14 +62,15 @@ from Utils.processors import AscProcessor
 ASC = AscProcessor()
 
 class LLM_CL(nn.Module):
-    def __init__(self, domain_names, rank=8, alpha=16,
+    def __init__(self, domain_names, rank_domain=8, alpha_domain=16, rank_share=8, alpha_share=16,
                  model_name = "yangheng/deberta-v3-base-absa-v1.1",
                  device='cpu'):
         super(LLM_CL, self).__init__()
         self.model = MyDebertaV2ForSequenceClassification.from_pretrained(
                 model_name,
                 domain_names = domain_names,
-                rank=rank, alpha=alpha
+                rank_domain=rank_domain, alpha_domain=alpha_domain,
+                rank_share=rank_share, alpha_share=alpha_share
             )
         self.model.to(device)
         self.tokenizer = DebertaV2Tokenizer.from_pretrained(model_name)

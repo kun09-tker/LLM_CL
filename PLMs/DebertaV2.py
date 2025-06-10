@@ -75,15 +75,17 @@ class MyDebertaV2Model(DebertaV2Model):
         )
 
 class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
-    def __init__(self, config, domain_names, rank=8, alpha=16):
+    def __init__(self, config, domain_names, rank_domain=8, alpha_domain=16, rank_share=8, alpha_share=16):
         super().__init__(config)
+        self.config = config
         self.deberta = MyDebertaV2Model(config)
         self.domain_names = domain_names
-        self.invariant_apdater = LoRAApdater("LoRA_share", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank, alpha=alpha)
+        self.invariant_apdater = LoRAApdater("LoRA_share", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_share, alpha=alpha_share)
         self.variant_apdater = nn.ModuleDict({
-            name: LoRAApdater(f"LoRA_{name}", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank, alpha=alpha)
+            name: LoRAApdater(f"LoRA_{name}", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_domain, alpha=alpha_domain)
                 for name in domain_names})
         self.post_init()
+
 
         # Đóng băng tất cả các tham số
         for param in self.parameters():
@@ -119,17 +121,17 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
             return_dict=return_dict
         )
         sequence_output = outputs.last_hidden_state if return_dict else outputs[0]
-        # sequence_output = self.dropout(sequence_output)
-        pooled_output = self.pooler(sequence_output)
+        reshape = sequence_output.squeeze(0)
+
         # Apply LoRA
         if domain_name is not None:
-            lora_output = self.variant_apdater[domain_name](pooled_output)
+            lora_output = self.variant_apdater[domain_name](reshape)
         else:
-            lora_output = self.invariant_apdater(pooled_output)
+            lora_output = self.invariant_apdater(reshape)
 
-        lora_output = ACT2FN[self.pooler.config.pooler_hidden_act](lora_output)
-        # lora_output = self.classifier(lora_output)
-        logits = self.classifier(lora_output)
+        lora_output= lora_output.unsqueeze(0)
+        pooled_output = self.pooler(lora_output)
+        logits = self.classifier(pooled_output)
 
         loss = None
         if labels is not None:
