@@ -25,6 +25,9 @@ class LoRAApdater(nn.Module):
 
         self.adapter = LoRALinear(name, in_features, out_features)
         self.adapter = get_peft_model(self.adapter, lora_config)
+        self.adapter_sigmod = nn.Sigmoid()
 
     def forward(self, x):
-        return self.adapter(x)
+        x = self.adapter(x)
+        x = self.adapter_sigmod(x)
+        return x
