@@ -88,12 +88,14 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
             name: nn.Sequential(
               nn.Dropout(0.5),
               nn.Linear(self.config.hidden_size, 128),
+              ACT2FN[self.config.pooler_hidden_act],
               nn.Linear(128, self.config.num_labels)
             )
             for name in domain_names})
         self.classifier_share = nn.Sequential(
             nn.Dropout(0.5),
             nn.Linear(self.config.hidden_size, 128),
+            ACT2FN[self.config.pooler_hidden_act],
             nn.Linear(128, self.config.num_labels)
         )
         self.post_init()
