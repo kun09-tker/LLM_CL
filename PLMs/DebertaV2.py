@@ -84,8 +84,19 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         self.variant_apdater = nn.ModuleDict({
             name: LoRAApdater(f"LoRA_{name}", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_domain, alpha=alpha_domain)
                 for name in domain_names})
+        self.classifier = nn.ModuleDict({
+            name: nn.Sequential(
+              nn.Dropout(0.5),
+              nn.Linear(self.config.hidden_size, 128),
+              nn.Linear(128, self.config.num_labels)
+            )
+            for name in domain_names})
+        self.classifier_share = nn.Sequential(
+            nn.Dropout(0.5),
+            nn.Linear(self.config.hidden_size, 128),
+            nn.Linear(128, self.config.num_labels)
+        )
         self.post_init()
-
 
         # Đóng băng tất cả các tham số
         for param in self.parameters():
@@ -97,6 +108,12 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         for name in domain_names:
           for param in self.variant_apdater[name].parameters():
               param.requires_grad = True
+
+        # Mở khóa các tham số của classifier
+        for param in self.classifier.parameters():
+            param.requires_grad = True
+        for param in self.classifier_share.parameters():
+            param.requires_grad = True
 
     def forward(self,
                 domain_name=None,
@@ -130,8 +147,12 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
             lora_output = self.invariant_apdater(reshape)
 
         lora_output= lora_output.unsqueeze(0)
-        pooled_output = self.pooler(lora_output)
-        logits = self.classifier(pooled_output)
+        context_token = lora_output[:, 0]
+
+        if domain_name is not None:
+            logits = self.classifier[domain_name](context_token)
+        else:
+            logits = self.classifier_share(context_token)
 
         loss = None
         if labels is not None:
