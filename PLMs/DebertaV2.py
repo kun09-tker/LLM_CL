@@ -99,23 +99,30 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
             nn.Linear(128, self.config.num_labels)
         )
         self.post_init()
-
-        # Đóng băng tất cả các tham số
+    def freeze_or_unfreeze(self, backbone=False, finetun=True):
+        print(f"Chek status:\n\t Pretraining trainable: {backbone}\n\t Finetuning trainable: {finetun}\n")
         for param in self.parameters():
-            param.requires_grad = False
+            param.requires_grad = backbone
 
-        # Mở khóa các tham số của LoRA
         for param in self.invariant_apdater.parameters():
-            param.requires_grad = True
-        for name in domain_names:
+            param.requires_grad = finetun
+        for name in self.domain_names:
           for param in self.variant_apdater[name].parameters():
-              param.requires_grad = True
+              param.requires_grad = finetun
 
-        # Mở khóa các tham số của classifier
         for param in self.classifier.parameters():
-            param.requires_grad = True
+            param.requires_grad = finetun
         for param in self.classifier_share.parameters():
-            param.requires_grad = True
+            param.requires_grad = finetun
+
+    def freeze_backbone_unfreeze_finetun(self):
+        self.freeze_or_unfreeze(backbone=False, finetun=True)
+
+    def unfreeze_backbone_freeze_finetun(self):
+        self.freeze_or_unfreeze(backbone=True, finetun=False)
+
+    def unfreeze_backbone_unfreeze_finetun(self):
+        self.freeze_or_unfreeze(backbone=True, finetun=True)
 
     def forward(self,
                 domain_name=None,
