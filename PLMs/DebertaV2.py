@@ -169,7 +169,8 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         else:
             logits = self.classifier_share(context_token)
 
-
+        print(logits.view(-1, self.num_labels))
+        print(labels.view(-1))
         loss = None
         if labels is not None:
             loss_fct = nn.CrossEntropyLoss()
