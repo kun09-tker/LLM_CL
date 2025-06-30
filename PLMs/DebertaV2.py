@@ -86,7 +86,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
                 for name in domain_names})
         self.classifier = nn.ModuleDict({
             name: nn.Sequential(
-              nn.BatchNorm1d(self.config.hidden_size),
+            #   nn.BatchNorm1d(self.config.hidden_size),
               nn.Dropout(0.2),
               nn.Linear(self.config.hidden_size, 512),
               nn.ReLU(),
@@ -96,7 +96,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
             )
             for name in domain_names})
         self.classifier_share = nn.Sequential(
-            nn.BatchNorm1d(self.config.hidden_size),
+            # nn.BatchNorm1d(self.config.hidden_size),
             nn.Dropout(0.2),
             nn.Linear(self.config.hidden_size, 512),
             nn.ReLU(),
