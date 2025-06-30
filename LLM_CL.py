@@ -107,11 +107,16 @@ class DomainKnowledgeDecoupler:
     def __call__(self, x, model, domain_name=None):
         return self.forward(x, model, domain_name)
 
-    def forward(self, x, model, domain_name):
-        text = ASC.get_input_sep(x)
-        tokenized_input = self.tokenizer(text, max_length=512, return_tensors='pt', \
+    def forward(self, x_batch, model, domain_name):
+        texts = []
+        labels = []
+        for x in x_batch:
+            texts.append(ASC.get_input_sep(x))
+            labels.append(ASC.get_label_classifier(x))
+
+        tokenized_input = self.tokenizer(texts, max_length=512, return_tensors='pt', \
                                          truncation=True, padding=True).to(model.device)
-        labels = torch.tensor([ASC.get_label_classifier(x)]).to(model.device)
+        labels = torch.tensor(labels).to(model.device)
         tokenized_input["labels"] = labels
 
         return self.get_hidden(tokenized_input, model, domain_name)
@@ -133,11 +138,16 @@ class DomainKnowledgeWarmup:
     def __call__(self, x_replay, model):
         return self.forward(x_replay, model)
 
-    def forward(self, x_replay, model):
-        text = ASC.get_input_sep(x_replay)
-        tokenized_input = self.tokenizer(text, max_length=512, return_tensors='pt', \
+    def forward(self, x_replay_batch, model):
+        texts = []
+        labels = []
+        for x in x_replay_batch:
+            texts.append(ASC.get_input_sep(x))
+            labels.append(ASC.get_label_classifier(x))
+
+        tokenized_input = self.tokenizer(texts, max_length=512, return_tensors='pt', \
                                          truncation=True, padding=True).to(model.device)
-        labels = torch.tensor([ASC.get_label_classifier(x_replay)]).to(model.device)
+        labels = torch.tensor(labels).to(model.device)
         tokenized_input["labels"] = labels
 
         return self.get_hidden(tokenized_input, model)
