@@ -5,8 +5,8 @@ import numpy as np
 from sklearn.metrics import accuracy_score, f1_score
 
 def classifier_metrics(preds, labels, average="macro", device='cpu'):
-    preds = torch.cat(preds).to(device)
-    labels = torch.cat(labels).to(device)
+    preds = preds.to(device)
+    labels = labels.to(device)
     preds = preds.cpu().numpy()
     labels = labels.cpu().numpy()
     acc = accuracy_score(labels, preds)
