@@ -122,7 +122,11 @@ class DomainKnowledgeDecoupler:
         return self.get_hidden(tokenized_input, model, domain_name), labels
 
     def get_hidden(self, tokenized_input, model, domain_name):
-        return model(**tokenized_input, domain_name=domain_name)
+        return model(input_ids=tokenized_input["input_ids"],
+                     attention_mask=tokenized_input["attention_mask"],
+                     token_type_ids=tokenized_input["token_type_ids"],
+                     labels=tokenized_input["labels"],
+                     domain_name=domain_name)
 
 class DomainKnowledgeWarmup:
     def __init__(self, tokenizer):
