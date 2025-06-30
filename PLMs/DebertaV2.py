@@ -153,6 +153,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
             return_dict=return_dict
         )
         sequence_output = outputs.last_hidden_state if return_dict else outputs[0]
+        print(outputs)
         # reshape = sequence_output.squeeze(0)
 
         # Apply LoRA
