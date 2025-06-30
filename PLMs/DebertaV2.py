@@ -153,7 +153,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
             return_dict=return_dict
         )
         sequence_output = outputs.last_hidden_state if return_dict else outputs[0]
-        print(outputs)
+        # print(outputs)
         # reshape = sequence_output.squeeze(0)
 
         # Apply LoRA
@@ -164,6 +164,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
 
         # lora_output= lora_output.unsqueeze(0)
         context_token = lora_output[:, 0]
+        print(context_token)
 
         if domain_name is not None:
             logits = self.classifier[domain_name](context_token)
