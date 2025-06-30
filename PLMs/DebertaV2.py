@@ -153,21 +153,22 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
             return_dict=return_dict
         )
         sequence_output = outputs.last_hidden_state if return_dict else outputs[0]
-        reshape = sequence_output.squeeze(0)
+        # reshape = sequence_output.squeeze(0)
 
         # Apply LoRA
         if domain_name is not None:
-            lora_output = self.variant_apdater[domain_name](reshape)
+            lora_output = self.variant_apdater[domain_name](sequence_output)
         else:
-            lora_output = self.invariant_apdater(reshape)
+            lora_output = self.invariant_apdater(sequence_output)
 
-        lora_output= lora_output.unsqueeze(0)
+        # lora_output= lora_output.unsqueeze(0)
         context_token = lora_output[:, 0]
 
         if domain_name is not None:
             logits = self.classifier[domain_name](context_token)
         else:
             logits = self.classifier_share(context_token)
+
 
         loss = None
         if labels is not None:

@@ -119,7 +119,7 @@ class DomainKnowledgeDecoupler:
         labels = torch.tensor(labels).to(model.device)
         tokenized_input["labels"] = labels
 
-        return self.get_hidden(tokenized_input, model, domain_name)
+        return self.get_hidden(tokenized_input, model, domain_name), labels
 
     def get_hidden(self, tokenized_input, model, domain_name):
         return model(**tokenized_input, domain_name=domain_name)
@@ -150,7 +150,7 @@ class DomainKnowledgeWarmup:
         labels = torch.tensor(labels).to(model.device)
         tokenized_input["labels"] = labels
 
-        return self.get_hidden(tokenized_input, model)
+        return self.get_hidden(tokenized_input, model), labels
 
     def get_hidden(self, tokenized_input, model):
         return model(**tokenized_input)
