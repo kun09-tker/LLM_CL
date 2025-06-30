@@ -164,7 +164,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
 
         # lora_output= lora_output.unsqueeze(0)
         context_token = lora_output[:, 0]
-        print(context_token)
+        # print(context_token)
 
         if domain_name is not None:
             logits = self.classifier[domain_name](context_token)
@@ -173,8 +173,8 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
 
         loss = None
         if labels is not None:
-            print(logits.view(-1, self.num_labels))
-            print(labels.view(-1))
+            # print(logits.view(-1, self.num_labels))
+            # print(labels.view(-1))
             loss_fct = nn.CrossEntropyLoss()
             loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
 
