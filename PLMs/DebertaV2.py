@@ -80,10 +80,10 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         self.config = config
         self.deberta = MyDebertaV2Model(config)
         self.domain_names = domain_names
-        # self.invariant_apdater = LoRAApdater("LoRA_share", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_share, alpha=alpha_share)
-        # self.variant_apdater = nn.ModuleDict({
-        #     name: LoRAApdater(f"LoRA_{name}", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_domain, alpha=alpha_domain)
-        #         for name in domain_names})
+        self.invariant_apdater = LoRAApdater("LoRA_share", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_share, alpha=alpha_share)
+        self.variant_apdater = nn.ModuleDict({
+            name: LoRAApdater(f"LoRA_{name}", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_domain, alpha=alpha_domain)
+                for name in domain_names})
         self.classifier = nn.ModuleDict({
             name: nn.Sequential(
             #   nn.BatchNorm1d(self.config.hidden_size),
@@ -110,11 +110,11 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         for param in self.parameters():
             param.requires_grad = backbone
 
-        # for param in self.invariant_apdater.parameters():
-        #     param.requires_grad = finetun
-        # for name in self.domain_names:
-        #   for param in self.variant_apdater[name].parameters():
-        #       param.requires_grad = finetun
+        for param in self.invariant_apdater.parameters():
+            param.requires_grad = finetun
+        for name in self.domain_names:
+          for param in self.variant_apdater[name].parameters():
+              param.requires_grad = finetun
 
         for param in self.classifier.parameters():
             param.requires_grad = finetun
@@ -157,14 +157,14 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         # reshape = sequence_output.squeeze(0)
 
         # Apply LoRA
-        # if domain_name is not None:
-        #     lora_output = self.variant_apdater[domain_name](sequence_output)
-        # else:
-        #     lora_output = self.invariant_apdater(sequence_output)
+        if domain_name is not None:
+            lora_output = self.variant_apdater[domain_name](sequence_output)
+        else:
+            lora_output = self.invariant_apdater(sequence_output)
 
         # lora_output= lora_output.unsqueeze(0)
-        # context_token = lora_output[:, 0]
-        context_token = sequence_output[:, 0]
+        context_token = lora_output[:, 0]
+        # context_token = sequence_output[:, 0]
         # print(context_token)
 
         if domain_name is not None:
