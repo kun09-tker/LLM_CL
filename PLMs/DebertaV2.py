@@ -84,17 +84,26 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         self.variant_apdater = nn.ModuleDict({
             name: LoRAApdater(f"LoRA_{name}", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_domain, alpha=alpha_domain)
                 for name in domain_names})
-        self.classifier = nn.ModuleDict({
-            name: nn.Sequential(
-            #   nn.BatchNorm1d(self.config.hidden_size),
-              nn.Dropout(0.2),
-              nn.Linear(self.config.hidden_size, 512),
-              nn.ReLU(),
-              nn.Linear(512, 128),
-              ACT2FN[self.config.pooler_hidden_act],
-              nn.Linear(128, self.config.num_labels)
-            )
-            for name in domain_names})
+        # self.classifier = nn.ModuleDict({
+        #     name: nn.Sequential(
+        #     #   nn.BatchNorm1d(self.config.hidden_size),
+        #       nn.Dropout(0.2),
+        #       nn.Linear(self.config.hidden_size, 512),
+        #       nn.ReLU(),
+        #       nn.Linear(512, 128),
+        #       ACT2FN[self.config.pooler_hidden_act],
+        #       nn.Linear(128, self.config.num_labels)
+        #     )
+        #     for name in domain_names})
+        self.classifier = nn.Sequential(
+            # nn.BatchNorm1d(self.config.hidden_size),
+            nn.Dropout(0.2),
+            nn.Linear(self.config.hidden_size, 512),
+            nn.ReLU(),
+            nn.Linear(512, 128),
+            ACT2FN[self.config.pooler_hidden_act],
+            nn.Linear(128, self.config.num_labels)
+        )
         self.classifier_share = nn.Sequential(
             # nn.BatchNorm1d(self.config.hidden_size),
             nn.Dropout(0.2),
@@ -168,7 +177,8 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         # print(context_token)
 
         if domain_name is not None:
-            logits = self.classifier[domain_name](context_token)
+            # logits = self.classifier[domain_name](context_token)
+            logits = self.classifier(context_token)
         else:
             logits = self.classifier_share(context_token)
 
