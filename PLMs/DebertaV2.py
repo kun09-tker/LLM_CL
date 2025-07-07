@@ -90,8 +90,9 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
               nn.Linear(self.config.hidden_size, 512),
               ACT2FN[self.config.pooler_hidden_act],
               nn.Linear(512, 128),
-              nn.Softmax(dim=1),
-              nn.Linear(128, self.config.num_labels)
+              nn.ReLU(),
+              nn.Linear(128, self.config.num_labels),
+              nn.Softmax(dim=1)
             )
             for name in domain_names})
         # self.classifier = nn.ModuleDict({
@@ -119,8 +120,9 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
               nn.Linear(self.config.hidden_size, 512),
               ACT2FN[self.config.pooler_hidden_act],
               nn.Linear(512, 128),
-              nn.Softmax(dim=1),
-              nn.Linear(128, self.config.num_labels)
+              nn.ReLU(),
+              nn.Linear(128, self.config.num_labels),
+              nn.Softmax(dim=1)
         )
         self.post_init()
     def freeze_or_unfreeze(self, backbone=False, finetun=True):
