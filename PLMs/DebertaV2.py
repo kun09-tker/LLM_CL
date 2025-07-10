@@ -84,48 +84,48 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         self.variant_apdater = nn.ModuleDict({
             name: LoRAApdater(f"LoRA_{name}", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_domain, alpha=alpha_domain)
                 for name in domain_names})
+        self.classifier = nn.ModuleDict({
+            name: nn.Sequential(
+              nn.Dropout(0.2),
+              nn.Linear(self.config.hidden_size, 512),
+              ACT2FN[self.config.pooler_hidden_act],
+              nn.Linear(512, 128),
+              nn.ReLU(),
+              nn.Linear(128, self.config.num_labels),
+            #   nn.Softmax(dim=1)
+            )
+            for name in domain_names})
         # self.classifier = nn.ModuleDict({
         #     name: nn.Sequential(
+        #     #   nn.BatchNorm1d(self.config.hidden_size),
         #       nn.Dropout(0.2),
         #       nn.Linear(self.config.hidden_size, 512),
-        #       ACT2FN[self.config.pooler_hidden_act],
-        #       nn.Linear(512, 128),
         #       nn.ReLU(),
+        #       nn.Linear(512, 128),
+        #       ACT2FN[self.config.pooler_hidden_act],
         #       nn.Linear(128, self.config.num_labels),
         #       nn.Softmax(dim=1)
         #     )
         #     for name in domain_names})
-        self.classifier = nn.ModuleDict({
-            name: nn.Sequential(
-            #   nn.BatchNorm1d(self.config.hidden_size),
+        # self.classifier_share = nn.Sequential(
+        #     # nn.BatchNorm1d(self.config.hidden_size),
+        #     nn.Dropout(0.2),
+        #     nn.Linear(self.config.hidden_size, 512),
+        #     nn.ReLU(),
+        #     nn.Linear(512, 128),
+        #     ACT2FN[self.config.pooler_hidden_act],
+        #     nn.Linear(128, self.config.num_labels),
+        #     nn.Softmax(dim=1)
+        # )
+        self.classifier_share = nn.Sequential(
               nn.Dropout(0.2),
               nn.Linear(self.config.hidden_size, 512),
-              nn.ReLU(),
-              nn.Linear(512, 128),
               ACT2FN[self.config.pooler_hidden_act],
+              nn.Linear(512, 128),
+              nn.ReLU(),
               nn.Linear(128, self.config.num_labels),
-              nn.Softmax(dim=1)
-            )
-            for name in domain_names})
-        self.classifier_share = nn.Sequential(
-            # nn.BatchNorm1d(self.config.hidden_size),
-            nn.Dropout(0.2),
-            nn.Linear(self.config.hidden_size, 512),
-            nn.ReLU(),
-            nn.Linear(512, 128),
-            ACT2FN[self.config.pooler_hidden_act],
-            nn.Linear(128, self.config.num_labels),
-            nn.Softmax(dim=1)
+            #   nn.Softmax(dim=1)
         )
-        # self.classifier_share = nn.Sequential(
-        #       nn.Dropout(0.2),
-        #       nn.Linear(self.config.hidden_size, 512),
-        #       ACT2FN[self.config.pooler_hidden_act],
-        #       nn.Linear(512, 128),
-        #       nn.ReLU(),
-        #       nn.Linear(128, self.config.num_labels),
-        #       nn.Softmax(dim=1)
-        # )
         self.post_init()
     def freeze_or_unfreeze(self, backbone=False, finetun=True):
         print(f"Chek status:\n\t Pretraining trainable: {backbone}\n\t Finetuning trainable: {finetun}\n")
