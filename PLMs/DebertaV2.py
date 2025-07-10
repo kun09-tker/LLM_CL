@@ -91,7 +91,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
               ACT2FN[self.config.pooler_hidden_act],
               nn.Linear(512, 128),
               nn.ReLU(),
-              nn.Linear(128, self.config.num_labels),
+              nn.Linear(128, self.config.num_labels)
             #   nn.Softmax(dim=1)
             )
             for name in domain_names})
@@ -123,7 +123,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
               ACT2FN[self.config.pooler_hidden_act],
               nn.Linear(512, 128),
               nn.ReLU(),
-              nn.Linear(128, self.config.num_labels),
+              nn.Linear(128, self.config.num_labels)
             #   nn.Softmax(dim=1)
         )
         self.post_init()
