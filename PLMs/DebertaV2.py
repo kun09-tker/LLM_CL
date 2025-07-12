@@ -126,7 +126,24 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         #       nn.Linear(128, self.config.num_labels)
         #     #   nn.Softmax(dim=1)
         # )
+        self.classifier = nn.ModuleDict({
+            name: nn.Sequential(
+              nn.Dropout(config.pooler_dropout),
+              nn.Linear(config.pooler_hidden_size, config.pooler_hidden_size),
+              ACT2FN[self.config.pooler_hidden_act],
+              nn.Dropout(0.1),
+              nn.Linear(config.pooler_hidden_size, config.num_labels)
+            )
+            for name in domain_names})
+        self.classifier_share = nn.Sequential(
+            nn.Dropout(config.pooler_dropout),
+            nn.Linear(config.pooler_hidden_size, config.pooler_hidden_size),
+            ACT2FN[self.config.pooler_hidden_act],
+            nn.Dropout(0.1),
+            nn.Linear(config.pooler_hidden_size, config.num_labels)
+        )
         self.post_init()
+
     def freeze_or_unfreeze(self, backbone=False, finetun=True):
         print(f"Chek status:\n\t Pretraining trainable: {backbone}\n\t Finetuning trainable: {finetun}\n")
         for param in self.parameters():
@@ -138,10 +155,10 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
           for param in self.variant_apdater[name].parameters():
               param.requires_grad = finetun
 
-        # for param in self.classifier.parameters():
-        #     param.requires_grad = finetun
-        # for param in self.classifier_share.parameters():
-        #     param.requires_grad = finetun
+        for param in self.classifier.parameters():
+            param.requires_grad = finetun
+        for param in self.classifier_share.parameters():
+            param.requires_grad = finetun
 
     def freeze_backbone_unfreeze_finetun(self):
         self.freeze_or_unfreeze(backbone=False, finetun=True)
@@ -184,15 +201,15 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         else:
             lora_output = self.invariant_apdater(sequence_output)
 
-        # context_token = lora_output[:, 0]
+        context_token = lora_output[:, 0]
 
-        # if domain_name is not None:
-        #     logits = self.classifier[domain_name](context_token)
-        # else:
-        #     logits = self.classifier_share(context_token)
-        pooled_output = self.pooler(lora_output)
-        pooled_output = self.dropout(pooled_output)
-        logits = self.classifier(pooled_output)
+        if domain_name is not None:
+            logits = self.classifier[domain_name](context_token)
+        else:
+            logits = self.classifier_share(context_token)
+        # pooled_output = self.pooler(lora_output)
+        # pooled_output = self.dropout(pooled_output)
+        # logits = self.classifier(pooled_output)
 
         loss = None
         if labels is not None:
