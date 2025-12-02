@@ -77,13 +77,21 @@ class LLM_CL(nn.Module):
         self.warmup = DomainKnowledgeWarmup(self.tokenizer)
         self.positioning = DomainPositioning(self.tokenizer)
 
+    def get_emb(self, x_batch):
+        texts = []
+        for x in x_batch:
+            texts.append(ASC.get_input_sep(x))
+        tokenized_input = self.tokenizer(texts, max_length=512, return_tensors='pt', \
+                                         truncation=True, padding=True).to(self.model.device)
+        return self.model(**tokenized_input, return_emb=True)
 
-    def domain_variant_hidden(self, x, domain_name):
-        hidden = self.decoupler(x, self.model, domain_name)
+    def domain_variant_hidden(self, x_batch, domain_name):
+        hidden = self.decoupler(x_batch, self.model, domain_name)
         return hidden
-    def domain_invariant_hidden(self, x_replay):
-        hidden = self.decoupler(x_replay, self.model)
-        return hidden
+
+    # def domain_invariant_hidden(self, x_replay):
+    #     hidden = self.decoupler(x_replay, self.model)
+    #     return hidden
 
     def prepare_warmup(self):
         self.warmup.prepare_warmup(self.model)
@@ -95,8 +103,8 @@ class LLM_CL(nn.Module):
     def prepare_finding(self, domain_data):
         return self.positioning.compute_prototypes(domain_data, self.model)
 
-    def find_best_domain_name(self, test_input):
-        return self.positioning.find_best_domain(test_input, self.model)
+    def find_best_domain_name(self, x_batch_test):
+        return self.positioning.find_best_domain(x_batch_test, self.model)
 
     def predict(self, domain_name, sample):
         text = [ASC.get_input_sep(sample)]

@@ -164,6 +164,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
                 labels=None,
                 output_attentions=None,
                 output_hidden_states=None,
+                return_emb=False,
                 return_dict=True):
 
         outputs = self.deberta(
@@ -177,6 +178,9 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
             return_dict=return_dict
         )
         sequence_output = outputs.last_hidden_state if return_dict else outputs[0]
+
+        if return_emb:
+            return sequence_output
         # print(outputs)
         # reshape = sequence_output.squeeze(0)
 
