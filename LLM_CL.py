@@ -47,8 +47,6 @@
 #       |                     Replay N                             |----------+
 #       +----------------------------------------------------------+
 
-
-
 import torch
 import random
 import numpy as np
@@ -62,7 +60,7 @@ from Utils.processors import AscProcessor
 ASC = AscProcessor()
 
 class LLM_CL(nn.Module):
-    def __init__(self, domain_names, rank_domain=8, alpha_domain=16, rank_share=8, alpha_share=16,
+    def __init__(self, domain_names, tokenizer_path, rank_domain=8, alpha_domain=16, rank_share=8, alpha_share=16,
                  model_name = "yangheng/deberta-v3-base-absa-v1.1",
                  device='cpu'):
         super(LLM_CL, self).__init__()
@@ -73,7 +71,7 @@ class LLM_CL(nn.Module):
                 rank_share=rank_share, alpha_share=alpha_share
             )
         self.model.to(device)
-        self.tokenizer = DebertaV2Tokenizer.from_pretrained(model_name)
+        self.tokenizer = DebertaV2Tokenizer.from_pretrained(tokenizer_path)
 
         self.decoupler = DomainKnowledgeDecoupler(self.tokenizer)
         self.warmup = DomainKnowledgeWarmup(self.tokenizer)
@@ -99,6 +97,13 @@ class LLM_CL(nn.Module):
 
     def find_best_domain_name(self, test_input):
         return self.positioning.find_best_domain(test_input, self.model)
+
+    def predict(self, domain_name, sample):
+        text = [ASC.get_input_sep(sample)]
+        tokenized_input = self.tokenizer(text, max_length=512, return_tensors='pt', \
+                                         truncation=True, padding=True).to(self.model.device)
+        return self.model(**tokenized_input, domain_name=domain_name)
+
 
 class DomainKnowledgeDecoupler:
     def __init__(self, tokenizer):
