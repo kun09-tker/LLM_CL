@@ -61,16 +61,16 @@ ASC = AscProcessor()
 
 class LLM_CL(nn.Module):
     def __init__(self, domain_names, tokenizer_path, rank_domain=8, alpha_domain=16, rank_share=8, alpha_share=16,
-                 model_name = "yangheng/deberta-v3-base-absa-v1.1",
+                 base_name = "yangheng/deberta-v3-base-absa-v1.1",
                  device='cpu'):
         super(LLM_CL, self).__init__()
-        self.model = MyDebertaV2ForSequenceClassification.from_pretrained(
-                model_name,
+        self.base = MyDebertaV2ForSequenceClassification.from_pretrained(
+                base_name,
                 domain_names = domain_names,
                 rank_domain=rank_domain, alpha_domain=alpha_domain,
                 rank_share=rank_share, alpha_share=alpha_share
             )
-        self.model.to(device)
+        self.base.to(device)
         self.tokenizer = DebertaV2Tokenizer.from_pretrained(tokenizer_path)
 
         self.decoupler = DomainKnowledgeDecoupler(self.tokenizer)
@@ -82,35 +82,35 @@ class LLM_CL(nn.Module):
         for x in x_batch:
             texts.append(ASC.get_input_sep(x))
         tokenized_input = self.tokenizer(texts, max_length=512, return_tensors='pt', \
-                                         truncation=True, padding=True).to(self.model.device)
-        return self.model(**tokenized_input, return_emb=True)
+                                         truncation=True, padding=True).to(self.base.device)
+        return self.base(**tokenized_input, return_emb=True)
 
     def domain_variant_hidden(self, x_batch, domain_name):
-        hidden = self.decoupler(x_batch, self.model, domain_name)
+        hidden = self.decoupler(x_batch, self.base, domain_name)
         return hidden
 
     # def domain_invariant_hidden(self, x_replay):
-    #     hidden = self.decoupler(x_replay, self.model)
+    #     hidden = self.decoupler(x_replay, self.base)
     #     return hidden
 
     def prepare_warmup(self):
-        self.warmup.prepare_warmup(self.model)
+        self.warmup.prepare_warmup(self.base)
 
     def warmup_knowledge(self, x_replay):
-        hidden = self.warmup(x_replay, self.model)
+        hidden = self.warmup(x_replay, self.base)
         return hidden
 
     def prepare_finding(self, domain_data):
-        return self.positioning.compute_prototypes(domain_data, self.model)
+        return self.positioning.compute_prototypes(domain_data, self.base)
 
     def find_best_domain_name(self, x_batch_test):
-        return self.positioning.find_best_domain(x_batch_test, self.model)
+        return self.positioning.find_best_domain(x_batch_test, self.base)
 
     def predict(self, domain_name, sample):
         text = [ASC.get_input_sep(sample)]
         tokenized_input = self.tokenizer(text, max_length=512, return_tensors='pt', \
-                                         truncation=True, padding=True).to(self.model.device)
-        return self.model(**tokenized_input, domain_name=domain_name)
+                                         truncation=True, padding=True).to(self.base.device)
+        return self.base(**tokenized_input, domain_name=domain_name)
 
 
 class DomainKnowledgeDecoupler:
