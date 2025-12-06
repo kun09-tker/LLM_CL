@@ -180,7 +180,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         sequence_output = outputs.last_hidden_state if return_dict else outputs[0]
 
         if return_emb:
-            return sequence_output, attention_mask
+            return self.pooler(sequence_output)
         # print(outputs)
         # reshape = sequence_output.squeeze(0)
 
