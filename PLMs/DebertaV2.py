@@ -5,7 +5,6 @@ from Layers.LoRA import LoRAApdater
 from transformers.activations import ACT2FN
 from transformers.modeling_outputs import SequenceClassifierOutput, BaseModelOutput
 from transformers import DebertaV2Model, DebertaV2ForSequenceClassification
-from Utils.losses import orthogonality_loss_lora
 
 class MyDebertaV2Model(DebertaV2Model):
     def __init__(self, config):
@@ -76,12 +75,11 @@ class MyDebertaV2Model(DebertaV2Model):
         )
 
 class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
-    def __init__(self, config, domain_names, rank_domain=8, alpha_domain=16, rank_share=8, alpha_share=16, orth_lambda=0.1):
+    def __init__(self, config, domain_names, rank_domain=8, alpha_domain=16, rank_share=8, alpha_share=16):
         super().__init__(config)
         self.config = config
         self.deberta = MyDebertaV2Model(config)
         self.domain_names = domain_names
-        self.orth_lambda = orth_lambda
         self.invariant_apdater = LoRAApdater("LoRA_share", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_share, alpha=alpha_share)
         self.variant_apdater = nn.ModuleDict({
             name: LoRAApdater(f"LoRA_{name}", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_domain, alpha=alpha_domain)
@@ -142,16 +140,6 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
           for param in self.variant_apdater[name].parameters():
               param.requires_grad = finetun
 
-    def train_shared_and_one_domain(self, domain_name):
-        for param in self.parameters():
-            param.requires_grad = False
-        for param in self.invariant_apdater.parameters():
-            param.requires_grad = True
-        for param in self.variant_apdater[domain_name].parameters():
-            param.requires_grad = True
-        for param in self.classifier.parameters():
-            param.requires_grad = True
-
         # for param in self.classifier.parameters():
         #     param.requires_grad = finetun
         # for param in self.classifier_share.parameters():
@@ -166,78 +154,73 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
     def unfreeze_backbone_unfreeze_finetun(self):
         self.freeze_or_unfreeze(backbone=True, finetun=True)
 
-def forward(self,
-            domain_name=None,
-            input_ids=None,
-            attention_mask=None,
-            token_type_ids=None,
-            position_ids=None,
-            inputs_embeds=None,
-            labels=None,
-            output_attentions=None,
-            output_hidden_states=None,
-            return_emb=False,
-            return_dict=True):
+    def forward(self,
+                domain_name=None,
+                input_ids=None,
+                attention_mask=None,
+                token_type_ids=None,
+                position_ids=None,
+                inputs_embeds=None,
+                labels=None,
+                output_attentions=None,
+                output_hidden_states=None,
+                return_emb=False,
+                return_dict=True):
 
-    outputs = self.deberta(
-        input_ids=input_ids,
-        attention_mask=attention_mask,
-        token_type_ids=token_type_ids,
-        position_ids=position_ids,
-        inputs_embeds=inputs_embeds,
-        output_attentions=output_attentions,
-        output_hidden_states=output_hidden_states,
-        return_dict=return_dict
-    )
-
-    sequence_output = outputs.last_hidden_state if return_dict else outputs[0]
-
-    if return_emb:
-        return sequence_output[:, 0]
-
-    # Base representation
-    h_m = sequence_output
-
-    # Shared LoRA delta
-    delta_shared = self.invariant_apdater(h_m)
-
-    # Domain-specific LoRA delta
-    if domain_name is not None:
-        delta_domain = self.variant_apdater[domain_name](h_m)
-    else:
-        delta_domain = torch.zeros_like(delta_shared)
-
-    # Residual composition
-    lora_output = h_m + delta_shared + delta_domain
-
-    pooled_output = self.pooler(lora_output)
-    pooled_output = self.dropout(pooled_output)
-    logits = self.classifier(pooled_output)
-
-    loss = None
-    if labels is not None:
-        loss_fct = nn.CrossEntropyLoss()
-        ce_loss = loss_fct(
-            logits.view(-1, self.num_labels),
-            labels.view(-1)
+        outputs = self.deberta(
+            input_ids=input_ids,
+            attention_mask=attention_mask,
+            token_type_ids=token_type_ids,
+            position_ids=position_ids,
+            inputs_embeds=inputs_embeds,
+            output_attentions=output_attentions,
+            output_hidden_states=output_hidden_states,
+            return_dict=return_dict
         )
+        sequence_output = outputs.last_hidden_state if return_dict else outputs[0]
 
+        if return_emb:
+            return sequence_output[:, 0]
+        # print(outputs)
+        # reshape = sequence_output.squeeze(0)
+
+        # Apply LoRA
         if domain_name is not None:
-            orth_loss = orthogonality_loss_lora(
-                delta_shared=delta_shared,
-                delta_domain=delta_domain
-            )
-            loss = ce_loss + self.orth_lambda * orth_loss
+            for name in self.domain_names:
+                if name != domain_name:
+                    for param in self.variant_apdater[name].parameters():
+                        param.requires_grad = False
+                else:
+                    for param in self.variant_apdater[name].parameters():
+                        param.requires_grad = True
+            lora_output = self.variant_apdater[domain_name](sequence_output)
         else:
-            loss = ce_loss
+            lora_output = self.invariant_apdater(sequence_output)
 
-    if not return_dict:
-        output = (logits,) + outputs[2:]
-        return ((loss,) + output) if loss is not None else output
+        # context_token = lora_output[:, 0]
 
-    return SequenceClassifierOutput(
-        loss=loss,
-        logits=logits,
-        hidden_states=outputs.hidden_states,
-        attentions=outputs.attentions
-    )
+        # if domain_name is not None:
+        #     logits = self.classifier[domain_name](context_token)
+        # else:
+        #     logits = self.classifier_share(context_token)
+        pooled_output = self.pooler(lora_output)
+        pooled_output = self.dropout(pooled_output)
+        logits = self.classifier(pooled_output)
+
+        loss = None
+        if labels is not None:
+            # print(logits.view(-1, self.num_labels))
+            # print(labels.view(-1))
+            loss_fct = nn.CrossEntropyLoss()
+            loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
+
+        if not return_dict:
+            output = (logits,) + outputs[2:]
+            return ((loss,) + output) if loss is not None else output
+
+        return SequenceClassifierOutput(
+            loss=loss,
+            logits=logits,
+            hidden_states=outputs.hidden_states,
+            attentions=outputs.attentions
+        )

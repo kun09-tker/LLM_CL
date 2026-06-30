@@ -20,8 +20,7 @@ class LoRAApdater(nn.Module):
             target_modules=[name],
             r=rank,
             lora_alpha=alpha,
-            lora_dropout=dropout,
-            bias="none"
+            lora_dropout=dropout
         )
 
         self.adapter = LoRALinear(name, in_features, out_features)
@@ -29,4 +28,6 @@ class LoRAApdater(nn.Module):
         self.adapter_sigmod = nn.Sigmoid()
 
     def forward(self, x):
-        return self.adapter(x)
+        x = self.adapter(x)
+        x = self.adapter_sigmod(x)
+        return x
