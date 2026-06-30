@@ -166,78 +166,78 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
     def unfreeze_backbone_unfreeze_finetun(self):
         self.freeze_or_unfreeze(backbone=True, finetun=True)
 
-    def forward(self,
-                domain_name=None,
-                input_ids=None,
-                attention_mask=None,
-                token_type_ids=None,
-                position_ids=None,
-                inputs_embeds=None,
-                labels=None,
-                output_attentions=None,
-                output_hidden_states=None,
-                return_emb=False,
-                return_dict=True):
+def forward(self,
+            domain_name=None,
+            input_ids=None,
+            attention_mask=None,
+            token_type_ids=None,
+            position_ids=None,
+            inputs_embeds=None,
+            labels=None,
+            output_attentions=None,
+            output_hidden_states=None,
+            return_emb=False,
+            return_dict=True):
 
-        outputs = self.deberta(
-            input_ids=input_ids,
-            attention_mask=attention_mask,
-            token_type_ids=token_type_ids,
-            position_ids=position_ids,
-            inputs_embeds=inputs_embeds,
-            output_attentions=output_attentions,
-            output_hidden_states=output_hidden_states,
-            return_dict=return_dict
+    outputs = self.deberta(
+        input_ids=input_ids,
+        attention_mask=attention_mask,
+        token_type_ids=token_type_ids,
+        position_ids=position_ids,
+        inputs_embeds=inputs_embeds,
+        output_attentions=output_attentions,
+        output_hidden_states=output_hidden_states,
+        return_dict=return_dict
+    )
+
+    sequence_output = outputs.last_hidden_state if return_dict else outputs[0]
+
+    if return_emb:
+        return sequence_output[:, 0]
+
+    # Base representation
+    h_m = sequence_output
+
+    # Shared LoRA delta
+    delta_shared = self.invariant_apdater(h_m)
+
+    # Domain-specific LoRA delta
+    if domain_name is not None:
+        delta_domain = self.variant_apdater[domain_name](h_m)
+    else:
+        delta_domain = torch.zeros_like(delta_shared)
+
+    # Residual composition
+    lora_output = h_m + delta_shared + delta_domain
+
+    pooled_output = self.pooler(lora_output)
+    pooled_output = self.dropout(pooled_output)
+    logits = self.classifier(pooled_output)
+
+    loss = None
+    if labels is not None:
+        loss_fct = nn.CrossEntropyLoss()
+        ce_loss = loss_fct(
+            logits.view(-1, self.num_labels),
+            labels.view(-1)
         )
 
-        sequence_output = outputs.last_hidden_state if return_dict else outputs[0]
-
-        if return_emb:
-            return sequence_output[:, 0]
-
-        # Base representation
-        h_m = sequence_output
-
-        # Shared LoRA delta
-        delta_shared = self.invariant_apdater(h_m)
-
-        # Domain-specific LoRA delta
         if domain_name is not None:
-            delta_domain = self.variant_apdater[domain_name](h_m)
-        else:
-            delta_domain = torch.zeros_like(delta_shared)
-
-        # Residual composition
-        lora_output = h_m + delta_shared + delta_domain
-
-        pooled_output = self.pooler(lora_output)
-        pooled_output = self.dropout(pooled_output)
-        logits = self.classifier(pooled_output)
-
-        loss = None
-        if labels is not None:
-            loss_fct = nn.CrossEntropyLoss()
-            ce_loss = loss_fct(
-                logits.view(-1, self.num_labels),
-                labels.view(-1)
+            orth_loss = orthogonality_loss_lora(
+                delta_shared=delta_shared,
+                delta_domain=delta_domain
             )
+            loss = ce_loss + self.orth_lambda * orth_loss
+        else:
+            loss = ce_loss
 
-            if domain_name is not None:
-                orth_loss = orthogonality_loss_lora(
-                    delta_shared=delta_shared,
-                    delta_domain=delta_domain
-                )
-                loss = ce_loss + self.orth_lambda * orth_loss
-            else:
-                loss = ce_loss
+    if not return_dict:
+        output = (logits,) + outputs[2:]
+        return ((loss,) + output) if loss is not None else output
 
-        if not return_dict:
-            output = (logits,) + outputs[2:]
-            return ((loss,) + output) if loss is not None else output
-
-        return SequenceClassifierOutput(
-            loss=loss,
-            logits=logits,
-            hidden_states=outputs.hidden_states,
-            attentions=outputs.attentions
-        )
+    return SequenceClassifierOutput(
+        loss=loss,
+        logits=logits,
+        hidden_states=outputs.hidden_states,
+        attentions=outputs.attentions
+    )
