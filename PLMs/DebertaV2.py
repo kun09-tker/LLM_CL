@@ -83,7 +83,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         self.invariant_apdater = LoRAApdater("LoRA_share", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_share, alpha=alpha_share)
         self.variant_apdater = nn.ModuleDict()
         self.rank_domain = rank_domain
-        self.alpha = alpha_domain
+        self.alpha_domain = alpha_domain
         self.rank_share = rank_share
         self.alpha_share = alpha_share
         # self.classifier = nn.ModuleDict({
