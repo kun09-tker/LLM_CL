@@ -132,7 +132,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
             param.requires_grad = False
         self.post_init()
     
-    def add_new_domain(self, domain_names):
+    def add_new_domain(self, domain_names, device):
         for name in domain_names:
         # Domain mới
             if name not in self.domain_names:
@@ -144,7 +144,7 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
                     out_features=self.config.hidden_size,
                     rank=self.rank_domain,
                     alpha=self.alpha_domain
-                )
+                ).to(device)
 
     def freeze_or_unfreeze(self, backbone=False, finetun=True):
         print(f"Chek status:\n\t Pretraining trainable: {backbone}\n\t Finetuning trainable: {finetun}\n")

@@ -71,13 +71,14 @@ class LLM_CL(nn.Module):
             )
         self.base.to(device)
         self.tokenizer = DebertaV2Tokenizer.from_pretrained(tokenizer_path)
+        self.device = device
 
         self.decoupler = DomainKnowledgeDecoupler(self.tokenizer)
         self.warmup = DomainKnowledgeWarmup(self.tokenizer)
         self.positioning = DomainPositioning(self.tokenizer)
 
     def add_new_domain(self, domain_names):
-        self.base.add_new_domain(domain_names)
+        self.base.add_new_domain(domain_names, self.device)
 
     def get_emb(self, x_batch):
         texts = []
