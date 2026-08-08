@@ -60,13 +60,12 @@ from Utils.processors import AscProcessor
 ASC = AscProcessor()
 
 class LLM_CL(nn.Module):
-    def __init__(self, domain_names, tokenizer_path, rank_domain=8, alpha_domain=16, rank_share=8, alpha_share=16,
+    def __init__(self, tokenizer_path, rank_domain=8, alpha_domain=16, rank_share=8, alpha_share=16,
                  base_name = "yangheng/deberta-v3-base-absa-v1.1",
                  device='cpu'):
         super(LLM_CL, self).__init__()
         self.base = MyDebertaV2ForSequenceClassification.from_pretrained(
                 base_name,
-                domain_names = domain_names,
                 rank_domain=rank_domain, alpha_domain=alpha_domain,
                 rank_share=rank_share, alpha_share=alpha_share
             )
@@ -76,6 +75,9 @@ class LLM_CL(nn.Module):
         self.decoupler = DomainKnowledgeDecoupler(self.tokenizer)
         self.warmup = DomainKnowledgeWarmup(self.tokenizer)
         self.positioning = DomainPositioning(self.tokenizer)
+
+    def add_new_domain(self, domain_names):
+        self.base.add_new_domain(domain_names)
 
     def get_emb(self, x_batch):
         texts = []

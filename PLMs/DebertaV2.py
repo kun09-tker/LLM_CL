@@ -75,15 +75,17 @@ class MyDebertaV2Model(DebertaV2Model):
         )
 
 class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
-    def __init__(self, config, domain_names, rank_domain=8, alpha_domain=16, rank_share=8, alpha_share=16):
+    def __init__(self, config, rank_domain=8, alpha_domain=16, rank_share=8, alpha_share=16):
         super().__init__(config)
         self.config = config
         self.deberta = MyDebertaV2Model(config)
-        self.domain_names = domain_names
+        self.domain_names = []
         self.invariant_apdater = LoRAApdater("LoRA_share", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_share, alpha=alpha_share)
-        self.variant_apdater = nn.ModuleDict({
-            name: LoRAApdater(f"LoRA_{name}", in_features=self.config.hidden_size, out_features=self.config.hidden_size, rank=rank_domain, alpha=alpha_domain)
-                for name in domain_names})
+        self.variant_apdater = nn.ModuleDict()
+        self.rank_domain = rank_domain
+        self.alpha = alpha_domain
+        self.rank_share = rank_share
+        self.alpha_share = alpha_share
         # self.classifier = nn.ModuleDict({
         #     name: nn.Sequential(
         #       nn.Dropout(0.2),
@@ -129,6 +131,21 @@ class MyDebertaV2ForSequenceClassification(DebertaV2ForSequenceClassification):
         for param in self.parameters():
             param.requires_grad = False
         self.post_init()
+    
+    def add_new_domain(self, domain_names):
+        for name in domain_names:
+        # Domain mới
+            if name not in self.domain_names:
+                self.domain_names.append(name)
+
+                self.variant_apdater[name] = LoRAApdater(
+                    f"LoRA_{name}",
+                    in_features=self.config.hidden_size,
+                    out_features=self.config.hidden_size,
+                    rank=self.rank_domain,
+                    alpha=self.alpha_domain
+                )
+
     def freeze_or_unfreeze(self, backbone=False, finetun=True):
         print(f"Chek status:\n\t Pretraining trainable: {backbone}\n\t Finetuning trainable: {finetun}\n")
         for param in self.parameters():
